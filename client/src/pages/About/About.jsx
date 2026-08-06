@@ -7,7 +7,7 @@ const About = () => {
             <Navbar />
 
             <div className="min-h-[80vh] flex flex-col items-center justify-center text-center px-6">
-                <h1 className="text-5xl font-bold text-blue-600">
+                <h1 className="text-5xl font-bold text-green-600">
                     About SkillBridge AI
                 </h1>
 

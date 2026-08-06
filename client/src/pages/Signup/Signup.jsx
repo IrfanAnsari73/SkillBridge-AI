@@ -10,7 +10,7 @@ const Signup = () => {
             <div className="min-h-[80vh] flex items-center justify-center bg-gray-100 py-10">
                 <div className="bg-white shadow-xl rounded-xl p-8 w-full max-w-md">
 
-                    <h2 className="text-3xl font-bold text-center text-blue-600">
+                    <h2 className="text-3xl font-bold text-center text-green-600">
                         Create Account
                     </h2>
 
@@ -30,7 +30,7 @@ const Signup = () => {
                                 type="text"
                                 placeholder="Enter your full name"
                                 required
-                                className="w-full border rounded-lg p-3 outline-none focus:ring-2 focus:ring-blue-500"
+                                className="w-full border rounded-lg p-3 outline-none focus:ring-2 focus:ring-green-500"
                             />
                         </div>
 
@@ -44,7 +44,7 @@ const Signup = () => {
                                 type="email"
                                 placeholder="Enter your email"
                                 required
-                                className="w-full border rounded-lg p-3 outline-none focus:ring-2 focus:ring-blue-500"
+                                className="w-full border rounded-lg p-3 outline-none focus:ring-2 focus:ring-green-500"
                             />
                         </div>
 
@@ -61,7 +61,7 @@ const Signup = () => {
                                 minLength="8"
                                 pattern="^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$"
                                 title="Password must contain: Minimum 8 characters, At least 1 uppercase letter (A-Z), At least 1 number (0-9), At least 1 special character (@$!%*?&)."
-                                className="w-full border rounded-lg p-3 outline-none focus:ring-2 focus:ring-blue-500"
+                                className="w-full border rounded-lg p-3 outline-none focus:ring-2 focus:ring-green-500"
                             />
                         </div>
 
@@ -75,14 +75,14 @@ const Signup = () => {
                                 type="password"
                                 placeholder="Confirm your password"
                                 required
-                                className="w-full border rounded-lg p-3 outline-none focus:ring-2 focus:ring-blue-500"
+                                className="w-full border rounded-lg p-3 outline-none focus:ring-2 focus:ring-green-500"
                             />
                         </div>
 
                         {/* Button */}
                         <button
                             type="submit"
-                            className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition"
+                            className="w-full bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 transition"
                         >
                             Create Account
                         </button>
@@ -92,7 +92,7 @@ const Signup = () => {
                             Already have an account?{" "}
                             <Link
                                 to="/login"
-                                className="text-blue-600 font-semibold hover:underline"
+                                className="text-green-600 font-semibold hover:underline"
                             >
                                 Login
                             </Link>

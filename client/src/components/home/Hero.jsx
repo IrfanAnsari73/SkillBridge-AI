@@ -4,7 +4,7 @@ const Hero = () => {
 
             <h1 className="text-6xl font-bold text-gray-900">
                 Build Your Career with
-                <span className="text-blue-600"> SkillBridge AI</span>
+                <span className="text-green-600"> SkillBridge AI</span>
             </h1>
 
             <p className="mt-6 text-xl text-gray-600 max-w-2xl">
@@ -13,11 +13,11 @@ const Hero = () => {
             </p>
 
             <div className="mt-10 flex gap-5">
-                <button className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700">
+                <button className="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700">
                     Get Started
                 </button>
 
-                <button className="border border-blue-600 text-blue-600 px-6 py-3 rounded-lg hover:bg-blue-600 hover:text-white">
+                <button className="border border-green-600 text-green-600 px-6 py-3 rounded-lg hover:bg-green-600 hover:text-white">
                     Learn More
                 </button>
             </div>
