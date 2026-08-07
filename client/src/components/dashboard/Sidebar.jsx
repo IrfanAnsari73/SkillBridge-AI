@@ -1,67 +1,49 @@
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 const Sidebar = () => {
+
+    const linkClasses = ({ isActive }) =>
+        `px-3 py-3 rounded-lg transition duration-300 ${isActive
+            ? "bg-green-700 text-white"
+            : "hover:bg-green-700 text-white"
+        }`;
+
     return (
         <div className="w-64 min-h-screen bg-green-600 text-white p-6">
-
-            {/* Logo */}
 
             <h2 className="text-3xl font-bold mb-10">
                 SkillBridge AI
             </h2>
 
-            {/* Menu */}
-
             <nav className="flex flex-col gap-3">
 
-                <Link
-                    to="/dashboard"
-                    className="bg-green-700 px-3 py-3 rounded-lg transition duration-300"
-                >
+                <NavLink to="/dashboard" className={linkClasses}>
                     🏠 Dashboard
-                </Link>
+                </NavLink>
 
-                <Link
-                    to="/profile"
-                    className="hover:bg-green-700 px-3 py-3 rounded-lg transition duration-300"
-                >
+                <NavLink to="/profile" className={linkClasses}>
                     👤 Profile
-                </Link>
+                </NavLink>
 
-                <Link
-                    to="/skills"
-                    className="hover:bg-green-700 px-3 py-3 rounded-lg transition duration-300"
-                >
+                <NavLink to="/skills" className={linkClasses}>
                     💻 Skills
-                </Link>
+                </NavLink>
 
-                <Link
-                    to="/projects"
-                    className="hover:bg-green-700 px-3 py-3 rounded-lg transition duration-300"
-                >
+                <NavLink to="/projects" className={linkClasses}>
                     🚀 Projects
-                </Link>
+                </NavLink>
 
-                <Link
-                    to="/certificates"
-                    className="hover:bg-green-700 px-3 py-3 rounded-lg transition duration-300"
-                >
+                <NavLink to="/certificates" className={linkClasses}>
                     📜 Certificates
-                </Link>
+                </NavLink>
 
-                <Link
-                    to="/resume"
-                    className="hover:bg-green-700 px-3 py-3 rounded-lg transition duration-300"
-                >
+                <NavLink to="/resume" className={linkClasses}>
                     📄 Resume
-                </Link>
+                </NavLink>
 
-                <Link
-                    to="/portfolio"
-                    className="hover:bg-green-700 px-3 py-3 rounded-lg transition duration-300"
-                >
+                <NavLink to="/portfolio" className={linkClasses}>
                     🌐 Portfolio
-                </Link>
+                </NavLink>
 
             </nav>
 

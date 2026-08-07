@@ -6,6 +6,12 @@ import Contact from "../pages/Contact/Contact";
 import Login from "../pages/Login/Login";
 import Signup from "../pages/Signup/Signup";
 import Dashboard from "../pages/Dashboard/Dashboard";
+import Profile from "../pages/Profile/Profile";
+import Skills from "../pages/Skills/Skills";
+import Projects from "../pages/Projects/Projects";
+import Certificates from "../pages/Certificates/Certificates";
+import Resume from "../pages/Resume/Resume";
+import Portfolio from "../pages/Portfolio/Portfolio";
 
 const AppRoutes = () => {
     return (
@@ -17,6 +23,12 @@ const AppRoutes = () => {
                 <Route path="/login" element={<Login />} />
                 <Route path="/signup" element={<Signup />} />
                 <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/profile" element={<Profile />} />
+                <Route path="/skills" element={<Skills />} />
+                <Route path="/projects" element={<Projects />} />
+                <Route path="/certificates" element={<Certificates />} />
+                <Route path="/resume" element={<Resume />} />
+                <Route path="/portfolio" element={<Portfolio />} />
             </Routes>
         </BrowserRouter>
     );
