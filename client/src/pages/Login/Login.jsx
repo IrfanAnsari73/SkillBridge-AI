@@ -1,7 +1,86 @@
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Navbar from "../../components/common/Navbar";
 import Footer from "../../components/common/Footer";
 
 const Login = () => {
+    const navigate = useNavigate();
+
+    const [formData, setFormData] = useState({
+        email: "",
+        password: "",
+    });
+
+    const [error, setError] = useState("");
+    const [loading, setLoading] = useState(false);
+
+    const handleChange = (e) => {
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value,
+        });
+
+        setError("");
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        const { email, password } = formData;
+
+        if (!email || !password) {
+            setError("Please enter email and password.");
+            return;
+        }
+
+        try {
+            setLoading(true);
+            setError("");
+
+            const response = await fetch(
+                "http://localhost:5000/api/auth/login",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        email,
+                        password,
+                    }),
+                }
+            );
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                setError(data.message || "Login failed.");
+                return;
+            }
+
+            // Save JWT token
+            localStorage.setItem("token", data.token);
+
+            // Save logged-in user
+            localStorage.setItem(
+                "user",
+                JSON.stringify(data.user)
+            );
+
+            // Dashboard redirect
+            navigate("/dashboard");
+
+        } catch (error) {
+            console.error("Login Error:", error);
+
+            setError(
+                "Unable to connect to server. Please try again."
+            );
+        } finally {
+            setLoading(false);
+        }
+    };
+
     return (
         <>
             <Navbar />
@@ -17,8 +96,12 @@ const Login = () => {
                         Login to your SkillBridge AI account
                     </p>
 
-                    <form className="mt-6">
+                    <form
+                        className="mt-6"
+                        onSubmit={handleSubmit}
+                    >
 
+                        {/* Email */}
                         <div className="mb-4">
                             <label className="block mb-2 font-medium">
                                 Email
@@ -26,11 +109,16 @@ const Login = () => {
 
                             <input
                                 type="email"
+                                name="email"
+                                value={formData.email}
+                                onChange={handleChange}
                                 placeholder="Enter your email"
+                                required
                                 className="w-full border rounded-lg p-3 outline-none focus:ring-2 focus:ring-green-500"
                             />
                         </div>
 
+                        {/* Password */}
                         <div className="mb-6">
                             <label className="block mb-2 font-medium">
                                 Password
@@ -38,15 +126,29 @@ const Login = () => {
 
                             <input
                                 type="password"
+                                name="password"
+                                value={formData.password}
+                                onChange={handleChange}
                                 placeholder="Enter your password"
+                                required
                                 className="w-full border rounded-lg p-3 outline-none focus:ring-2 focus:ring-green-500"
                             />
                         </div>
 
+                        {/* Error */}
+                        {error && (
+                            <div className="mb-5 bg-red-50 border border-red-300 text-red-700 px-4 py-3 rounded-lg">
+                                {error}
+                            </div>
+                        )}
+
+                        {/* Login Button */}
                         <button
-                            className="w-full bg-green-600 text-white py-3 rounded-lg hover:bg-green-700"
+                            type="submit"
+                            disabled={loading}
+                            className="w-full bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 transition disabled:opacity-60 disabled:cursor-not-allowed"
                         >
-                            Login
+                            {loading ? "Logging in..." : "Login"}
                         </button>
 
                     </form>

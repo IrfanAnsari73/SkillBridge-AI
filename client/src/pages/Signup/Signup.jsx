@@ -1,8 +1,104 @@
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../../components/common/Navbar";
 import Footer from "../../components/common/Footer";
 
 const Signup = () => {
+    const navigate = useNavigate();
+
+    const [formData, setFormData] = useState({
+        name: "",
+        email: "",
+        password: "",
+        confirmPassword: "",
+    });
+
+    const [error, setError] = useState("");
+    const [success, setSuccess] = useState("");
+    const [loading, setLoading] = useState(false);
+
+    const handleChange = (e) => {
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value,
+        });
+
+        setError("");
+        setSuccess("");
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        const { name, email, password, confirmPassword } = formData;
+
+        // Password validation
+        const passwordPattern =
+            /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$/;
+
+        if (!passwordPattern.test(password)) {
+            setError(
+                "Password must contain: Minimum 8 characters, At least 1 uppercase letter (A-Z), At least 1 number (0-9), At least 1 special character (@$!%*?&)."
+            );
+            return;
+        }
+
+        // Confirm password
+        if (password !== confirmPassword) {
+            setError("Passwords do not match.");
+            return;
+        }
+
+        try {
+            setLoading(true);
+            setError("");
+
+            const response = await fetch(
+                "http://localhost:5000/api/auth/register",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        name,
+                        email,
+                        password,
+                    }),
+                }
+            );
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                setError(data.message || "Registration failed.");
+                return;
+            }
+
+            setSuccess("Account created successfully! 🎉");
+
+            setFormData({
+                name: "",
+                email: "",
+                password: "",
+                confirmPassword: "",
+            });
+
+            // Login page par redirect
+            setTimeout(() => {
+                navigate("/login");
+            }, 1500);
+
+        } catch (error) {
+            console.error("Signup Error:", error);
+            setError(
+                "Unable to connect to server. Please try again."
+            );
+        } finally {
+            setLoading(false);
+        }
+    };
+
     return (
         <>
             <Navbar />
@@ -18,7 +114,10 @@ const Signup = () => {
                         Join SkillBridge AI Today 🚀
                     </p>
 
-                    <form className="mt-6">
+                    <form
+                        className="mt-6"
+                        onSubmit={handleSubmit}
+                    >
 
                         {/* Full Name */}
                         <div className="mb-4">
@@ -28,6 +127,9 @@ const Signup = () => {
 
                             <input
                                 type="text"
+                                name="name"
+                                value={formData.name}
+                                onChange={handleChange}
                                 placeholder="Enter your full name"
                                 required
                                 className="w-full border rounded-lg p-3 outline-none focus:ring-2 focus:ring-green-500"
@@ -42,6 +144,9 @@ const Signup = () => {
 
                             <input
                                 type="email"
+                                name="email"
+                                value={formData.email}
+                                onChange={handleChange}
                                 placeholder="Enter your email"
                                 required
                                 className="w-full border rounded-lg p-3 outline-none focus:ring-2 focus:ring-green-500"
@@ -56,11 +161,12 @@ const Signup = () => {
 
                             <input
                                 type="password"
+                                name="password"
+                                value={formData.password}
+                                onChange={handleChange}
                                 placeholder="Enter your password"
                                 required
                                 minLength="8"
-                                pattern="^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$"
-                                title="Password must contain: Minimum 8 characters, At least 1 uppercase letter (A-Z), At least 1 number (0-9), At least 1 special character (@$!%*?&)."
                                 className="w-full border rounded-lg p-3 outline-none focus:ring-2 focus:ring-green-500"
                             />
                         </div>
@@ -73,18 +179,38 @@ const Signup = () => {
 
                             <input
                                 type="password"
+                                name="confirmPassword"
+                                value={formData.confirmPassword}
+                                onChange={handleChange}
                                 placeholder="Confirm your password"
                                 required
                                 className="w-full border rounded-lg p-3 outline-none focus:ring-2 focus:ring-green-500"
                             />
                         </div>
 
+                        {/* Error Message */}
+                        {error && (
+                            <div className="mb-5 bg-red-50 border border-red-300 text-red-700 px-4 py-3 rounded-lg">
+                                {error}
+                            </div>
+                        )}
+
+                        {/* Success Message */}
+                        {success && (
+                            <div className="mb-5 bg-green-50 border border-green-300 text-green-700 px-4 py-3 rounded-lg">
+                                {success}
+                            </div>
+                        )}
+
                         {/* Button */}
                         <button
                             type="submit"
-                            className="w-full bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 transition"
+                            disabled={loading}
+                            className="w-full bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 transition disabled:opacity-60 disabled:cursor-not-allowed"
                         >
-                            Create Account
+                            {loading
+                                ? "Creating Account..."
+                                : "Create Account"}
                         </button>
 
                         {/* Login Link */}
@@ -99,7 +225,6 @@ const Signup = () => {
                         </p>
 
                     </form>
-
                 </div>
             </div>
 
