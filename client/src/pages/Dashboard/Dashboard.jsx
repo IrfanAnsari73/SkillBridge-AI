@@ -3,9 +3,10 @@ import DashboardLayout from "../../components/layout/DashboardLayout";
 
 const Dashboard = () => {
     const [projectCount, setProjectCount] = useState(0);
+    const [skillCount, setSkillCount] = useState(0);
     const [loading, setLoading] = useState(true);
 
-    const fetchProjectCount = async () => {
+    const fetchDashboardData = async () => {
         try {
             const token = localStorage.getItem("token");
 
@@ -13,7 +14,8 @@ const Dashboard = () => {
                 return;
             }
 
-            const response = await fetch(
+            // Fetch Projects
+            const projectResponse = await fetch(
                 "http://localhost:5000/api/projects",
                 {
                     headers: {
@@ -22,20 +24,37 @@ const Dashboard = () => {
                 }
             );
 
-            const data = await response.json();
+            const projectData = await projectResponse.json();
 
-            if (response.ok) {
-                setProjectCount(data.projects?.length || 0);
+            if (projectResponse.ok) {
+                setProjectCount(projectData.projects?.length || 0);
             }
+
+            // Fetch Skills
+            const skillResponse = await fetch(
+                "http://localhost:5000/api/skills",
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+
+            const skillData = await skillResponse.json();
+
+            if (skillResponse.ok) {
+                setSkillCount(skillData.skills?.length || 0);
+            }
+
         } catch (error) {
-            console.error("Dashboard Project Count Error:", error);
+            console.error("Dashboard Data Error:", error);
         } finally {
             setLoading(false);
         }
     };
 
     useEffect(() => {
-        fetchProjectCount();
+        fetchDashboardData();
     }, []);
 
     return (
@@ -71,7 +90,7 @@ const Dashboard = () => {
                     </h2>
 
                     <p className="text-4xl font-bold text-green-600 mt-3">
-                        0
+                        {loading ? "..." : skillCount}
                     </p>
                 </div>
 
