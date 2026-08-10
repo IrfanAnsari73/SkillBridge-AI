@@ -4,6 +4,7 @@ import DashboardLayout from "../../components/layout/DashboardLayout";
 const Dashboard = () => {
     const [projectCount, setProjectCount] = useState(0);
     const [skillCount, setSkillCount] = useState(0);
+    const [certificateCount, setCertificateCount] = useState(0);
     const [loading, setLoading] = useState(true);
 
     const fetchDashboardData = async () => {
@@ -44,6 +45,23 @@ const Dashboard = () => {
 
             if (skillResponse.ok) {
                 setSkillCount(skillData.skills?.length || 0);
+            }
+            // Fetch Certificates
+            const certificateResponse = await fetch(
+                "http://localhost:5000/api/certificates",
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+
+            const certificateData = await certificateResponse.json();
+
+            if (certificateResponse.ok) {
+                setCertificateCount(
+                    certificateData.certificates?.length || 0
+                );
             }
 
         } catch (error) {
@@ -101,7 +119,7 @@ const Dashboard = () => {
                     </h2>
 
                     <p className="text-4xl font-bold text-green-600 mt-3">
-                        0
+                        {loading ? "..." : certificateCount}
                     </p>
                 </div>
 
