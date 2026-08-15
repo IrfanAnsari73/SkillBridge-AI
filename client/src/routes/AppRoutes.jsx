@@ -29,6 +29,7 @@ const AppRoutes = () => {
                 <Route path="/certificates" element={<Certificates />} />
                 <Route path="/resume" element={<Resume />} />
                 <Route path="/portfolio" element={<Portfolio />} />
+                <Route path="/resume" element={<Resume />} />
             </Routes>
         </BrowserRouter>
     );
