@@ -1,52 +1,46 @@
 const express = require("express");
 
 const {
-    uploadResume,
-    getResume,
-    getPublicResume,
-    downloadPublicResume,
-    deleteResume,
-} = require("../controllers/resumeController");
+    getPortfolio,
+    savePortfolio,
+    deletePortfolio,
+    getPublicPortfolio,
+} = require("../controllers/portfolioController");
 
 const protect = require("../middleware/authMiddleware");
-const upload = require("../middleware/uploadMiddleware");
 
 const router = express.Router();
 
 
 // =========================
-// PUBLIC RESUME
+// PUBLIC PORTFOLIO
 // =========================
 
 router.get(
     "/public/:userId",
-    getPublicResume
-);
-router.get(
-    "/public/:userId/download",
-    downloadPublicResume
+    getPublicPortfolio
 );
 
+
 // =========================
-// PROTECTED RESUME
+// PROTECTED PORTFOLIO
 // =========================
 
 router.use(protect);
 
 router.get(
     "/",
-    getResume
+    getPortfolio
 );
 
 router.post(
     "/",
-    upload.single("resume"),
-    uploadResume
+    savePortfolio
 );
 
 router.delete(
     "/",
-    deleteResume
+    deletePortfolio
 );
 
 

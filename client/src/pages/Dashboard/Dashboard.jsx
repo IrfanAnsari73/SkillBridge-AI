@@ -184,8 +184,8 @@ const Dashboard = () => {
 
                     <p
                         className={`text-xl font-bold mt-3 ${resumeUploaded
-                                ? "text-green-600"
-                                : "text-red-500"
+                            ? "text-green-600"
+                            : "text-red-500"
                             }`}
                     >
                         {loading
@@ -194,6 +194,47 @@ const Dashboard = () => {
                                 ? "Uploaded ✅"
                                 : "Not Uploaded"}
                     </p>
+
+                </div>
+
+            </div>
+            {/* =========================
+    PUBLIC PORTFOLIO
+========================= */}
+
+            <div className="mt-10 bg-white rounded-xl shadow-lg p-6">
+
+                <h2 className="text-2xl font-bold text-green-600">
+                    Your Public Portfolio 🌐
+                </h2>
+
+                <p className="text-gray-600 mt-2">
+                    Share your portfolio with recruiters and employers.
+                </p>
+
+                <div className="flex flex-wrap gap-4 mt-5">
+
+                    <a
+                        href="http://localhost:5173/portfolio/public/6a7776e1a6cd2701d2b8f091"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700"
+                    >
+                        View Public Portfolio
+                    </a>
+
+                    <button
+                        onClick={() => {
+                            navigator.clipboard.writeText(
+                                "http://localhost:5173/portfolio/public/6a7776e1a6cd2701d2b8f091"
+                            );
+
+                            alert("Portfolio link copied!");
+                        }}
+                        className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700"
+                    >
+                        Copy Portfolio Link
+                    </button>
 
                 </div>
 

@@ -2,6 +2,7 @@ const Resume = require("../models/Resume");
 const fs = require("fs");
 const path = require("path");
 
+
 // =========================
 // UPLOAD / REPLACE RESUME
 // =========================
@@ -13,7 +14,6 @@ const uploadResume = async (req, res) => {
             });
         }
 
-        // Check if user already has a resume
         const existingResume = await Resume.findOne({
             user: req.user._id,
         });
@@ -30,13 +30,23 @@ const uploadResume = async (req, res) => {
                 fs.unlinkSync(oldFilePath);
             }
 
-            existingResume.originalName = req.file.originalname;
-            existingResume.fileName = req.file.filename;
-            existingResume.filePath = req.file.path;
-            existingResume.mimeType = req.file.mimetype;
-            existingResume.fileSize = req.file.size;
+            existingResume.originalName =
+                req.file.originalname;
 
-            const updatedResume = await existingResume.save();
+            existingResume.fileName =
+                req.file.filename;
+
+            existingResume.filePath =
+                req.file.path;
+
+            existingResume.mimeType =
+                req.file.mimetype;
+
+            existingResume.fileSize =
+                req.file.size;
+
+            const updatedResume =
+                await existingResume.save();
 
             return res.status(200).json({
                 message: "Resume replaced successfully",
@@ -69,7 +79,7 @@ const uploadResume = async (req, res) => {
 
 
 // =========================
-// GET RESUME
+// GET OWN RESUME
 // =========================
 const getResume = async (req, res) => {
     try {
@@ -97,12 +107,44 @@ const getResume = async (req, res) => {
 
 
 // =========================
-// DOWNLOAD RESUME
+// GET PUBLIC RESUME
 // =========================
-const downloadResume = async (req, res) => {
+const getPublicResume = async (req, res) => {
     try {
         const resume = await Resume.findOne({
-            user: req.user._id,
+            user: req.params.userId,
+        }).select(
+            "originalName fileName mimeType fileSize"
+        );
+
+        if (!resume) {
+            return res.status(404).json({
+                message: "Public resume not found",
+            });
+        }
+
+        res.status(200).json({
+            resume,
+        });
+    } catch (error) {
+        console.error(
+            "Get Public Resume Error:",
+            error
+        );
+
+        res.status(500).json({
+            message: "Server error",
+        });
+    }
+};
+
+// =========================
+// DOWNLOAD PUBLIC RESUME
+// =========================
+const downloadPublicResume = async (req, res) => {
+    try {
+        const resume = await Resume.findOne({
+            user: req.params.userId,
         });
 
         if (!resume) {
@@ -123,16 +165,29 @@ const downloadResume = async (req, res) => {
             });
         }
 
-        res.download(filePath, resume.originalName);
+        res.download(
+            filePath,
+            resume.originalName,
+            (error) => {
+                if (error) {
+                    console.error(
+                        "Download Resume Error:",
+                        error
+                    );
+                }
+            }
+        );
     } catch (error) {
-        console.error("Download Resume Error:", error);
+        console.error(
+            "Download Public Resume Error:",
+            error
+        );
 
         res.status(500).json({
             message: "Server error",
         });
     }
 };
-
 
 // =========================
 // DELETE RESUME
@@ -165,7 +220,10 @@ const deleteResume = async (req, res) => {
             message: "Resume deleted successfully",
         });
     } catch (error) {
-        console.error("Delete Resume Error:", error);
+        console.error(
+            "Delete Resume Error:",
+            error
+        );
 
         res.status(500).json({
             message: "Server error",
@@ -174,12 +232,10 @@ const deleteResume = async (req, res) => {
 };
 
 
-// =========================
-// EXPORT
-// =========================
 module.exports = {
     uploadResume,
     getResume,
-    downloadResume,
+    getPublicResume,
+    downloadPublicResume,
     deleteResume,
 };
