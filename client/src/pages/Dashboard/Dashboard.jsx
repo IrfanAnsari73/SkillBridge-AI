@@ -6,11 +6,37 @@ const Dashboard = () => {
     const [skillCount, setSkillCount] = useState(0);
     const [certificateCount, setCertificateCount] = useState(0);
     const [resumeUploaded, setResumeUploaded] = useState(false);
+    const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
+
+    // =========================
+    // GET USER FROM LOCAL STORAGE
+    // =========================
+
+    const getUser = () => {
+        try {
+            const storedUser =
+                localStorage.getItem("user");
+
+            if (storedUser) {
+                setUser(JSON.parse(storedUser));
+            }
+        } catch (error) {
+            console.error(
+                "User Data Error:",
+                error
+            );
+        }
+    };
+
+    // =========================
+    // FETCH DASHBOARD DATA
+    // =========================
 
     const fetchDashboardData = async () => {
         try {
-            const token = localStorage.getItem("token");
+            const token =
+                localStorage.getItem("token");
 
             if (!token) {
                 return;
@@ -19,16 +45,19 @@ const Dashboard = () => {
             // =========================
             // FETCH PROJECTS
             // =========================
+
             const projectResponse = await fetch(
                 "http://localhost:5000/api/projects",
                 {
                     headers: {
-                        Authorization: `Bearer ${token}`,
+                        Authorization:
+                            `Bearer ${token}`,
                     },
                 }
             );
 
-            const projectData = await projectResponse.json();
+            const projectData =
+                await projectResponse.json();
 
             if (projectResponse.ok) {
                 setProjectCount(
@@ -39,16 +68,19 @@ const Dashboard = () => {
             // =========================
             // FETCH SKILLS
             // =========================
+
             const skillResponse = await fetch(
                 "http://localhost:5000/api/skills",
                 {
                     headers: {
-                        Authorization: `Bearer ${token}`,
+                        Authorization:
+                            `Bearer ${token}`,
                     },
                 }
             );
 
-            const skillData = await skillResponse.json();
+            const skillData =
+                await skillResponse.json();
 
             if (skillResponse.ok) {
                 setSkillCount(
@@ -59,39 +91,47 @@ const Dashboard = () => {
             // =========================
             // FETCH CERTIFICATES
             // =========================
-            const certificateResponse = await fetch(
-                "http://localhost:5000/api/certificates",
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                }
-            );
+
+            const certificateResponse =
+                await fetch(
+                    "http://localhost:5000/api/certificates",
+                    {
+                        headers: {
+                            Authorization:
+                                `Bearer ${token}`,
+                        },
+                    }
+                );
 
             const certificateData =
                 await certificateResponse.json();
 
             if (certificateResponse.ok) {
                 setCertificateCount(
-                    certificateData.certificates?.length || 0
+                    certificateData.certificates
+                        ?.length || 0
                 );
             }
 
             // =========================
             // FETCH RESUME
             // =========================
+
             const resumeResponse = await fetch(
                 "http://localhost:5000/api/resume",
                 {
                     headers: {
-                        Authorization: `Bearer ${token}`,
+                        Authorization:
+                            `Bearer ${token}`,
                     },
                 }
             );
 
             if (resumeResponse.ok) {
                 setResumeUploaded(true);
-            } else if (resumeResponse.status === 404) {
+            } else if (
+                resumeResponse.status === 404
+            ) {
                 setResumeUploaded(false);
             }
 
@@ -105,9 +145,54 @@ const Dashboard = () => {
         }
     };
 
+    // =========================
+    // INITIAL LOAD
+    // =========================
+
     useEffect(() => {
+        getUser();
         fetchDashboardData();
     }, []);
+
+    // =========================
+    // PUBLIC PORTFOLIO URL
+    // =========================
+
+    const userId = user?._id || user?.id;
+
+    const publicPortfolioUrl =
+        userId
+            ? `http://localhost:5173/portfolio/public/${userId}`
+            : "";
+
+    // =========================
+    // COPY PORTFOLIO LINK
+    // =========================
+
+    const copyPortfolioLink = async () => {
+        if (!publicPortfolioUrl) {
+            return;
+        }
+
+        try {
+            await navigator.clipboard.writeText(
+                publicPortfolioUrl
+            );
+
+            alert(
+                "Portfolio link copied!"
+            );
+        } catch (error) {
+            console.error(
+                "Copy Link Error:",
+                error
+            );
+
+            alert(
+                "Unable to copy portfolio link."
+            );
+        }
+    };
 
     return (
         <DashboardLayout>
@@ -117,12 +202,14 @@ const Dashboard = () => {
             ========================= */}
 
             <h1 className="text-4xl font-bold text-green-600">
-                Welcome, Irfan 👋
+                Welcome, {user?.name || "User"} 👋
             </h1>
 
             <p className="text-gray-600 mt-2">
-                Here's an overview of your career progress.
+                Here's an overview of your
+                career progress.
             </p>
+
 
             {/* =========================
                 DASHBOARD CARDS
@@ -131,6 +218,7 @@ const Dashboard = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-10">
 
                 {/* PROJECTS */}
+
                 <div className="bg-white rounded-xl shadow-lg p-6">
 
                     <h2 className="text-lg font-semibold">
@@ -145,7 +233,9 @@ const Dashboard = () => {
 
                 </div>
 
+
                 {/* SKILLS */}
+
                 <div className="bg-white rounded-xl shadow-lg p-6">
 
                     <h2 className="text-lg font-semibold">
@@ -160,7 +250,9 @@ const Dashboard = () => {
 
                 </div>
 
+
                 {/* CERTIFICATES */}
+
                 <div className="bg-white rounded-xl shadow-lg p-6">
 
                     <h2 className="text-lg font-semibold">
@@ -175,7 +267,9 @@ const Dashboard = () => {
 
                 </div>
 
+
                 {/* RESUME */}
+
                 <div className="bg-white rounded-xl shadow-lg p-6">
 
                     <h2 className="text-lg font-semibold">
@@ -198,9 +292,11 @@ const Dashboard = () => {
                 </div>
 
             </div>
+
+
             {/* =========================
-    PUBLIC PORTFOLIO
-========================= */}
+                PUBLIC PORTFOLIO
+            ========================= */}
 
             <div className="mt-10 bg-white rounded-xl shadow-lg p-6">
 
@@ -209,29 +305,27 @@ const Dashboard = () => {
                 </h2>
 
                 <p className="text-gray-600 mt-2">
-                    Share your portfolio with recruiters and employers.
+                    Share your portfolio with
+                    recruiters and employers.
                 </p>
 
                 <div className="flex flex-wrap gap-4 mt-5">
 
-                    <a
-                        href="http://localhost:5173/portfolio/public/6a7776e1a6cd2701d2b8f091"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700"
-                    >
-                        View Public Portfolio
-                    </a>
+                    {publicPortfolioUrl && (
+                        <a
+                            href={publicPortfolioUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700"
+                        >
+                            View Public Portfolio
+                        </a>
+                    )}
 
                     <button
-                        onClick={() => {
-                            navigator.clipboard.writeText(
-                                "http://localhost:5173/portfolio/public/6a7776e1a6cd2701d2b8f091"
-                            );
-
-                            alert("Portfolio link copied!");
-                        }}
-                        className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700"
+                        onClick={copyPortfolioLink}
+                        disabled={!publicPortfolioUrl}
+                        className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 disabled:opacity-50"
                     >
                         Copy Portfolio Link
                     </button>
@@ -239,6 +333,56 @@ const Dashboard = () => {
                 </div>
 
             </div>
+
+
+            {/* =========================
+                QUICK ACTIONS
+            ========================= */}
+
+            <div className="mt-10 bg-white rounded-xl shadow-lg p-6">
+
+                <h2 className="text-2xl font-bold text-green-600">
+                    Quick Actions ⚡
+                </h2>
+
+                <p className="text-gray-600 mt-2">
+                    Quickly manage your career profile.
+                </p>
+
+                <div className="flex flex-wrap gap-4 mt-5">
+
+                    <a
+                        href="/profile"
+                        className="bg-green-600 text-white px-5 py-3 rounded-lg hover:bg-green-700"
+                    >
+                        Edit Profile
+                    </a>
+
+                    <a
+                        href="/skills"
+                        className="bg-blue-600 text-white px-5 py-3 rounded-lg hover:bg-blue-700"
+                    >
+                        Add Skills
+                    </a>
+
+                    <a
+                        href="/projects"
+                        className="bg-purple-600 text-white px-5 py-3 rounded-lg hover:bg-purple-700"
+                    >
+                        Add Project
+                    </a>
+
+                    <a
+                        href="/resume"
+                        className="bg-orange-500 text-white px-5 py-3 rounded-lg hover:bg-orange-600"
+                    >
+                        Manage Resume
+                    </a>
+
+                </div>
+
+            </div>
+
 
             {/* =========================
                 RECENT ACTIVITY
