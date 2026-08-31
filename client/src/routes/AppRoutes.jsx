@@ -14,12 +14,21 @@ import Resume from "../pages/Resume/Resume";
 import Portfolio from "../pages/Portfolio/Portfolio";
 import PublicPortfolio from "../pages/PublicPortfolio/PublicPortfolio";
 
+import ProtectedRoute from "../components/auth/ProtectedRoute";
+
 const AppRoutes = () => {
     return (
         <BrowserRouter>
             <Routes>
 
-                <Route path="/" element={<Home />} />
+                {/* =========================
+                    PUBLIC ROUTES
+                ========================= */}
+
+                <Route
+                    path="/"
+                    element={<Home />}
+                />
 
                 <Route
                     path="/about"
@@ -41,46 +50,55 @@ const AppRoutes = () => {
                     element={<Signup />}
                 />
 
-                <Route
-                    path="/dashboard"
-                    element={<Dashboard />}
-                />
-
-                <Route
-                    path="/profile"
-                    element={<Profile />}
-                />
-
-                <Route
-                    path="/skills"
-                    element={<Skills />}
-                />
-
-                <Route
-                    path="/projects"
-                    element={<Projects />}
-                />
-
-                <Route
-                    path="/certificates"
-                    element={<Certificates />}
-                />
-
-                <Route
-                    path="/resume"
-                    element={<Resume />}
-                />
-
-                <Route
-                    path="/portfolio"
-                    element={<Portfolio />}
-                />
-
                 {/* Public Portfolio */}
                 <Route
                     path="/portfolio/public/:userId"
                     element={<PublicPortfolio />}
                 />
+
+
+                {/* =========================
+                    PROTECTED ROUTES
+                ========================= */}
+
+                <Route element={<ProtectedRoute />}>
+
+                    <Route
+                        path="/dashboard"
+                        element={<Dashboard />}
+                    />
+
+                    <Route
+                        path="/profile"
+                        element={<Profile />}
+                    />
+
+                    <Route
+                        path="/skills"
+                        element={<Skills />}
+                    />
+
+                    <Route
+                        path="/projects"
+                        element={<Projects />}
+                    />
+
+                    <Route
+                        path="/certificates"
+                        element={<Certificates />}
+                    />
+
+                    <Route
+                        path="/resume"
+                        element={<Resume />}
+                    />
+
+                    <Route
+                        path="/portfolio"
+                        element={<Portfolio />}
+                    />
+
+                </Route>
 
             </Routes>
         </BrowserRouter>
