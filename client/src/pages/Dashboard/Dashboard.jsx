@@ -6,6 +6,9 @@ const Dashboard = () => {
     const [skillCount, setSkillCount] = useState(0);
     const [certificateCount, setCertificateCount] = useState(0);
     const [resumeUploaded, setResumeUploaded] = useState(false);
+
+    const [recentActivities, setRecentActivities] = useState([]);
+
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
 
@@ -15,17 +18,13 @@ const Dashboard = () => {
 
     const getUser = () => {
         try {
-            const storedUser =
-                localStorage.getItem("user");
+            const storedUser = localStorage.getItem("user");
 
             if (storedUser) {
                 setUser(JSON.parse(storedUser));
             }
         } catch (error) {
-            console.error(
-                "User Data Error:",
-                error
-            );
+            console.error("User Data Error:", error);
         }
     };
 
@@ -35,8 +34,7 @@ const Dashboard = () => {
 
     const fetchDashboardData = async () => {
         try {
-            const token =
-                localStorage.getItem("token");
+            const token = localStorage.getItem("token");
 
             if (!token) {
                 return;
@@ -50,19 +48,19 @@ const Dashboard = () => {
                 "http://localhost:5000/api/projects",
                 {
                     headers: {
-                        Authorization:
-                            `Bearer ${token}`,
+                        Authorization: `Bearer ${token}`,
                     },
                 }
             );
 
-            const projectData =
-                await projectResponse.json();
+            const projectData = await projectResponse.json();
+
+            let projects = [];
 
             if (projectResponse.ok) {
-                setProjectCount(
-                    projectData.projects?.length || 0
-                );
+                projects = projectData.projects || [];
+
+                setProjectCount(projects.length);
             }
 
             // =========================
@@ -73,44 +71,44 @@ const Dashboard = () => {
                 "http://localhost:5000/api/skills",
                 {
                     headers: {
-                        Authorization:
-                            `Bearer ${token}`,
+                        Authorization: `Bearer ${token}`,
                     },
                 }
             );
 
-            const skillData =
-                await skillResponse.json();
+            const skillData = await skillResponse.json();
+
+            let skills = [];
 
             if (skillResponse.ok) {
-                setSkillCount(
-                    skillData.skills?.length || 0
-                );
+                skills = skillData.skills || [];
+
+                setSkillCount(skills.length);
             }
 
             // =========================
             // FETCH CERTIFICATES
             // =========================
 
-            const certificateResponse =
-                await fetch(
-                    "http://localhost:5000/api/certificates",
-                    {
-                        headers: {
-                            Authorization:
-                                `Bearer ${token}`,
-                        },
-                    }
-                );
+            const certificateResponse = await fetch(
+                "http://localhost:5000/api/certificates",
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
 
             const certificateData =
                 await certificateResponse.json();
 
+            let certificates = [];
+
             if (certificateResponse.ok) {
-                setCertificateCount(
-                    certificateData.certificates
-                        ?.length || 0
-                );
+                certificates =
+                    certificateData.certificates || [];
+
+                setCertificateCount(certificates.length);
             }
 
             // =========================
@@ -121,20 +119,81 @@ const Dashboard = () => {
                 "http://localhost:5000/api/resume",
                 {
                     headers: {
-                        Authorization:
-                            `Bearer ${token}`,
+                        Authorization: `Bearer ${token}`,
                     },
                 }
             );
 
+            let resumeExists = false;
+
             if (resumeResponse.ok) {
+                resumeExists = true;
                 setResumeUploaded(true);
-            } else if (
-                resumeResponse.status === 404
-            ) {
+            } else if (resumeResponse.status === 404) {
+                resumeExists = false;
                 setResumeUploaded(false);
             }
 
+            // =========================
+            // CREATE RECENT ACTIVITIES
+            // =========================
+
+            const activities = [];
+
+            // Resume activity
+            if (resumeExists) {
+                activities.push({
+                    icon: "📄",
+                    text: "Resume uploaded successfully.",
+                });
+            }
+
+            // Project activity
+            if (projects.length > 0) {
+                const latestProject =
+                    projects[projects.length - 1];
+
+                activities.push({
+                    icon: "🚀",
+                    text: `Project added: ${latestProject.title || "New Project"
+                        }`,
+                });
+            }
+
+            // Skill activity
+            if (skills.length > 0) {
+                const latestSkill =
+                    skills[skills.length - 1];
+
+                activities.push({
+                    icon: "💻",
+                    text: `Skill added: ${latestSkill.name || "New Skill"
+                        }`,
+                });
+            }
+
+            // Certificate activity
+            if (certificates.length > 0) {
+                const latestCertificate =
+                    certificates[certificates.length - 1];
+
+                activities.push({
+                    icon: "📜",
+                    text: `Certificate added: ${latestCertificate.title ||
+                        "New Certificate"
+                        }`,
+                });
+            }
+
+            // No activity
+            if (activities.length === 0) {
+                activities.push({
+                    icon: "ℹ️",
+                    text: "No recent activity yet.",
+                });
+            }
+
+            setRecentActivities(activities);
         } catch (error) {
             console.error(
                 "Dashboard Data Error:",
@@ -163,7 +222,7 @@ const Dashboard = () => {
     const publicPortfolioUrl =
         userId
             ? `http://localhost:5173/portfolio/public/${userId}`
-            : "";2
+            : "";
 
     // =========================
     // COPY PORTFOLIO LINK
@@ -179,9 +238,7 @@ const Dashboard = () => {
                 publicPortfolioUrl
             );
 
-            alert(
-                "Portfolio link copied!"
-            );
+            alert("Portfolio link copied!");
         } catch (error) {
             console.error(
                 "Copy Link Error:",
@@ -278,8 +335,8 @@ const Dashboard = () => {
 
                     <p
                         className={`text-xl font-bold mt-3 ${resumeUploaded
-                            ? "text-green-600"
-                            : "text-red-500"
+                                ? "text-green-600"
+                                : "text-red-500"
                             }`}
                     >
                         {loading
@@ -394,25 +451,30 @@ const Dashboard = () => {
                     Recent Activity
                 </h2>
 
-                <ul className="space-y-4">
+                {loading ? (
+                    <p className="text-gray-500">
+                        Loading activities...
+                    </p>
+                ) : (
+                    <ul className="space-y-4">
 
-                    <li className="border-b pb-3">
-                        📄 Resume uploaded successfully.
-                    </li>
+                        {recentActivities.map(
+                            (activity, index) => (
+                                <li
+                                    key={index}
+                                    className="border-b pb-3 text-gray-700"
+                                >
+                                    <span className="mr-2">
+                                        {activity.icon}
+                                    </span>
 
-                    <li className="border-b pb-3">
-                        🚀 New Project added.
-                    </li>
+                                    {activity.text}
+                                </li>
+                            )
+                        )}
 
-                    <li className="border-b pb-3">
-                        💻 Java skill added.
-                    </li>
-
-                    <li>
-                        📜 Certificate uploaded.
-                    </li>
-
-                </ul>
+                    </ul>
+                )}
 
             </div>
 
