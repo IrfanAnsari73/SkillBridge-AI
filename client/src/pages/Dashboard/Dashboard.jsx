@@ -140,7 +140,6 @@ const Dashboard = () => {
 
             const activities = [];
 
-            // Resume activity
             if (resumeExists) {
                 activities.push({
                     icon: "📄",
@@ -148,44 +147,43 @@ const Dashboard = () => {
                 });
             }
 
-            // Project activity
             if (projects.length > 0) {
                 const latestProject =
                     projects[projects.length - 1];
 
                 activities.push({
                     icon: "🚀",
-                    text: `Project added: ${latestProject.title || "New Project"
-                        }`,
+                    text: `Project added: ${
+                        latestProject.title || "New Project"
+                    }`,
                 });
             }
 
-            // Skill activity
             if (skills.length > 0) {
                 const latestSkill =
                     skills[skills.length - 1];
 
                 activities.push({
                     icon: "💻",
-                    text: `Skill added: ${latestSkill.name || "New Skill"
-                        }`,
+                    text: `Skill added: ${
+                        latestSkill.name || "New Skill"
+                    }`,
                 });
             }
 
-            // Certificate activity
             if (certificates.length > 0) {
                 const latestCertificate =
                     certificates[certificates.length - 1];
 
                 activities.push({
                     icon: "📜",
-                    text: `Certificate added: ${latestCertificate.title ||
+                    text: `Certificate added: ${
+                        latestCertificate.title ||
                         "New Certificate"
-                        }`,
+                    }`,
                 });
             }
 
-            // No activity
             if (activities.length === 0) {
                 activities.push({
                     icon: "ℹ️",
@@ -212,6 +210,36 @@ const Dashboard = () => {
         getUser();
         fetchDashboardData();
     }, []);
+
+    // =========================
+    // PROGRESS CALCULATION
+    // =========================
+
+    const skillsProgress = Math.min(
+        Math.round((skillCount / 5) * 100),
+        100
+    );
+
+    const projectsProgress = Math.min(
+        Math.round((projectCount / 5) * 100),
+        100
+    );
+
+    const certificatesProgress = Math.min(
+        Math.round((certificateCount / 5) * 100),
+        100
+    );
+
+    const resumeProgress = resumeUploaded ? 100 : 0;
+
+    const overallProgress = Math.round(
+        (
+            skillsProgress +
+            projectsProgress +
+            certificatesProgress +
+            resumeProgress
+        ) / 4
+    );
 
     // =========================
     // PUBLIC PORTFOLIO URL
@@ -249,6 +277,51 @@ const Dashboard = () => {
                 "Unable to copy portfolio link."
             );
         }
+    };
+
+    // =========================
+    // PROGRESS BAR COMPONENT
+    // =========================
+
+    const ProgressBar = ({
+        title,
+        icon,
+        percentage,
+    }) => {
+        return (
+            <div className="mb-6">
+
+                <div className="flex justify-between items-center mb-2">
+
+                    <div className="flex items-center gap-2">
+                        <span className="text-xl">
+                            {icon}
+                        </span>
+
+                        <span className="font-semibold text-gray-700">
+                            {title}
+                        </span>
+                    </div>
+
+                    <span className="font-bold text-green-600">
+                        {percentage}%
+                    </span>
+
+                </div>
+
+                <div className="w-full bg-gray-200 rounded-full h-3">
+
+                    <div
+                        className="bg-green-600 h-3 rounded-full transition-all duration-700"
+                        style={{
+                            width: `${percentage}%`,
+                        }}
+                    ></div>
+
+                </div>
+
+            </div>
+        );
     };
 
     return (
@@ -334,10 +407,11 @@ const Dashboard = () => {
                     </h2>
 
                     <p
-                        className={`text-xl font-bold mt-3 ${resumeUploaded
+                        className={`text-xl font-bold mt-3 ${
+                            resumeUploaded
                                 ? "text-green-600"
                                 : "text-red-500"
-                            }`}
+                        }`}
                     >
                         {loading
                             ? "..."
@@ -347,6 +421,74 @@ const Dashboard = () => {
                     </p>
 
                 </div>
+
+            </div>
+
+
+            {/* =========================
+                CAREER PROGRESS
+            ========================= */}
+
+            <div className="mt-10 bg-white rounded-xl shadow-lg p-6">
+
+                <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-8">
+
+                    <div>
+                        <h2 className="text-2xl font-bold text-green-600">
+                            Career Progress 📊
+                        </h2>
+
+                        <p className="text-gray-600 mt-2">
+                            Track your career profile completion.
+                        </p>
+                    </div>
+
+                    <div className="mt-5 md:mt-0 text-center">
+
+                        <div className="text-4xl font-bold text-green-600">
+                            {loading
+                                ? "..."
+                                : `${overallProgress}%`}
+                        </div>
+
+                        <p className="text-sm text-gray-500">
+                            Overall Progress
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                {!loading && (
+                    <div>
+
+                        <ProgressBar
+                            title="Skills"
+                            icon="💻"
+                            percentage={skillsProgress}
+                        />
+
+                        <ProgressBar
+                            title="Projects"
+                            icon="🚀"
+                            percentage={projectsProgress}
+                        />
+
+                        <ProgressBar
+                            title="Certificates"
+                            icon="📜"
+                            percentage={certificatesProgress}
+                        />
+
+                        <ProgressBar
+                            title="Resume"
+                            icon="📄"
+                            percentage={resumeProgress}
+                        />
+
+                    </div>
+                )}
 
             </div>
 
@@ -464,11 +606,13 @@ const Dashboard = () => {
                                     key={index}
                                     className="border-b pb-3 text-gray-700"
                                 >
+
                                     <span className="mr-2">
                                         {activity.icon}
                                     </span>
 
                                     {activity.text}
+
                                 </li>
                             )
                         )}
