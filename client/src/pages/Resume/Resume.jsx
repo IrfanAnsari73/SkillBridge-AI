@@ -15,6 +15,7 @@ const Resume = () => {
 
     const [analyzing, setAnalyzing] = useState(false);
     const [analysisStarted, setAnalysisStarted] = useState(false);
+    const [analysis, setAnalysis] = useState(null);
 
     // =========================
     // FETCH RESUME
@@ -147,6 +148,7 @@ const Resume = () => {
 
             // Reset previous AI analysis
             setAnalysisStarted(false);
+            setAnalysis(null);
 
             const fileInput =
                 document.getElementById("resumeFile");
@@ -275,6 +277,7 @@ const Resume = () => {
 
             // Reset AI analyzer
             setAnalysisStarted(false);
+            setAnalysis(null);
 
             setMessage(data.message);
         } catch (error) {
@@ -291,7 +294,7 @@ const Resume = () => {
     // AI RESUME ANALYZER
     // =========================
 
-    const handleAnalyzeResume = () => {
+    const handleAnalyzeResume = async () => {
         if (!resume) {
             setError(
                 "Please upload a resume before analyzing."
@@ -299,18 +302,53 @@ const Resume = () => {
             return;
         }
 
-        setError("");
-        setMessage("");
+        try {
+            setError("");
+            setMessage("");
+            setAnalyzing(true);
+            setAnalysisStarted(false);
+            setAnalysis(null);
 
-        setAnalyzing(true);
+            const token = localStorage.getItem("token");
 
-        // Temporary frontend state.
-        // Actual AI API will be connected in the next step.
+            const response = await fetch(
+                "http://localhost:5000/api/resume/analyze",
+                {
+                    method: "POST",
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
 
-        setTimeout(() => {
-            setAnalyzing(false);
+            const data = await response.json();
+
+            if (!response.ok) {
+                setError(
+                    data.message ||
+                    "Resume analysis failed."
+                );
+                return;
+            }
+
+            setAnalysis(data.analysis);
             setAnalysisStarted(true);
-        }, 1000);
+
+            setMessage(
+                "Resume analyzed successfully! 🤖"
+            );
+        } catch (error) {
+            console.error(
+                "Analyze Resume Error:",
+                error
+            );
+
+            setError(
+                "Unable to connect to resume analyzer."
+            );
+        } finally {
+            setAnalyzing(false);
+        }
     };
 
     // =========================
@@ -546,6 +584,7 @@ const Resume = () => {
                         <div className="mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
 
                             <div className="border rounded-xl p-5 bg-blue-50">
+
                                 <div className="text-3xl">
                                     📄
                                 </div>
@@ -557,10 +596,12 @@ const Resume = () => {
                                 <p className="text-sm text-gray-500 mt-1">
                                     AI-generated resume overview
                                 </p>
+
                             </div>
 
 
                             <div className="border rounded-xl p-5 bg-green-50">
+
                                 <div className="text-3xl">
                                     💻
                                 </div>
@@ -572,10 +613,12 @@ const Resume = () => {
                                 <p className="text-sm text-gray-500 mt-1">
                                     Identify skills from your resume
                                 </p>
+
                             </div>
 
 
                             <div className="border rounded-xl p-5 bg-yellow-50">
+
                                 <div className="text-3xl">
                                     ⭐
                                 </div>
@@ -587,10 +630,12 @@ const Resume = () => {
                                 <p className="text-sm text-gray-500 mt-1">
                                     Discover your resume strengths
                                 </p>
+
                             </div>
 
 
                             <div className="border rounded-xl p-5 bg-red-50">
+
                                 <div className="text-3xl">
                                     🎯
                                 </div>
@@ -602,6 +647,7 @@ const Resume = () => {
                                 <p className="text-sm text-gray-500 mt-1">
                                     Get suggestions to improve your resume
                                 </p>
+
                             </div>
 
                         </div>
@@ -609,7 +655,7 @@ const Resume = () => {
 
 
                     {/* =========================
-                        ANALYSIS PREVIEW RESULT
+                        ANALYZING
                     ========================= */}
 
                     {analyzing && (
@@ -639,107 +685,195 @@ const Resume = () => {
 
 
                     {/* =========================
-                        AI RESULT PLACEHOLDER
+                        AI RESULT
                     ========================= */}
 
-                    {analysisStarted && !analyzing && (
-                        <div className="mt-8">
+                    {analysisStarted &&
+                        !analyzing &&
+                        analysis && (
 
-                            <div className="bg-purple-50 border border-purple-200 rounded-xl p-6">
+                            <div className="mt-8">
 
-                                <div className="flex items-center gap-3">
+                                {/* SCORE */}
 
-                                    <span className="text-3xl">
-                                        🤖
-                                    </span>
+                                <div className="bg-purple-50 border border-purple-200 rounded-xl p-6">
 
-                                    <div>
+                                    <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-5">
 
-                                        <h3 className="text-xl font-bold text-purple-700">
-                                            AI Resume Analysis
+                                        <div>
+
+                                            <h3 className="text-xl font-bold text-purple-700">
+                                                🤖 AI Resume Analysis
+                                            </h3>
+
+                                            <p className="text-gray-600 mt-2">
+                                                Your resume has been analyzed successfully.
+                                            </p>
+
+                                        </div>
+
+                                        <div className="text-center">
+
+                                            <div className="text-4xl font-bold text-purple-700">
+                                                {analysis.score}/100
+                                            </div>
+
+                                            <p className="text-sm text-gray-500">
+                                                Resume Score
+                                            </p>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+
+                                {/* SUMMARY + SKILLS */}
+
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+
+                                    {/* SUMMARY */}
+
+                                    <div className="border rounded-xl p-6">
+
+                                        <h3 className="text-lg font-bold">
+                                            📄 Resume Summary
                                         </h3>
 
-                                        <p className="text-gray-600 text-sm">
-                                            Analysis interface is ready.
-                                            AI processing will be connected next.
+                                        <p className="text-gray-600 mt-3">
+                                            {analysis.summary}
                                         </p>
+
+                                    </div>
+
+
+                                    {/* SKILLS */}
+
+                                    <div className="border rounded-xl p-6">
+
+                                        <h3 className="text-lg font-bold">
+                                            💻 Skills Detected
+                                        </h3>
+
+                                        {analysis.skills &&
+                                            analysis.skills.length > 0 ? (
+
+                                            <div className="flex flex-wrap gap-2 mt-4">
+
+                                                {analysis.skills.map(
+                                                    (skill, index) => (
+                                                        <span
+                                                            key={index}
+                                                            className="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-medium"
+                                                        >
+                                                            {skill}
+                                                        </span>
+                                                    )
+                                                )}
+
+                                            </div>
+
+                                        ) : (
+
+                                            <p className="text-gray-500 mt-3">
+                                                No technical skills detected.
+                                            </p>
+
+                                        )}
+
+                                    </div>
+
+
+                                    {/* STRENGTHS */}
+
+                                    <div className="border rounded-xl p-6">
+
+                                        <h3 className="text-lg font-bold">
+                                            ⭐ Resume Strengths
+                                        </h3>
+
+                                        {analysis.strengths &&
+                                            analysis.strengths.length > 0 ? (
+
+                                            <ul className="mt-4 space-y-3">
+
+                                                {analysis.strengths.map(
+                                                    (strength, index) => (
+                                                        <li
+                                                            key={index}
+                                                            className="text-gray-600 flex gap-2"
+                                                        >
+                                                            <span>
+                                                                ✅
+                                                            </span>
+
+                                                            <span>
+                                                                {strength}
+                                                            </span>
+                                                        </li>
+                                                    )
+                                                )}
+
+                                            </ul>
+
+                                        ) : (
+
+                                            <p className="text-gray-500 mt-3">
+                                                No strengths detected.
+                                            </p>
+
+                                        )}
+
+                                    </div>
+
+
+                                    {/* IMPROVEMENTS */}
+
+                                    <div className="border rounded-xl p-6">
+
+                                        <h3 className="text-lg font-bold">
+                                            🎯 Improvement Suggestions
+                                        </h3>
+
+                                        {analysis.improvements &&
+                                            analysis.improvements.length > 0 ? (
+
+                                            <ul className="mt-4 space-y-3">
+
+                                                {analysis.improvements.map(
+                                                    (improvement, index) => (
+                                                        <li
+                                                            key={index}
+                                                            className="text-gray-600 flex gap-2"
+                                                        >
+                                                            <span>
+                                                                💡
+                                                            </span>
+
+                                                            <span>
+                                                                {improvement}
+                                                            </span>
+                                                        </li>
+                                                    )
+                                                )}
+
+                                            </ul>
+
+                                        ) : (
+
+                                            <p className="text-gray-500 mt-3">
+                                                No improvement suggestions.
+                                            </p>
+
+                                        )}
 
                                     </div>
 
                                 </div>
 
                             </div>
-
-
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
-
-                                {/* SUMMARY */}
-
-                                <div className="border rounded-xl p-6">
-
-                                    <h3 className="text-lg font-bold">
-                                        📄 Resume Summary
-                                    </h3>
-
-                                    <p className="text-gray-500 mt-3">
-                                        Your AI-generated resume summary
-                                        will appear here.
-                                    </p>
-
-                                </div>
-
-
-                                {/* SKILLS */}
-
-                                <div className="border rounded-xl p-6">
-
-                                    <h3 className="text-lg font-bold">
-                                        💻 Skills Detected
-                                    </h3>
-
-                                    <p className="text-gray-500 mt-3">
-                                        Skills extracted from your resume
-                                        will appear here.
-                                    </p>
-
-                                </div>
-
-
-                                {/* STRENGTHS */}
-
-                                <div className="border rounded-xl p-6">
-
-                                    <h3 className="text-lg font-bold">
-                                        ⭐ Resume Strengths
-                                    </h3>
-
-                                    <p className="text-gray-500 mt-3">
-                                        Your resume strengths will appear
-                                        here after AI integration.
-                                    </p>
-
-                                </div>
-
-
-                                {/* IMPROVEMENTS */}
-
-                                <div className="border rounded-xl p-6">
-
-                                    <h3 className="text-lg font-bold">
-                                        🎯 Improvement Suggestions
-                                    </h3>
-
-                                    <p className="text-gray-500 mt-3">
-                                        AI-powered suggestions will appear
-                                        here after backend integration.
-                                    </p>
-
-                                </div>
-
-                            </div>
-
-                        </div>
-                    )}
+                        )}
 
                 </div>
             )}

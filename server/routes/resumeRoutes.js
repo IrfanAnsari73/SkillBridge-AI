@@ -6,6 +6,7 @@ const {
     getPublicResume,
     downloadPublicResume,
     deleteResume,
+    analyzeResume,
 } = require("../controllers/resumeController");
 
 const protect = require("../middleware/authMiddleware");
@@ -22,10 +23,12 @@ router.get(
     "/public/:userId",
     getPublicResume
 );
+
 router.get(
     "/public/:userId/download",
     downloadPublicResume
 );
+
 
 // =========================
 // PROTECTED RESUME
@@ -33,17 +36,30 @@ router.get(
 
 router.use(protect);
 
+
+// AI RESUME ANALYZER
+router.post(
+    "/analyze",
+    analyzeResume
+);
+
+
+// GET OWN RESUME
 router.get(
     "/",
     getResume
 );
 
+
+// UPLOAD / REPLACE RESUME
 router.post(
     "/",
     upload.single("resume"),
     uploadResume
 );
 
+
+// DELETE RESUME
 router.delete(
     "/",
     deleteResume
