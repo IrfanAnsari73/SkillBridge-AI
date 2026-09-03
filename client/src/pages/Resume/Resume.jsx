@@ -694,7 +694,9 @@ const Resume = () => {
 
                             <div className="mt-8">
 
-                                {/* SCORE */}
+                                {/* =========================
+                                    SCORE
+                                ========================= */}
 
                                 <div className="bg-purple-50 border border-purple-200 rounded-xl p-6">
 
@@ -729,7 +731,9 @@ const Resume = () => {
                                 </div>
 
 
-                                {/* SUMMARY + SKILLS */}
+                                {/* =========================
+                                    SUMMARY + SKILLS
+                                ========================= */}
 
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
 
@@ -785,7 +789,9 @@ const Resume = () => {
                                     </div>
 
 
-                                    {/* STRENGTHS */}
+                                    {/* =========================
+                                        STRENGTHS
+                                    ========================= */}
 
                                     <div className="border rounded-xl p-6">
 
@@ -828,7 +834,54 @@ const Resume = () => {
                                     </div>
 
 
-                                    {/* IMPROVEMENTS */}
+                                    {/* =========================
+                                        WEAKNESSES
+                                    ========================= */}
+
+                                    <div className="border rounded-xl p-6">
+
+                                        <h3 className="text-lg font-bold">
+                                            ⚠️ Resume Weaknesses
+                                        </h3>
+
+                                        {analysis.weaknesses &&
+                                            analysis.weaknesses.length > 0 ? (
+
+                                            <ul className="mt-4 space-y-3">
+
+                                                {analysis.weaknesses.map(
+                                                    (weakness, index) => (
+                                                        <li
+                                                            key={index}
+                                                            className="text-gray-600 flex gap-2"
+                                                        >
+                                                            <span>
+                                                                ⚠️
+                                                            </span>
+
+                                                            <span>
+                                                                {weakness}
+                                                            </span>
+                                                        </li>
+                                                    )
+                                                )}
+
+                                            </ul>
+
+                                        ) : (
+
+                                            <p className="text-gray-500 mt-3">
+                                                No major weaknesses detected.
+                                            </p>
+
+                                        )}
+
+                                    </div>
+
+
+                                    {/* =========================
+                                        IMPROVEMENTS
+                                    ========================= */}
 
                                     <div className="border rounded-xl p-6">
 
@@ -864,6 +917,45 @@ const Resume = () => {
 
                                             <p className="text-gray-500 mt-3">
                                                 No improvement suggestions.
+                                            </p>
+
+                                        )}
+
+                                    </div>
+
+
+                                    {/* =========================
+                                        ATS KEYWORDS
+                                    ========================= */}
+
+                                    <div className="border rounded-xl p-6">
+
+                                        <h3 className="text-lg font-bold">
+                                            🎯 ATS Keywords
+                                        </h3>
+
+                                        {analysis.atsKeywords &&
+                                            analysis.atsKeywords.length > 0 ? (
+
+                                            <div className="flex flex-wrap gap-2 mt-4">
+
+                                                {analysis.atsKeywords.map(
+                                                    (keyword, index) => (
+                                                        <span
+                                                            key={index}
+                                                            className="bg-purple-100 text-purple-700 px-3 py-1 rounded-full text-sm font-medium"
+                                                        >
+                                                            {keyword}
+                                                        </span>
+                                                    )
+                                                )}
+
+                                            </div>
+
+                                        ) : (
+
+                                            <p className="text-gray-500 mt-3">
+                                                No ATS keywords detected.
                                             </p>
 
                                         )}
