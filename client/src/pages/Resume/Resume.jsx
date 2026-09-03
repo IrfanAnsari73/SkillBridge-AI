@@ -10,8 +10,16 @@ const Resume = () => {
     const [error, setError] = useState("");
 
     // =========================
+    // AI ANALYZER STATES
+    // =========================
+
+    const [analyzing, setAnalyzing] = useState(false);
+    const [analysisStarted, setAnalysisStarted] = useState(false);
+
+    // =========================
     // FETCH RESUME
     // =========================
+
     const fetchResume = async () => {
         try {
             const token = localStorage.getItem("token");
@@ -56,6 +64,7 @@ const Resume = () => {
     // =========================
     // SELECT FILE
     // =========================
+
     const handleFileChange = (e) => {
         const file = e.target.files[0];
 
@@ -92,6 +101,7 @@ const Resume = () => {
     // =========================
     // UPLOAD / REPLACE
     // =========================
+
     const handleUpload = async (e) => {
         e.preventDefault();
 
@@ -135,6 +145,9 @@ const Resume = () => {
             setSelectedFile(null);
             setMessage(data.message);
 
+            // Reset previous AI analysis
+            setAnalysisStarted(false);
+
             const fileInput =
                 document.getElementById("resumeFile");
 
@@ -152,6 +165,7 @@ const Resume = () => {
     // =========================
     // DOWNLOAD RESUME
     // =========================
+
     const handleDownload = async () => {
         try {
             setError("");
@@ -174,6 +188,7 @@ const Resume = () => {
 
                 try {
                     const data = await response.json();
+
                     errorMessage =
                         data.message || errorMessage;
                 } catch {
@@ -205,7 +220,10 @@ const Resume = () => {
                 "Resume downloaded successfully! 📥"
             );
         } catch (error) {
-            console.error("Download Resume Error:", error);
+            console.error(
+                "Download Resume Error:",
+                error
+            );
 
             setError(
                 error.message ||
@@ -217,6 +235,7 @@ const Resume = () => {
     // =========================
     // DELETE RESUME
     // =========================
+
     const handleDelete = async () => {
         const confirmDelete = window.confirm(
             "Are you sure you want to delete your resume?"
@@ -254,17 +273,50 @@ const Resume = () => {
 
             setResume(null);
 
+            // Reset AI analyzer
+            setAnalysisStarted(false);
+
             setMessage(data.message);
         } catch (error) {
-            console.error("Delete Resume Error:", error);
+            console.error(
+                "Delete Resume Error:",
+                error
+            );
 
             setError("Unable to connect to server.");
         }
     };
 
     // =========================
+    // AI RESUME ANALYZER
+    // =========================
+
+    const handleAnalyzeResume = () => {
+        if (!resume) {
+            setError(
+                "Please upload a resume before analyzing."
+            );
+            return;
+        }
+
+        setError("");
+        setMessage("");
+
+        setAnalyzing(true);
+
+        // Temporary frontend state.
+        // Actual AI API will be connected in the next step.
+
+        setTimeout(() => {
+            setAnalyzing(false);
+            setAnalysisStarted(true);
+        }, 1000);
+    };
+
+    // =========================
     // FILE SIZE
     // =========================
+
     const getFileSize = (bytes) => {
         if (!bytes) {
             return "0 KB";
@@ -276,6 +328,7 @@ const Resume = () => {
     // =========================
     // LOADING
     // =========================
+
     if (loading) {
         return (
             <DashboardLayout>
@@ -289,8 +342,13 @@ const Resume = () => {
     // =========================
     // UI
     // =========================
+
     return (
         <DashboardLayout>
+
+            {/* =========================
+                PAGE HEADER
+            ========================= */}
 
             <h1 className="text-4xl font-bold text-green-600">
                 My Resume 📄
@@ -300,21 +358,33 @@ const Resume = () => {
                 Upload and manage your resume.
             </p>
 
-            {/* SUCCESS MESSAGE */}
+
+            {/* =========================
+                SUCCESS MESSAGE
+            ========================= */}
+
             {message && (
                 <div className="mt-6 bg-green-50 border border-green-300 text-green-700 px-4 py-3 rounded-lg">
                     {message}
                 </div>
             )}
 
-            {/* ERROR MESSAGE */}
+
+            {/* =========================
+                ERROR MESSAGE
+            ========================= */}
+
             {error && (
                 <div className="mt-6 bg-red-50 border border-red-300 text-red-700 px-4 py-3 rounded-lg">
                     {error}
                 </div>
             )}
 
-            {/* UPLOAD SECTION */}
+
+            {/* =========================
+                UPLOAD SECTION
+            ========================= */}
+
             <div className="bg-white rounded-xl shadow-lg p-8 mt-8">
 
                 <h2 className="text-2xl font-bold">
@@ -360,9 +430,14 @@ const Resume = () => {
                     </button>
 
                 </form>
+
             </div>
 
-            {/* CURRENT RESUME */}
+
+            {/* =========================
+                CURRENT RESUME
+            ========================= */}
+
             {resume && (
                 <div className="bg-white rounded-xl shadow-lg p-8 mt-8">
 
@@ -390,6 +465,7 @@ const Resume = () => {
                         <div className="flex flex-wrap gap-3 mt-5">
 
                             {/* VIEW */}
+
                             <a
                                 href={`http://localhost:5000/uploads/${resume.fileName}`}
                                 target="_blank"
@@ -399,7 +475,9 @@ const Resume = () => {
                                 View Resume
                             </a>
 
+
                             {/* DOWNLOAD */}
+
                             <button
                                 onClick={handleDownload}
                                 className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
@@ -407,7 +485,9 @@ const Resume = () => {
                                 Download
                             </button>
 
+
                             {/* DELETE */}
+
                             <button
                                 onClick={handleDelete}
                                 className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700"
@@ -418,6 +498,248 @@ const Resume = () => {
                         </div>
 
                     </div>
+
+                </div>
+            )}
+
+
+            {/* =========================
+                AI RESUME ANALYZER
+            ========================= */}
+
+            {resume && (
+                <div className="bg-white rounded-xl shadow-lg p-8 mt-8">
+
+                    <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-5">
+
+                        <div>
+
+                            <h2 className="text-2xl font-bold text-green-600">
+                                AI Resume Analyzer 🤖
+                            </h2>
+
+                            <p className="text-gray-600 mt-2">
+                                Get intelligent insights about your
+                                resume and improve your career profile.
+                            </p>
+
+                        </div>
+
+                        <button
+                            onClick={handleAnalyzeResume}
+                            disabled={analyzing}
+                            className="bg-purple-600 text-white px-6 py-3 rounded-lg hover:bg-purple-700 disabled:opacity-50"
+                        >
+                            {analyzing
+                                ? "Analyzing..."
+                                : "Analyze Resume 🤖"}
+                        </button>
+
+                    </div>
+
+
+                    {/* =========================
+                        ANALYZER PREVIEW
+                    ========================= */}
+
+                    {!analysisStarted && !analyzing && (
+                        <div className="mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+
+                            <div className="border rounded-xl p-5 bg-blue-50">
+                                <div className="text-3xl">
+                                    📄
+                                </div>
+
+                                <h3 className="font-semibold mt-3">
+                                    Resume Summary
+                                </h3>
+
+                                <p className="text-sm text-gray-500 mt-1">
+                                    AI-generated resume overview
+                                </p>
+                            </div>
+
+
+                            <div className="border rounded-xl p-5 bg-green-50">
+                                <div className="text-3xl">
+                                    💻
+                                </div>
+
+                                <h3 className="font-semibold mt-3">
+                                    Skills Detection
+                                </h3>
+
+                                <p className="text-sm text-gray-500 mt-1">
+                                    Identify skills from your resume
+                                </p>
+                            </div>
+
+
+                            <div className="border rounded-xl p-5 bg-yellow-50">
+                                <div className="text-3xl">
+                                    ⭐
+                                </div>
+
+                                <h3 className="font-semibold mt-3">
+                                    Strengths
+                                </h3>
+
+                                <p className="text-sm text-gray-500 mt-1">
+                                    Discover your resume strengths
+                                </p>
+                            </div>
+
+
+                            <div className="border rounded-xl p-5 bg-red-50">
+                                <div className="text-3xl">
+                                    🎯
+                                </div>
+
+                                <h3 className="font-semibold mt-3">
+                                    Improvements
+                                </h3>
+
+                                <p className="text-sm text-gray-500 mt-1">
+                                    Get suggestions to improve your resume
+                                </p>
+                            </div>
+
+                        </div>
+                    )}
+
+
+                    {/* =========================
+                        ANALYSIS PREVIEW RESULT
+                    ========================= */}
+
+                    {analyzing && (
+                        <div className="mt-8 border rounded-xl p-8 text-center">
+
+                            <div className="text-5xl">
+                                🤖
+                            </div>
+
+                            <h3 className="text-xl font-bold mt-4">
+                                AI is analyzing your resume...
+                            </h3>
+
+                            <p className="text-gray-500 mt-2">
+                                Please wait while we prepare your
+                                resume insights.
+                            </p>
+
+                            <div className="mt-5 w-full bg-gray-200 rounded-full h-3">
+
+                                <div className="bg-purple-600 h-3 rounded-full w-2/3 animate-pulse"></div>
+
+                            </div>
+
+                        </div>
+                    )}
+
+
+                    {/* =========================
+                        AI RESULT PLACEHOLDER
+                    ========================= */}
+
+                    {analysisStarted && !analyzing && (
+                        <div className="mt-8">
+
+                            <div className="bg-purple-50 border border-purple-200 rounded-xl p-6">
+
+                                <div className="flex items-center gap-3">
+
+                                    <span className="text-3xl">
+                                        🤖
+                                    </span>
+
+                                    <div>
+
+                                        <h3 className="text-xl font-bold text-purple-700">
+                                            AI Resume Analysis
+                                        </h3>
+
+                                        <p className="text-gray-600 text-sm">
+                                            Analysis interface is ready.
+                                            AI processing will be connected next.
+                                        </p>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+
+                                {/* SUMMARY */}
+
+                                <div className="border rounded-xl p-6">
+
+                                    <h3 className="text-lg font-bold">
+                                        📄 Resume Summary
+                                    </h3>
+
+                                    <p className="text-gray-500 mt-3">
+                                        Your AI-generated resume summary
+                                        will appear here.
+                                    </p>
+
+                                </div>
+
+
+                                {/* SKILLS */}
+
+                                <div className="border rounded-xl p-6">
+
+                                    <h3 className="text-lg font-bold">
+                                        💻 Skills Detected
+                                    </h3>
+
+                                    <p className="text-gray-500 mt-3">
+                                        Skills extracted from your resume
+                                        will appear here.
+                                    </p>
+
+                                </div>
+
+
+                                {/* STRENGTHS */}
+
+                                <div className="border rounded-xl p-6">
+
+                                    <h3 className="text-lg font-bold">
+                                        ⭐ Resume Strengths
+                                    </h3>
+
+                                    <p className="text-gray-500 mt-3">
+                                        Your resume strengths will appear
+                                        here after AI integration.
+                                    </p>
+
+                                </div>
+
+
+                                {/* IMPROVEMENTS */}
+
+                                <div className="border rounded-xl p-6">
+
+                                    <h3 className="text-lg font-bold">
+                                        🎯 Improvement Suggestions
+                                    </h3>
+
+                                    <p className="text-gray-500 mt-3">
+                                        AI-powered suggestions will appear
+                                        here after backend integration.
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+                    )}
 
                 </div>
             )}
