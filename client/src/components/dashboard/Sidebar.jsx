@@ -17,32 +17,83 @@ const Sidebar = () => {
 
             <nav className="flex flex-col gap-3">
 
-                <NavLink to="/dashboard" className={linkClasses}>
+                {/* Dashboard */}
+
+                <NavLink
+                    to="/dashboard"
+                    className={linkClasses}
+                >
                     🏠 Dashboard
                 </NavLink>
 
-                <NavLink to="/profile" className={linkClasses}>
+
+                {/* Profile */}
+
+                <NavLink
+                    to="/profile"
+                    className={linkClasses}
+                >
                     👤 Profile
                 </NavLink>
 
-                <NavLink to="/skills" className={linkClasses}>
+
+                {/* Skills */}
+
+                <NavLink
+                    to="/skills"
+                    className={linkClasses}
+                >
                     💻 Skills
                 </NavLink>
 
-                <NavLink to="/projects" className={linkClasses}>
+
+                {/* Projects */}
+
+                <NavLink
+                    to="/projects"
+                    className={linkClasses}
+                >
                     🚀 Projects
                 </NavLink>
 
-                <NavLink to="/certificates" className={linkClasses}>
+
+                {/* Certificates */}
+
+                <NavLink
+                    to="/certificates"
+                    className={linkClasses}
+                >
                     📜 Certificates
                 </NavLink>
 
-                <NavLink to="/resume" className={linkClasses}>
+
+                {/* Resume */}
+
+                <NavLink
+                    to="/resume"
+                    className={linkClasses}
+                >
                     📄 Resume
                 </NavLink>
 
-                <NavLink to="/portfolio" className={linkClasses}>
+
+                {/* Portfolio */}
+
+                <NavLink
+                    to="/portfolio"
+                    className={linkClasses}
+                >
                     🌐 Portfolio
+                </NavLink>
+
+
+                {/* AI Career Advisor */}
+
+                <NavLink
+                    to="/career-advisor"
+                    className={linkClasses}
+                >
+                    🤖 Career Advisor
                 </NavLink>
 
             </nav>

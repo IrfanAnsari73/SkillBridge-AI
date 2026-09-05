@@ -11,6 +11,7 @@ const certificateRoutes = require("./routes/certificateRoutes");
 const profileRoutes = require("./routes/profileRoutes");
 const resumeRoutes = require("./routes/resumeRoutes");
 const portfolioRoutes = require("./routes/portfolioRoutes");
+const careerRoutes = require("./routes/careerRoutes");
 
 const app = express();
 
@@ -36,6 +37,7 @@ app.use("/api/certificates", certificateRoutes);
 app.use("/api/profile", profileRoutes);
 app.use("/api/resume", resumeRoutes);
 app.use("/api/portfolio", portfolioRoutes);
+app.use("/api/career", careerRoutes);
 
 // =========================
 // Test Route
