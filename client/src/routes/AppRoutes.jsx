@@ -13,7 +13,9 @@ import Projects from "../pages/Projects/Projects";
 import Certificates from "../pages/Certificates/Certificates";
 import Resume from "../pages/Resume/Resume";
 import Portfolio from "../pages/Portfolio/Portfolio";
+
 import CareerAdvisor from "../pages/Career/CareerAdvisor";
+import CareerRoadmap from "../pages/Career/CareerRoadmap";
 
 import PublicPortfolio from "../pages/PublicPortfolio/PublicPortfolio";
 
@@ -72,67 +74,57 @@ const AppRoutes = () => {
 
                 <Route element={<ProtectedRoute />}>
 
-                    {/* Dashboard */}
-
                     <Route
                         path="/dashboard"
                         element={<Dashboard />}
                     />
-
-
-                    {/* Profile */}
 
                     <Route
                         path="/profile"
                         element={<Profile />}
                     />
 
-
-                    {/* Skills */}
-
                     <Route
                         path="/skills"
                         element={<Skills />}
                     />
-
-
-                    {/* Projects */}
 
                     <Route
                         path="/projects"
                         element={<Projects />}
                     />
 
-
-                    {/* Certificates */}
-
                     <Route
                         path="/certificates"
                         element={<Certificates />}
                     />
-
-
-                    {/* Resume */}
 
                     <Route
                         path="/resume"
                         element={<Resume />}
                     />
 
-
-                    {/* Portfolio */}
-
                     <Route
                         path="/portfolio"
                         element={<Portfolio />}
                     />
 
-
-                    {/* AI Career Advisor */}
+                    {/* =========================
+                        AI CAREER ADVISOR
+                    ========================= */}
 
                     <Route
                         path="/career-advisor"
                         element={<CareerAdvisor />}
+                    />
+
+                    {/* =========================
+                        AI CAREER ROADMAP
+                    ========================= */}
+
+                    <Route
+                        path="/career-roadmap"
+                        element={<CareerRoadmap />}
                     />
 
                 </Route>

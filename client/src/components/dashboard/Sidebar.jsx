@@ -17,17 +17,12 @@ const Sidebar = () => {
 
             <nav className="flex flex-col gap-3">
 
-                {/* Dashboard */}
-
                 <NavLink
                     to="/dashboard"
                     className={linkClasses}
                 >
                     🏠 Dashboard
                 </NavLink>
-
-
-                {/* Profile */}
 
                 <NavLink
                     to="/profile"
@@ -36,18 +31,12 @@ const Sidebar = () => {
                     👤 Profile
                 </NavLink>
 
-
-                {/* Skills */}
-
                 <NavLink
                     to="/skills"
                     className={linkClasses}
                 >
                     💻 Skills
                 </NavLink>
-
-
-                {/* Projects */}
 
                 <NavLink
                     to="/projects"
@@ -56,18 +45,12 @@ const Sidebar = () => {
                     🚀 Projects
                 </NavLink>
 
-
-                {/* Certificates */}
-
                 <NavLink
                     to="/certificates"
                     className={linkClasses}
                 >
                     📜 Certificates
                 </NavLink>
-
-
-                {/* Resume */}
 
                 <NavLink
                     to="/resume"
@@ -76,9 +59,6 @@ const Sidebar = () => {
                     📄 Resume
                 </NavLink>
 
-
-                {/* Portfolio */}
-
                 <NavLink
                     to="/portfolio"
                     className={linkClasses}
@@ -86,14 +66,18 @@ const Sidebar = () => {
                     🌐 Portfolio
                 </NavLink>
 
-
-                {/* AI Career Advisor */}
-
                 <NavLink
                     to="/career-advisor"
                     className={linkClasses}
                 >
                     🤖 Career Advisor
+                </NavLink>
+
+                <NavLink
+                    to="/career-roadmap"
+                    className={linkClasses}
+                >
+                    🗺️ Career Roadmap
                 </NavLink>
 
             </nav>

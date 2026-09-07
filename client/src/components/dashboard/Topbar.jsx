@@ -58,10 +58,15 @@ const Topbar = () => {
             path: "/portfolio",
             icon: "🌐",
         },
+        {
+            name: "Career Advisor",
+            path: "/career-advisor",
+            icon: "🤖",
+        },
     ];
 
     // =========================
-    // FILTER SEARCH RESULTS
+    // FILTER SEARCH
     // =========================
 
     const filteredItems = searchItems.filter((item) =>
@@ -71,7 +76,7 @@ const Topbar = () => {
     );
 
     // =========================
-    // HANDLE SEARCH
+    // SEARCH CHANGE
     // =========================
 
     const handleSearchChange = (e) => {
@@ -87,7 +92,7 @@ const Topbar = () => {
     };
 
     // =========================
-    // OPEN SEARCH RESULT
+    // SEARCH RESULT CLICK
     // =========================
 
     const handleResultClick = (path) => {
@@ -98,13 +103,13 @@ const Topbar = () => {
     };
 
     return (
-        <div className="bg-white shadow-md rounded-xl p-4 flex justify-between items-center mb-8">
+        <div className="w-full box-border bg-white shadow-md rounded-xl p-4 flex items-center gap-4">
 
             {/* =========================
-                SEARCH
+                SEARCH SECTION
             ========================= */}
 
-            <div className="relative">
+            <div className="flex-1 min-w-0 relative">
 
                 <input
                     type="text"
@@ -116,8 +121,9 @@ const Topbar = () => {
                         }
                     }}
                     placeholder="🔍 Search..."
-                    className="border border-gray-300 rounded-lg px-4 py-2 w-72 outline-none focus:ring-2 focus:ring-green-500"
+                    className="border border-gray-300 rounded-lg px-4 py-2 w-72 max-w-full outline-none focus:ring-2 focus:ring-green-500"
                 />
+
 
                 {/* =========================
                     SEARCH RESULTS
@@ -163,18 +169,20 @@ const Topbar = () => {
 
 
             {/* =========================
-                USER INFO + LOGOUT
+                USER SECTION
             ========================= */}
 
-            <div className="flex items-center gap-5">
+            <div className="flex items-center gap-4 flex-shrink-0">
 
-                <div className="text-right">
+                {/* USER NAME */}
 
-                    <h3 className="font-semibold text-lg">
+                <div className="text-right flex-shrink-0">
+
+                    <h3 className="font-semibold text-lg whitespace-nowrap">
                         Irfan Ansari
                     </h3>
 
-                    <p className="text-sm text-gray-500">
+                    <p className="text-sm text-gray-500 whitespace-nowrap">
                         Student
                     </p>
 
@@ -186,7 +194,7 @@ const Topbar = () => {
                 <img
                     src="https://ui-avatars.com/api/?name=Irfan+Ansari&background=16a34a&color=fff"
                     alt="Profile"
-                    className="w-12 h-12 rounded-full"
+                    className="w-12 h-12 rounded-full flex-shrink-0"
                 />
 
 
@@ -194,7 +202,7 @@ const Topbar = () => {
 
                 <button
                     onClick={handleLogout}
-                    className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition"
+                    className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition whitespace-nowrap flex-shrink-0"
                 >
                     Logout
                 </button>

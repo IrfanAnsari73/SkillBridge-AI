@@ -5,6 +5,7 @@ const {
     getResume,
     getPublicResume,
     downloadPublicResume,
+    downloadResume,
     deleteResume,
     analyzeResume,
 } = require("../controllers/resumeController");
@@ -50,6 +51,12 @@ router.get(
     getResume
 );
 
+// DOWNLOAD OWN RESUME
+
+router.get(
+    "/download",
+    downloadResume
+);
 
 // UPLOAD / REPLACE RESUME
 router.post(

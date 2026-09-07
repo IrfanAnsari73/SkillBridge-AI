@@ -3,15 +3,43 @@ import Topbar from "../dashboard/Topbar";
 
 const DashboardLayout = ({ children }) => {
     return (
-        <div className="flex min-h-screen">
+        <div className="h-screen overflow-hidden bg-gray-100">
 
-            <Sidebar />
+            {/* =========================
+                FIXED SIDEBAR
+            ========================= */}
 
-            <div className="flex-1 bg-gray-100 p-8">
+            <aside className="fixed left-0 top-0 bottom-0 w-64 z-50">
+                <Sidebar />
+            </aside>
 
-                <Topbar />
 
-                {children}
+            {/* =========================
+                RIGHT SIDE APPLICATION AREA
+            ========================= */}
+
+            <div className="ml-64 h-screen">
+
+                {/* =========================
+                    FIXED TOPBAR
+                ========================= */}
+
+                <header className="fixed top-0 left-64 right-0 z-40 bg-gray-100 px-8 pt-8">
+
+                    <Topbar />
+
+                </header>
+
+
+                {/* =========================
+                    SCROLLABLE MAIN CONTENT
+                ========================= */}
+
+                <main className="h-screen overflow-y-auto overflow-x-hidden px-8 pt-32 pb-8">
+
+                    {children}
+
+                </main>
 
             </div>
 
