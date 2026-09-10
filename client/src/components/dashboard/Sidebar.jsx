@@ -80,6 +80,13 @@ const Sidebar = () => {
                     🗺️ Career Roadmap
                 </NavLink>
 
+                <NavLink
+                    to="/job-matcher"
+                    className={linkClasses}
+                >
+                    💼 Job Matcher
+                </NavLink>
+
             </nav>
 
         </div>

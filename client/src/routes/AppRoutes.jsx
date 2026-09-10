@@ -17,6 +17,8 @@ import Portfolio from "../pages/Portfolio/Portfolio";
 import CareerAdvisor from "../pages/Career/CareerAdvisor";
 import CareerRoadmap from "../pages/Career/CareerRoadmap";
 
+import JobMatcher from "../pages/Jobs/JobMatcher";
+
 import PublicPortfolio from "../pages/PublicPortfolio/PublicPortfolio";
 
 import ProtectedRoute from "../components/auth/ProtectedRoute";
@@ -109,8 +111,9 @@ const AppRoutes = () => {
                         element={<Portfolio />}
                     />
 
+
                     {/* =========================
-                        AI CAREER ADVISOR
+                        AI CAREER FEATURES
                     ========================= */}
 
                     <Route
@@ -118,13 +121,14 @@ const AppRoutes = () => {
                         element={<CareerAdvisor />}
                     />
 
-                    {/* =========================
-                        AI CAREER ROADMAP
-                    ========================= */}
-
                     <Route
                         path="/career-roadmap"
                         element={<CareerRoadmap />}
+                    />
+
+                    <Route
+                        path="/job-matcher"
+                        element={<JobMatcher />}
                     />
 
                 </Route>
