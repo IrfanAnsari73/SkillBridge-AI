@@ -1,7 +1,6 @@
 import { NavLink } from "react-router-dom";
 
 const Sidebar = () => {
-
     const linkClasses = ({ isActive }) =>
         `px-3 py-3 rounded-lg transition duration-300 ${isActive
             ? "bg-green-700 text-white"
@@ -87,8 +86,14 @@ const Sidebar = () => {
                     💼 Job Matcher
                 </NavLink>
 
-            </nav>
+                <NavLink
+                    to="/mock-interview"
+                    className={linkClasses}
+                >
+                    🎤 Mock Interview
+                </NavLink>
 
+            </nav>
         </div>
     );
 };

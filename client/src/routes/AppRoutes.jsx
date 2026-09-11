@@ -18,62 +18,30 @@ import CareerAdvisor from "../pages/Career/CareerAdvisor";
 import CareerRoadmap from "../pages/Career/CareerRoadmap";
 
 import JobMatcher from "../pages/Jobs/JobMatcher";
+import MockInterview from "../pages/Interview/MockInterview";
 
 import PublicPortfolio from "../pages/PublicPortfolio/PublicPortfolio";
 
 import ProtectedRoute from "../components/auth/ProtectedRoute";
 
-
 const AppRoutes = () => {
     return (
         <BrowserRouter>
-
             <Routes>
 
-                {/* =========================
-                    PUBLIC ROUTES
-                ========================= */}
-
-                <Route
-                    path="/"
-                    element={<Home />}
-                />
-
-                <Route
-                    path="/about"
-                    element={<About />}
-                />
-
-                <Route
-                    path="/contact"
-                    element={<Contact />}
-                />
-
-                <Route
-                    path="/login"
-                    element={<Login />}
-                />
-
-                <Route
-                    path="/signup"
-                    element={<Signup />}
-                />
-
-
-                {/* =========================
-                    PUBLIC PORTFOLIO
-                ========================= */}
+                {/* Public Routes */}
+                <Route path="/" element={<Home />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/contact" element={<Contact />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/signup" element={<Signup />} />
 
                 <Route
                     path="/portfolio/public/:userId"
                     element={<PublicPortfolio />}
                 />
 
-
-                {/* =========================
-                    PROTECTED ROUTES
-                ========================= */}
-
+                {/* Protected Routes */}
                 <Route element={<ProtectedRoute />}>
 
                     <Route
@@ -111,11 +79,6 @@ const AppRoutes = () => {
                         element={<Portfolio />}
                     />
 
-
-                    {/* =========================
-                        AI CAREER FEATURES
-                    ========================= */}
-
                     <Route
                         path="/career-advisor"
                         element={<CareerAdvisor />}
@@ -131,13 +94,16 @@ const AppRoutes = () => {
                         element={<JobMatcher />}
                     />
 
+                    <Route
+                        path="/mock-interview"
+                        element={<MockInterview />}
+                    />
+
                 </Route>
 
             </Routes>
-
         </BrowserRouter>
     );
 };
-
 
 export default AppRoutes;

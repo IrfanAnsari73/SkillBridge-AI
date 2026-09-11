@@ -14,6 +14,7 @@ const portfolioRoutes = require("./routes/portfolioRoutes");
 const careerRoutes = require("./routes/careerRoutes");
 const roadmapRoutes = require("./routes/roadmapRoutes");
 const jobMatcherRoutes = require("./routes/jobMatcherRoutes");
+const interviewRoutes = require("./routes/interviewRoutes");
 
 const app = express();
 
@@ -42,6 +43,7 @@ app.use("/api/portfolio", portfolioRoutes);
 app.use("/api/career", careerRoutes);
 app.use("/api/roadmap", roadmapRoutes);
 app.use("/api/job-matcher", jobMatcherRoutes);
+app.use("/api/interview", interviewRoutes);
 
 // =========================
 // Test Route
