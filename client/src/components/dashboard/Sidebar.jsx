@@ -51,6 +51,11 @@ const Sidebar = () => {
             icon: "🗺️",
         },
         {
+            name: "Career Action Center",
+            path: "/career-actions",
+            icon: "🎯",
+        },
+        {
             name: "Job Matcher",
             path: "/job-matcher",
             icon: "🎯",
@@ -101,7 +106,6 @@ const Sidebar = () => {
                 </p>
             </div>
 
-
             {/* ========================= */}
             {/* MENU */}
             {/* ========================= */}
@@ -134,7 +138,6 @@ const Sidebar = () => {
                 })}
 
             </nav>
-
 
             {/* ========================= */}
             {/* LOGOUT */}

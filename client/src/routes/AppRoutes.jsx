@@ -62,6 +62,7 @@ import PublicPortfolio from "../pages/PublicPortfolio/PublicPortfolio";
 
 import CareerAdvisor from "../pages/Career/CareerAdvisor";
 import CareerRoadmap from "../pages/Career/CareerRoadmap";
+import CareerActionCenter from "../pages/Career/CareerActionCenter";
 
 // ===============================
 // JOBS
@@ -214,6 +215,17 @@ const AppRoutes = () => {
                     element={
                         <DashboardLayout>
                             <CareerRoadmap />
+                        </DashboardLayout>
+                    }
+                />
+
+
+                {/* Career Action Center */}
+                <Route
+                    path="/career-actions"
+                    element={
+                        <DashboardLayout>
+                            <CareerActionCenter />
                         </DashboardLayout>
                     }
                 />

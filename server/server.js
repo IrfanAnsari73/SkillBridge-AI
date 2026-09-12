@@ -4,6 +4,7 @@ const path = require("path");
 require("dotenv").config();
 
 const connectDB = require("./config/db");
+
 const authRoutes = require("./routes/authRoutes");
 const projectRoutes = require("./routes/projectRoutes");
 const skillRoutes = require("./routes/skillRoutes");
@@ -18,24 +19,32 @@ const interviewRoutes = require("./routes/interviewRoutes");
 const analyticsRoutes = require("./routes/analyticsRoutes");
 const jobApplicationRoutes = require("./routes/jobApplicationRoutes");
 const applicationInsightsRoutes = require("./routes/applicationInsightsRoutes");
+const careerActionRoutes = require("./routes/careerActionRoutes");
 
 const app = express();
 
 // =========================
 // Middleware
 // =========================
+
 app.use(cors());
 app.use(express.json());
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
+app.use(
+    "/uploads",
+    express.static(path.join(__dirname, "uploads"))
+);
 
 // =========================
 // MongoDB
 // =========================
+
 connectDB();
 
 // =========================
 // Routes
 // =========================
+
 app.use("/api/auth", authRoutes);
 app.use("/api/projects", projectRoutes);
 app.use("/api/skills", skillRoutes);
@@ -49,20 +58,37 @@ app.use("/api/job-matcher", jobMatcherRoutes);
 app.use("/api/interview", interviewRoutes);
 app.use("/api/analytics", analyticsRoutes);
 app.use("/api/job-applications", jobApplicationRoutes);
-app.use("/api/application-insights", applicationInsightsRoutes);
+
+// AI Application Insights
+app.use(
+    "/api/application-insights",
+    applicationInsightsRoutes
+);
+
+// AI Career Action Center
+app.use(
+    "/api/career-actions",
+    careerActionRoutes
+);
 
 // =========================
 // Test Route
 // =========================
+
 app.get("/", (req, res) => {
-    res.send("🚀 SkillBridge AI Backend is Running...");
+    res.json({
+        message: "🚀 SkillBridge AI Backend is Running..."
+    });
 });
 
 // =========================
 // Server
 // =========================
+
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`);
+    console.log(
+        `Server running on http://localhost:${PORT}`
+    );
 });
