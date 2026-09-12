@@ -1,5 +1,4 @@
 import { useState } from "react";
-import DashboardLayout from "../../components/layout/DashboardLayout";
 
 const MockInterview = () => {
     const [jobRole, setJobRole] = useState("");
@@ -27,30 +26,22 @@ const MockInterview = () => {
     const [error, setError] =
         useState("");
 
-
     // =========================
     // START INTERVIEW
     // =========================
 
     const startInterview = async () => {
-
         if (!jobRole) {
-
-            setError(
-                "Please select a job role."
-            );
-
+            setError("Please select a job role.");
             return;
         }
 
         try {
-
             setLoading(true);
             setError("");
 
             const token =
                 localStorage.getItem("token");
-
 
             const response =
                 await fetch(
@@ -73,19 +64,15 @@ const MockInterview = () => {
                     }
                 );
 
-
             const data =
                 await response.json();
 
-
             if (!response.ok) {
-
                 throw new Error(
                     data.message ||
                     "Failed to start interview."
                 );
             }
-
 
             setQuestion(
                 data.question
@@ -100,7 +87,6 @@ const MockInterview = () => {
             setQuestionNumber(1);
 
         } catch (error) {
-
             console.error(
                 "Start Interview Error:",
                 error
@@ -111,37 +97,28 @@ const MockInterview = () => {
             );
 
         } finally {
-
             setLoading(false);
-
         }
     };
-
 
     // =========================
     // SUBMIT ANSWER
     // =========================
 
     const submitAnswer = async () => {
-
         if (!answer.trim()) {
-
             setError(
                 "Please write your answer first."
             );
-
             return;
         }
 
-
         try {
-
             setLoading(true);
             setError("");
 
             const token =
                 localStorage.getItem("token");
-
 
             const response =
                 await fetch(
@@ -158,7 +135,6 @@ const MockInterview = () => {
                         },
 
                         body: JSON.stringify({
-
                             jobRole,
 
                             question:
@@ -170,24 +146,19 @@ const MockInterview = () => {
                             questionNumber,
 
                             totalQuestions,
-
                         }),
                     }
                 );
 
-
             const data =
                 await response.json();
 
-
             if (!response.ok) {
-
                 throw new Error(
                     data.message ||
                     "Failed to evaluate answer."
                 );
             }
-
 
             setEvaluation(
                 data.evaluation
@@ -196,7 +167,6 @@ const MockInterview = () => {
             setAnswer("");
 
         } catch (error) {
-
             console.error(
                 "Evaluate Answer Error:",
                 error
@@ -207,19 +177,15 @@ const MockInterview = () => {
             );
 
         } finally {
-
             setLoading(false);
-
         }
     };
-
 
     // =========================
     // NEXT QUESTION
     // =========================
 
     const nextQuestion = () => {
-
         if (
             questionNumber >=
             totalQuestions
@@ -227,13 +193,10 @@ const MockInterview = () => {
             return;
         }
 
-
         if (
             evaluation?.nextQuestion
         ) {
-
             setQuestion({
-
                 question:
                     evaluation.nextQuestion,
 
@@ -243,7 +206,6 @@ const MockInterview = () => {
 
                 difficulty:
                     "Intermediate",
-
             });
 
             setQuestionNumber(
@@ -258,18 +220,14 @@ const MockInterview = () => {
                 top: 0,
                 behavior: "smooth",
             });
-
         }
-
     };
-
 
     // =========================
     // RESTART
     // =========================
 
     const restartInterview = () => {
-
         setStarted(false);
 
         setQuestion(null);
@@ -283,20 +241,17 @@ const MockInterview = () => {
         setError("");
     };
 
-
     return (
-        <DashboardLayout>
+        <div className="w-full max-w-7xl mx-auto min-w-0">
 
             <div className="mx-auto max-w-5xl space-y-6">
-
 
                 {/* =========================
                     HEADER
                 ========================= */}
 
                 <div>
-
-                    <h1 className="text-3xl font-bold text-gray-800">
+                    <h1 className="text-3xl sm:text-4xl font-bold text-gray-800">
                         🎤 AI Mock Interview
                     </h1>
 
@@ -304,32 +259,24 @@ const MockInterview = () => {
                         Practice interviews with an AI interviewer
                         based on your career profile.
                     </p>
-
                 </div>
-
 
                 {/* =========================
                     ERROR
                 ========================= */}
 
                 {error && (
-
-                    <div className="rounded-lg border border-red-200 bg-red-50 p-4 text-red-700">
-
+                    <div className="rounded-lg border border-red-200 bg-red-50 p-4 text-red-700 break-words">
                         {error}
-
                     </div>
-
                 )}
-
 
                 {/* =========================
                     SETUP SCREEN
                 ========================= */}
 
                 {!started && (
-
-                    <div className="rounded-xl bg-white p-6 shadow">
+                    <div className="rounded-xl bg-white p-5 sm:p-6 shadow">
 
                         <h2 className="text-xl font-bold text-gray-800">
                             Start Your Mock Interview
@@ -338,7 +285,6 @@ const MockInterview = () => {
                         <p className="mt-2 text-gray-500">
                             Choose your target role and interview type.
                         </p>
-
 
                         {/* JOB ROLE */}
 
@@ -357,7 +303,6 @@ const MockInterview = () => {
                                 }
                                 className="w-full rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-green-500"
                             >
-
                                 <option value="">
                                     Select Job Role
                                 </option>
@@ -381,11 +326,9 @@ const MockInterview = () => {
                                 <option value="Software Developer">
                                     Software Developer
                                 </option>
-
                             </select>
 
                         </div>
-
 
                         {/* INTERVIEW TYPE */}
 
@@ -404,7 +347,6 @@ const MockInterview = () => {
                                 }
                                 className="w-full rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-green-500"
                             >
-
                                 <option value="Technical">
                                     Technical
                                 </option>
@@ -416,11 +358,9 @@ const MockInterview = () => {
                                 <option value="Project Based">
                                     Project Based
                                 </option>
-
                             </select>
 
                         </div>
-
 
                         {/* START BUTTON */}
 
@@ -431,16 +371,13 @@ const MockInterview = () => {
                             disabled={loading}
                             className="mt-6 w-full rounded-lg bg-green-600 px-5 py-3 font-semibold text-white transition hover:bg-green-700 disabled:cursor-not-allowed disabled:opacity-60"
                         >
-
                             {loading
                                 ? "🤖 AI is preparing your interview..."
                                 : "🚀 Start Mock Interview"}
-
                         </button>
 
                     </div>
                 )}
-
 
                 {/* =========================
                     INTERVIEW SCREEN
@@ -448,14 +385,13 @@ const MockInterview = () => {
 
                 {started &&
                     question && (
-
                         <>
 
                             {/* PROGRESS */}
 
                             <div className="rounded-xl bg-white p-5 shadow">
 
-                                <div className="flex items-center justify-between">
+                                <div className="flex flex-wrap items-center justify-between gap-2">
 
                                     <span className="font-semibold text-gray-700">
                                         Question{" "}
@@ -468,7 +404,6 @@ const MockInterview = () => {
                                     </span>
 
                                 </div>
-
 
                                 <div className="mt-4 h-2 overflow-hidden rounded-full bg-gray-200">
 
@@ -487,10 +422,9 @@ const MockInterview = () => {
 
                             </div>
 
-
                             {/* QUESTION */}
 
-                            <div className="rounded-xl bg-white p-6 shadow">
+                            <div className="rounded-xl bg-white p-5 sm:p-6 shadow">
 
                                 <div className="flex flex-wrap items-center justify-between gap-3">
 
@@ -504,18 +438,14 @@ const MockInterview = () => {
 
                                 </div>
 
-
-                                <h2 className="mt-5 text-2xl font-bold leading-relaxed text-gray-800">
+                                <h2 className="mt-5 text-xl sm:text-2xl font-bold leading-relaxed text-gray-800 break-words">
                                     {question.question}
                                 </h2>
-
 
                                 {/* ANSWER */}
 
                                 {!evaluation && (
-
                                     <>
-
                                         <label className="mt-6 mb-2 block text-sm font-semibold text-gray-700">
                                             Your Answer
                                         </label>
@@ -532,7 +462,6 @@ const MockInterview = () => {
                                             className="w-full resize-none rounded-lg border border-gray-300 p-4 outline-none focus:border-green-500"
                                         />
 
-
                                         <button
                                             onClick={
                                                 submitAnswer
@@ -540,43 +469,35 @@ const MockInterview = () => {
                                             disabled={
                                                 loading
                                             }
-                                            className="mt-4 rounded-lg bg-green-600 px-6 py-3 font-semibold text-white transition hover:bg-green-700 disabled:cursor-not-allowed disabled:opacity-60"
+                                            className="mt-4 w-full sm:w-auto rounded-lg bg-green-600 px-6 py-3 font-semibold text-white transition hover:bg-green-700 disabled:cursor-not-allowed disabled:opacity-60"
                                         >
-
                                             {loading
                                                 ? "🤖 AI is evaluating..."
                                                 : "Submit Answer"}
-
                                         </button>
-
                                     </>
-
                                 )}
 
                             </div>
 
-
                             {/* =========================
-                            EVALUATION
-                        ========================= */}
+                                EVALUATION
+                            ========================= */}
 
                             {evaluation && (
-
                                 <div className="space-y-6">
-
 
                                     {/* SCORE */}
 
-                                    <div className="rounded-xl bg-white p-6 shadow">
+                                    <div className="rounded-xl bg-white p-5 sm:p-6 shadow">
 
                                         <p className="text-sm font-semibold uppercase tracking-wide text-green-600">
                                             AI Evaluation
                                         </p>
 
+                                        <div className="mt-5 flex flex-col sm:flex-row items-center sm:items-start gap-5 sm:gap-6">
 
-                                        <div className="mt-5 flex flex-wrap items-center gap-6">
-
-                                            <div className="flex h-28 w-28 items-center justify-center rounded-full border-8 border-green-500">
+                                            <div className="flex h-28 w-28 shrink-0 items-center justify-center rounded-full border-8 border-green-500">
 
                                                 <span className="text-3xl font-bold text-gray-800">
                                                     {evaluation.score}%
@@ -584,14 +505,13 @@ const MockInterview = () => {
 
                                             </div>
 
-
-                                            <div>
+                                            <div className="text-center sm:text-left">
 
                                                 <h3 className="text-xl font-bold text-gray-800">
                                                     Your Answer Score
                                                 </h3>
 
-                                                <p className="mt-2 max-w-2xl text-gray-600">
+                                                <p className="mt-2 max-w-2xl text-gray-600 break-words">
                                                     {evaluation.evaluation}
                                                 </p>
 
@@ -601,15 +521,13 @@ const MockInterview = () => {
 
                                     </div>
 
-
                                     {/* STRENGTHS */}
 
-                                    <div className="rounded-xl bg-white p-6 shadow">
+                                    <div className="rounded-xl bg-white p-5 sm:p-6 shadow">
 
                                         <h2 className="text-xl font-bold text-gray-800">
                                             💪 What You Did Well
                                         </h2>
-
 
                                         <div className="mt-4 space-y-3">
 
@@ -618,17 +536,15 @@ const MockInterview = () => {
                                                     strength,
                                                     index
                                                 ) => (
-
                                                     <div
                                                         key={
                                                             index
                                                         }
-                                                        className="rounded-lg bg-green-50 p-4 text-green-800"
+                                                        className="rounded-lg bg-green-50 p-4 text-green-800 break-words"
                                                     >
                                                         ✓{" "}
                                                         {strength}
                                                     </div>
-
                                                 )
                                             )}
 
@@ -636,15 +552,13 @@ const MockInterview = () => {
 
                                     </div>
 
-
                                     {/* IMPROVEMENTS */}
 
-                                    <div className="rounded-xl bg-white p-6 shadow">
+                                    <div className="rounded-xl bg-white p-5 sm:p-6 shadow">
 
                                         <h2 className="text-xl font-bold text-gray-800">
                                             🧩 What You Can Improve
                                         </h2>
-
 
                                         <div className="mt-4 space-y-3">
 
@@ -653,12 +567,11 @@ const MockInterview = () => {
                                                     improvement,
                                                     index
                                                 ) => (
-
                                                     <div
                                                         key={
                                                             index
                                                         }
-                                                        className="rounded-lg bg-yellow-50 p-4 text-yellow-800"
+                                                        className="rounded-lg bg-yellow-50 p-4 text-yellow-800 break-words"
                                                     >
                                                         {index +
                                                             1}.{" "}
@@ -666,7 +579,6 @@ const MockInterview = () => {
                                                             improvement
                                                         }
                                                     </div>
-
                                                 )
                                             )}
 
@@ -674,23 +586,21 @@ const MockInterview = () => {
 
                                     </div>
 
-
                                     {/* BETTER ANSWER TIP */}
 
-                                    <div className="rounded-xl bg-blue-50 p-6">
+                                    <div className="rounded-xl bg-blue-50 p-5 sm:p-6">
 
                                         <h2 className="text-xl font-bold text-blue-800">
                                             💡 Better Answer Tip
                                         </h2>
 
-                                        <p className="mt-3 leading-7 text-blue-700">
+                                        <p className="mt-3 leading-7 text-blue-700 break-words">
                                             {
                                                 evaluation.betterAnswerTip
                                             }
                                         </p>
 
                                     </div>
-
 
                                     {/* NEXT / FINISH */}
 
@@ -709,7 +619,7 @@ const MockInterview = () => {
 
                                     ) : (
 
-                                        <div className="rounded-xl bg-green-50 p-6 text-center">
+                                        <div className="rounded-xl bg-green-50 p-5 sm:p-6 text-center">
 
                                             <h2 className="text-2xl font-bold text-green-800">
                                                 🎉 Interview Completed!
@@ -725,7 +635,7 @@ const MockInterview = () => {
                                                 onClick={
                                                     restartInterview
                                                 }
-                                                className="mt-5 rounded-lg bg-green-600 px-6 py-3 font-semibold text-white hover:bg-green-700"
+                                                className="mt-5 w-full sm:w-auto rounded-lg bg-green-600 px-6 py-3 font-semibold text-white hover:bg-green-700"
                                             >
                                                 🔄 Start New Interview
                                             </button>
@@ -735,16 +645,14 @@ const MockInterview = () => {
                                     )}
 
                                 </div>
-
                             )}
 
                         </>
-
                     )}
 
             </div>
 
-        </DashboardLayout>
+        </div>
     );
 };
 

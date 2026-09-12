@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import DashboardLayout from "../../components/layout/DashboardLayout";
 
 const Skills = () => {
     const [skills, setSkills] = useState([]);
@@ -18,6 +17,7 @@ const Skills = () => {
     // =========================
     // FETCH SKILLS
     // =========================
+
     const fetchSkills = async () => {
         try {
             const token = localStorage.getItem("token");
@@ -39,14 +39,22 @@ const Skills = () => {
             const data = await response.json();
 
             if (!response.ok) {
-                setError(data.message || "Failed to load skills.");
+                setError(
+                    data.message ||
+                    "Failed to load skills."
+                );
                 return;
             }
 
             setSkills(data.skills || []);
         } catch (error) {
-            console.error("Fetch Skills Error:", error);
-            setError("Unable to connect to server.");
+            console.error(
+                "Fetch Skills Error:",
+                error
+            );
+            setError(
+                "Unable to connect to server."
+            );
         } finally {
             setLoading(false);
         }
@@ -59,6 +67,7 @@ const Skills = () => {
     // =========================
     // INPUT CHANGE
     // =========================
+
     const handleChange = (e) => {
         setFormData({
             ...formData,
@@ -69,6 +78,7 @@ const Skills = () => {
     // =========================
     // RESET FORM
     // =========================
+
     const resetForm = () => {
         setFormData({
             name: "",
@@ -85,6 +95,7 @@ const Skills = () => {
     // =========================
     // EDIT SKILL
     // =========================
+
     const handleEdit = (skill) => {
         setFormData({
             name: skill.name || "",
@@ -105,11 +116,13 @@ const Skills = () => {
     // =========================
     // CREATE / UPDATE SKILL
     // =========================
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         try {
-            const token = localStorage.getItem("token");
+            const token =
+                localStorage.getItem("token");
 
             if (!token) {
                 setError("Please login first.");
@@ -120,28 +133,38 @@ const Skills = () => {
                 ? `http://localhost:5000/api/skills/${editingSkillId}`
                 : "http://localhost:5000/api/skills";
 
-            const method = editingSkillId ? "PUT" : "POST";
+            const method = editingSkillId
+                ? "PUT"
+                : "POST";
 
             const response = await fetch(url, {
                 method,
                 headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}`,
+                    "Content-Type":
+                        "application/json",
+                    Authorization:
+                        `Bearer ${token}`,
                 },
                 body: JSON.stringify({
                     name: formData.name,
                     category: formData.category,
                     level: formData.level,
-                    percentage: Number(formData.percentage),
+                    percentage: Number(
+                        formData.percentage
+                    ),
                 }),
             });
 
-            const data = await response.json();
+            const data =
+                await response.json();
 
             if (!response.ok) {
                 setError(
                     data.message ||
-                    `Failed to ${editingSkillId ? "update" : "create"} skill.`
+                    `Failed to ${editingSkillId
+                        ? "update"
+                        : "create"
+                    } skill.`
                 );
                 return;
             }
@@ -149,69 +172,91 @@ const Skills = () => {
             if (editingSkillId) {
                 setSkills(
                     skills.map((skill) =>
-                        skill._id === editingSkillId
+                        skill._id ===
+                            editingSkillId
                             ? data.skill
                             : skill
                     )
                 );
             } else {
-                setSkills([data.skill, ...skills]);
+                setSkills([
+                    data.skill,
+                    ...skills,
+                ]);
             }
 
             resetForm();
-
         } catch (error) {
-            console.error("Skill Save Error:", error);
-            setError("Unable to connect to server.");
+            console.error(
+                "Skill Save Error:",
+                error
+            );
+            setError(
+                "Unable to connect to server."
+            );
         }
     };
 
     // =========================
     // DELETE SKILL
     // =========================
+
     const handleDelete = async (skillId) => {
-        const confirmDelete = window.confirm(
-            "Are you sure you want to delete this skill?"
-        );
+        const confirmDelete =
+            window.confirm(
+                "Are you sure you want to delete this skill?"
+            );
 
         if (!confirmDelete) return;
 
         try {
-            const token = localStorage.getItem("token");
+            const token =
+                localStorage.getItem("token");
 
             const response = await fetch(
                 `http://localhost:5000/api/skills/${skillId}`,
                 {
                     method: "DELETE",
                     headers: {
-                        Authorization: `Bearer ${token}`,
+                        Authorization:
+                            `Bearer ${token}`,
                     },
                 }
             );
 
-            const data = await response.json();
+            const data =
+                await response.json();
 
             if (!response.ok) {
-                setError(data.message || "Failed to delete skill.");
+                setError(
+                    data.message ||
+                    "Failed to delete skill."
+                );
                 return;
             }
 
             setSkills(
                 skills.filter(
-                    (skill) => skill._id !== skillId
+                    (skill) =>
+                        skill._id !== skillId
                 )
             );
-
         } catch (error) {
-            console.error("Delete Skill Error:", error);
-            setError("Unable to connect to server.");
+            console.error(
+                "Delete Skill Error:",
+                error
+            );
+            setError(
+                "Unable to connect to server."
+            );
         }
     };
 
     return (
-        <DashboardLayout>
+        <div className="w-full max-w-7xl mx-auto min-w-0 space-y-6">
 
             {/* Header */}
+
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
 
                 <div>
@@ -232,23 +277,27 @@ const Skills = () => {
                             setShowForm(true);
                         }
                     }}
-                    className="bg-green-600 text-white px-5 py-3 rounded-lg hover:bg-green-700 transition"
+                    className="bg-green-600 text-white px-5 py-3 rounded-lg hover:bg-green-700 transition w-full md:w-auto"
                 >
-                    {showForm ? "Close Form" : "+ Add Skill"}
+                    {showForm
+                        ? "Close Form"
+                        : "+ Add Skill"}
                 </button>
 
             </div>
 
             {/* Error */}
+
             {error && (
-                <div className="mt-6 bg-red-50 border border-red-300 text-red-700 px-4 py-3 rounded-lg">
+                <div className="bg-red-50 border border-red-300 text-red-700 px-4 py-3 rounded-lg">
                     {error}
                 </div>
             )}
 
             {/* Add / Edit Form */}
+
             {showForm && (
-                <div className="bg-white rounded-xl shadow-lg p-8 mt-8">
+                <div className="bg-white rounded-xl shadow-lg p-6 md:p-8">
 
                     <h2 className="text-2xl font-bold text-green-600 mb-6">
                         {editingSkillId
@@ -262,6 +311,7 @@ const Skills = () => {
                     >
 
                         {/* Skill Name */}
+
                         <div>
                             <label className="block mb-2 font-medium">
                                 Skill Name
@@ -279,6 +329,7 @@ const Skills = () => {
                         </div>
 
                         {/* Category */}
+
                         <div>
                             <label className="block mb-2 font-medium">
                                 Category
@@ -295,6 +346,7 @@ const Skills = () => {
                         </div>
 
                         {/* Level */}
+
                         <div>
                             <label className="block mb-2 font-medium">
                                 Skill Level
@@ -325,9 +377,11 @@ const Skills = () => {
                         </div>
 
                         {/* Percentage */}
+
                         <div>
                             <label className="block mb-2 font-medium">
-                                Skill Percentage: {formData.percentage}%
+                                Skill Percentage:{" "}
+                                {formData.percentage}%
                             </label>
 
                             <input
@@ -335,14 +389,17 @@ const Skills = () => {
                                 name="percentage"
                                 min="0"
                                 max="100"
-                                value={formData.percentage}
+                                value={
+                                    formData.percentage
+                                }
                                 onChange={handleChange}
                                 className="w-full accent-green-600"
                             />
                         </div>
 
                         {/* Buttons */}
-                        <div className="flex gap-3">
+
+                        <div className="flex flex-col sm:flex-row gap-3">
 
                             <button
                                 type="submit"
@@ -370,7 +427,8 @@ const Skills = () => {
             )}
 
             {/* Skills */}
-            <div className="bg-white rounded-xl shadow-lg p-8 mt-8">
+
+            <div className="bg-white rounded-xl shadow-lg p-6 md:p-8">
 
                 <h2 className="text-2xl font-bold text-green-600 mb-6">
                     Your Skills
@@ -401,7 +459,7 @@ const Skills = () => {
                                 className="border rounded-xl p-6 hover:shadow-md transition"
                             >
 
-                                <div className="flex justify-between items-start gap-4">
+                                <div className="flex flex-col sm:flex-row justify-between items-start gap-4">
 
                                     <div>
                                         <h3 className="text-xl font-bold text-green-600">
@@ -420,9 +478,11 @@ const Skills = () => {
                                 </div>
 
                                 {/* Progress */}
+
                                 <div className="mt-5">
 
                                     <div className="flex justify-between text-sm mb-2">
+
                                         <span className="text-gray-600">
                                             Proficiency
                                         </span>
@@ -430,25 +490,31 @@ const Skills = () => {
                                         <span className="font-semibold text-green-600">
                                             {skill.percentage}%
                                         </span>
+
                                     </div>
 
                                     <div className="w-full bg-gray-200 rounded-full h-3">
+
                                         <div
                                             className="bg-green-600 h-3 rounded-full"
                                             style={{
                                                 width: `${skill.percentage}%`,
                                             }}
                                         ></div>
+
                                     </div>
 
                                 </div>
 
                                 {/* Actions */}
-                                <div className="flex gap-3 mt-5">
+
+                                <div className="flex flex-col sm:flex-row gap-3 mt-5">
 
                                     <button
                                         onClick={() =>
-                                            handleEdit(skill)
+                                            handleEdit(
+                                                skill
+                                            )
                                         }
                                         className="border border-green-600 text-green-600 px-4 py-2 rounded-lg hover:bg-green-600 hover:text-white transition"
                                     >
@@ -457,7 +523,9 @@ const Skills = () => {
 
                                     <button
                                         onClick={() =>
-                                            handleDelete(skill._id)
+                                            handleDelete(
+                                                skill._id
+                                            )
                                         }
                                         className="border border-red-500 text-red-500 px-4 py-2 rounded-lg hover:bg-red-500 hover:text-white transition"
                                     >
@@ -474,7 +542,7 @@ const Skills = () => {
 
             </div>
 
-        </DashboardLayout>
+        </div>
     );
 };
 

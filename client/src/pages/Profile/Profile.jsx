@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import DashboardLayout from "../../components/layout/DashboardLayout";
 
 const Profile = () => {
     const [profile, setProfile] = useState({
@@ -68,7 +67,6 @@ const Profile = () => {
                 portfolio: data.user.portfolio || "",
                 profileImage: data.user.profileImage || "",
             });
-
         } catch (error) {
             console.error(
                 "Fetch Profile Error:",
@@ -243,7 +241,6 @@ const Profile = () => {
             setMessage(
                 "Profile updated successfully! 🎉"
             );
-
         } catch (error) {
             console.error(
                 "Update Profile Error:",
@@ -264,59 +261,56 @@ const Profile = () => {
 
     if (loading) {
         return (
-            <DashboardLayout>
-
+            <div className="w-full max-w-7xl mx-auto">
                 <p className="text-gray-600">
                     Loading profile...
                 </p>
-
-            </DashboardLayout>
+            </div>
         );
     }
 
     return (
-        <DashboardLayout>
+        <div className="w-full max-w-7xl mx-auto min-w-0 space-y-6">
 
             {/* =========================
                 PAGE HEADER
             ========================= */}
 
-            <h1 className="text-4xl font-bold text-green-600">
-                My Profile 👤
-            </h1>
+            <div>
+                <h1 className="text-4xl font-bold text-green-600">
+                    My Profile 👤
+                </h1>
 
-            <p className="text-gray-600 mt-2">
-                Manage your personal information.
-            </p>
-
+                <p className="text-gray-600 mt-2">
+                    Manage your personal information.
+                </p>
+            </div>
 
             {/* =========================
                 SUCCESS MESSAGE
             ========================= */}
 
             {message && (
-                <div className="mt-6 bg-green-50 border border-green-300 text-green-700 px-4 py-3 rounded-lg">
+                <div className="bg-green-50 border border-green-300 text-green-700 px-4 py-3 rounded-lg">
                     {message}
                 </div>
             )}
-
 
             {/* =========================
                 ERROR MESSAGE
             ========================= */}
 
             {error && (
-                <div className="mt-6 bg-red-50 border border-red-300 text-red-700 px-4 py-3 rounded-lg">
+                <div className="bg-red-50 border border-red-300 text-red-700 px-4 py-3 rounded-lg">
                     {error}
                 </div>
             )}
-
 
             {/* =========================
                 PROFILE COMPLETION
             ========================= */}
 
-            <div className="bg-white rounded-xl shadow-lg p-6 mt-8">
+            <div className="bg-white rounded-xl shadow-lg p-6">
 
                 <div className="flex justify-between items-center mb-3">
 
@@ -348,23 +342,20 @@ const Profile = () => {
 
             </div>
 
-
             {/* =========================
                 PROFILE FORM
             ========================= */}
 
             <form
                 onSubmit={handleSubmit}
-                className="bg-white rounded-xl shadow-lg p-8 mt-8"
+                className="bg-white rounded-xl shadow-lg p-8"
             >
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-
                     {/* FULL NAME */}
 
                     <div>
-
                         <label className="block mb-2 font-semibold">
                             Full Name
                         </label>
@@ -377,14 +368,11 @@ const Profile = () => {
                             required
                             className="w-full border rounded-lg px-4 py-2 outline-none focus:ring-2 focus:ring-green-500"
                         />
-
                     </div>
-
 
                     {/* EMAIL */}
 
                     <div>
-
                         <label className="block mb-2 font-semibold">
                             Email
                         </label>
@@ -395,14 +383,11 @@ const Profile = () => {
                             readOnly
                             className="w-full border rounded-lg px-4 py-2 bg-gray-100 text-gray-500"
                         />
-
                     </div>
-
 
                     {/* PHONE */}
 
                     <div>
-
                         <label className="block mb-2 font-semibold">
                             Phone
                         </label>
@@ -415,14 +400,11 @@ const Profile = () => {
                             placeholder="Enter phone number"
                             className="w-full border rounded-lg px-4 py-2 outline-none focus:ring-2 focus:ring-green-500"
                         />
-
                     </div>
-
 
                     {/* COLLEGE */}
 
                     <div>
-
                         <label className="block mb-2 font-semibold">
                             College
                         </label>
@@ -435,14 +417,11 @@ const Profile = () => {
                             placeholder="Enter college name"
                             className="w-full border rounded-lg px-4 py-2 outline-none focus:ring-2 focus:ring-green-500"
                         />
-
                     </div>
-
 
                     {/* BRANCH */}
 
                     <div>
-
                         <label className="block mb-2 font-semibold">
                             Branch
                         </label>
@@ -455,14 +434,11 @@ const Profile = () => {
                             placeholder="e.g. CSE"
                             className="w-full border rounded-lg px-4 py-2 outline-none focus:ring-2 focus:ring-green-500"
                         />
-
                     </div>
-
 
                     {/* PASSING YEAR */}
 
                     <div>
-
                         <label className="block mb-2 font-semibold">
                             Passing Year
                         </label>
@@ -475,14 +451,11 @@ const Profile = () => {
                             placeholder="e.g. 2027"
                             className="w-full border rounded-lg px-4 py-2 outline-none focus:ring-2 focus:ring-green-500"
                         />
-
                     </div>
-
 
                     {/* LOCATION */}
 
                     <div>
-
                         <label className="block mb-2 font-semibold">
                             Location
                         </label>
@@ -495,14 +468,11 @@ const Profile = () => {
                             placeholder="Enter your location"
                             className="w-full border rounded-lg px-4 py-2 outline-none focus:ring-2 focus:ring-green-500"
                         />
-
                     </div>
-
 
                     {/* GITHUB */}
 
                     <div>
-
                         <label className="block mb-2 font-semibold">
                             GitHub
                         </label>
@@ -515,14 +485,11 @@ const Profile = () => {
                             placeholder="https://github.com/username"
                             className="w-full border rounded-lg px-4 py-2 outline-none focus:ring-2 focus:ring-green-500"
                         />
-
                     </div>
-
 
                     {/* LINKEDIN */}
 
                     <div>
-
                         <label className="block mb-2 font-semibold">
                             LinkedIn
                         </label>
@@ -535,14 +502,11 @@ const Profile = () => {
                             placeholder="https://linkedin.com/in/username"
                             className="w-full border rounded-lg px-4 py-2 outline-none focus:ring-2 focus:ring-green-500"
                         />
-
                     </div>
-
 
                     {/* PORTFOLIO */}
 
                     <div>
-
                         <label className="block mb-2 font-semibold">
                             Portfolio
                         </label>
@@ -555,14 +519,11 @@ const Profile = () => {
                             placeholder="https://yourportfolio.com"
                             className="w-full border rounded-lg px-4 py-2 outline-none focus:ring-2 focus:ring-green-500"
                         />
-
                     </div>
-
 
                     {/* PROFILE IMAGE */}
 
                     <div>
-
                         <label className="block mb-2 font-semibold">
                             Profile Image URL
                         </label>
@@ -575,9 +536,7 @@ const Profile = () => {
                             placeholder="https://example.com/image.jpg"
                             className="w-full border rounded-lg px-4 py-2 outline-none focus:ring-2 focus:ring-green-500"
                         />
-
                     </div>
-
 
                     {/* BIO */}
 
@@ -599,11 +558,12 @@ const Profile = () => {
                     </div>
 
                 </div>
-                {/* =========================
-    PROFILE PREVIEW
-========================= */}
 
-                <div className="bg-white rounded-xl shadow-lg p-8 mt-8">
+                {/* =========================
+                    PROFILE PREVIEW
+                ========================= */}
+
+                <div className="bg-white rounded-xl border shadow-lg p-8 mt-8">
 
                     <h2 className="text-2xl font-bold text-green-600 mb-6">
                         Profile Preview 👤
@@ -624,20 +584,22 @@ const Profile = () => {
                             ) : (
                                 <div className="w-32 h-32 rounded-full bg-green-600 text-white flex items-center justify-center text-4xl font-bold">
                                     {profile.name
-                                        ? profile.name.charAt(0).toUpperCase()
+                                        ? profile.name
+                                            .charAt(0)
+                                            .toUpperCase()
                                         : "U"}
                                 </div>
                             )}
 
                         </div>
 
-
                         {/* PROFILE INFORMATION */}
 
                         <div className="flex-1 text-center md:text-left">
 
                             <h3 className="text-3xl font-bold text-gray-800">
-                                {profile.name || "Your Name"}
+                                {profile.name ||
+                                    "Your Name"}
                             </h3>
 
                             <p className="text-green-600 font-semibold text-lg mt-1">
@@ -667,7 +629,6 @@ const Profile = () => {
                                     {profile.bio}
                                 </p>
                             )}
-
 
                             {/* SOCIAL LINKS */}
 
@@ -714,7 +675,6 @@ const Profile = () => {
 
                 </div>
 
-
                 {/* SAVE BUTTON */}
 
                 <button
@@ -729,7 +689,7 @@ const Profile = () => {
 
             </form>
 
-        </DashboardLayout>
+        </div>
     );
 };
 

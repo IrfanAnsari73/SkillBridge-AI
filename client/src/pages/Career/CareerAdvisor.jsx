@@ -1,5 +1,4 @@
 import { useState } from "react";
-import DashboardLayout from "../../components/layout/DashboardLayout";
 
 const CareerAdvisor = () => {
     const [loading, setLoading] = useState(false);
@@ -10,7 +9,6 @@ const CareerAdvisor = () => {
     // =========================
     // GET AI CAREER RECOMMENDATIONS
     // =========================
-
     const handleGetRecommendations = async () => {
         try {
             setLoading(true);
@@ -45,31 +43,22 @@ const CareerAdvisor = () => {
                 return;
             }
 
-            setRecommendations(
-                data.recommendations
-            );
+            setRecommendations(data.recommendations);
 
             setMessage(
                 "AI career recommendations generated successfully! 🤖"
             );
-
         } catch (error) {
-            console.error(
-                "Career Advisor Error:",
-                error
-            );
+            console.error("Career Advisor Error:", error);
 
-            setError(
-                "Unable to connect to Career Advisor."
-            );
-
+            setError("Unable to connect to Career Advisor.");
         } finally {
             setLoading(false);
         }
     };
 
     return (
-        <DashboardLayout>
+        <div className="w-full max-w-7xl mx-auto min-w-0 space-y-6">
 
             {/* =========================
                 PAGE HEADER
@@ -78,8 +67,7 @@ const CareerAdvisor = () => {
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-5">
 
                 <div>
-
-                    <h1 className="text-4xl font-bold text-green-600">
+                    <h1 className="text-3xl sm:text-4xl font-bold text-green-600">
                         AI Career Advisor 🤖
                     </h1>
 
@@ -88,13 +76,12 @@ const CareerAdvisor = () => {
                         based on your profile, skills, projects,
                         certificates and resume.
                     </p>
-
                 </div>
 
                 <button
                     onClick={handleGetRecommendations}
                     disabled={loading}
-                    className="bg-purple-600 text-white px-6 py-3 rounded-lg hover:bg-purple-700 disabled:opacity-50"
+                    className="w-full md:w-auto bg-purple-600 text-white px-6 py-3 rounded-lg hover:bg-purple-700 disabled:opacity-50 transition"
                 >
                     {loading
                         ? "Analyzing Profile..."
@@ -103,38 +90,34 @@ const CareerAdvisor = () => {
 
             </div>
 
-
             {/* =========================
                 SUCCESS MESSAGE
             ========================= */}
 
             {message && (
-                <div className="mt-6 bg-green-50 border border-green-300 text-green-700 px-4 py-3 rounded-lg">
+                <div className="bg-green-50 border border-green-300 text-green-700 px-4 py-3 rounded-lg">
                     {message}
                 </div>
             )}
-
 
             {/* =========================
                 ERROR MESSAGE
             ========================= */}
 
             {error && (
-                <div className="mt-6 bg-red-50 border border-red-300 text-red-700 px-4 py-3 rounded-lg">
+                <div className="bg-red-50 border border-red-300 text-red-700 px-4 py-3 rounded-lg">
                     {error}
                 </div>
             )}
-
 
             {/* =========================
                 INTRO CARDS
             ========================= */}
 
             {!recommendations && !loading && (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mt-8">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
 
                     <div className="bg-white rounded-xl shadow-lg p-6 border">
-
                         <div className="text-4xl">
                             🎯
                         </div>
@@ -147,12 +130,9 @@ const CareerAdvisor = () => {
                             Discover the software development
                             career path that best matches your profile.
                         </p>
-
                     </div>
 
-
                     <div className="bg-white rounded-xl shadow-lg p-6 border">
-
                         <div className="text-4xl">
                             💼
                         </div>
@@ -165,12 +145,9 @@ const CareerAdvisor = () => {
                             Find suitable internship and
                             entry-level job roles.
                         </p>
-
                     </div>
 
-
                     <div className="bg-white rounded-xl shadow-lg p-6 border">
-
                         <div className="text-4xl">
                             📚
                         </div>
@@ -183,12 +160,9 @@ const CareerAdvisor = () => {
                             Identify important skills you
                             should learn next.
                         </p>
-
                     </div>
 
-
                     <div className="bg-white rounded-xl shadow-lg p-6 border">
-
                         <div className="text-4xl">
                             🛣️
                         </div>
@@ -201,25 +175,23 @@ const CareerAdvisor = () => {
                             Get a practical step-by-step
                             learning roadmap.
                         </p>
-
                     </div>
 
                 </div>
             )}
-
 
             {/* =========================
                 ANALYZING
             ========================= */}
 
             {loading && (
-                <div className="bg-white rounded-xl shadow-lg p-10 mt-8 text-center">
+                <div className="bg-white rounded-xl shadow-lg p-6 sm:p-10 text-center">
 
                     <div className="text-6xl">
                         🤖
                     </div>
 
-                    <h2 className="text-2xl font-bold mt-5">
+                    <h2 className="text-xl sm:text-2xl font-bold mt-5">
                         AI is analyzing your career profile...
                     </h2>
 
@@ -229,14 +201,11 @@ const CareerAdvisor = () => {
                     </p>
 
                     <div className="mt-6 w-full bg-gray-200 rounded-full h-3">
-
                         <div className="bg-purple-600 h-3 rounded-full w-2/3 animate-pulse"></div>
-
                     </div>
 
                 </div>
             )}
-
 
             {/* =========================
                 AI RESULTS
@@ -244,13 +213,13 @@ const CareerAdvisor = () => {
 
             {recommendations && !loading && (
 
-                <div className="mt-8 space-y-6">
+                <div className="space-y-6">
 
                     {/* =========================
                         RECOMMENDED CAREER
                     ========================= */}
 
-                    <div className="bg-purple-50 border border-purple-200 rounded-xl shadow-lg p-8">
+                    <div className="bg-purple-50 border border-purple-200 rounded-xl shadow-lg p-6 sm:p-8">
 
                         <div className="flex items-center gap-3">
 
@@ -259,15 +228,13 @@ const CareerAdvisor = () => {
                             </div>
 
                             <div>
-
                                 <p className="text-sm text-purple-600 font-semibold">
                                     RECOMMENDED CAREER
                                 </p>
 
-                                <h2 className="text-3xl font-bold text-purple-700">
+                                <h2 className="text-2xl sm:text-3xl font-bold text-purple-700 break-words">
                                     {recommendations.recommendedCareer}
                                 </h2>
-
                             </div>
 
                         </div>
@@ -280,14 +247,13 @@ const CareerAdvisor = () => {
 
                     </div>
 
-
                     {/* =========================
                         RECOMMENDED ROLES
                     ========================= */}
 
-                    <div className="bg-white border rounded-xl shadow-lg p-6">
+                    <div className="bg-white border rounded-xl shadow-lg p-5 sm:p-6">
 
-                        <h2 className="text-2xl font-bold">
+                        <h2 className="text-xl sm:text-2xl font-bold">
                             💼 Recommended Job Roles
                         </h2>
 
@@ -298,22 +264,18 @@ const CareerAdvisor = () => {
 
                                 {recommendations.recommendedRoles.map(
                                     (role, index) => (
-
                                         <div
                                             key={index}
                                             className="border rounded-lg p-4 bg-blue-50"
                                         >
-
                                             <div className="text-2xl">
                                                 💼
                                             </div>
 
-                                            <p className="font-semibold mt-2">
+                                            <p className="font-semibold mt-2 break-words">
                                                 {role}
                                             </p>
-
                                         </div>
-
                                     )
                                 )}
 
@@ -329,14 +291,13 @@ const CareerAdvisor = () => {
 
                     </div>
 
-
                     {/* =========================
                         SKILL GAPS
                     ========================= */}
 
-                    <div className="bg-white border rounded-xl shadow-lg p-6">
+                    <div className="bg-white border rounded-xl shadow-lg p-5 sm:p-6">
 
-                        <h2 className="text-2xl font-bold">
+                        <h2 className="text-xl sm:text-2xl font-bold">
                             ⚠️ Skill Gaps
                         </h2>
 
@@ -351,14 +312,12 @@ const CareerAdvisor = () => {
 
                                 {recommendations.skillGaps.map(
                                     (skill, index) => (
-
                                         <span
                                             key={index}
-                                            className="bg-red-100 text-red-700 px-4 py-2 rounded-full font-medium"
+                                            className="bg-red-100 text-red-700 px-4 py-2 rounded-full font-medium break-words"
                                         >
                                             {skill}
                                         </span>
-
                                     )
                                 )}
 
@@ -374,14 +333,13 @@ const CareerAdvisor = () => {
 
                     </div>
 
-
                     {/* =========================
                         SKILLS TO LEARN
                     ========================= */}
 
-                    <div className="bg-white border rounded-xl shadow-lg p-6">
+                    <div className="bg-white border rounded-xl shadow-lg p-5 sm:p-6">
 
-                        <h2 className="text-2xl font-bold">
+                        <h2 className="text-xl sm:text-2xl font-bold">
                             📚 Skills To Learn Next
                         </h2>
 
@@ -392,22 +350,18 @@ const CareerAdvisor = () => {
 
                                 {recommendations.skillsToLearn.map(
                                     (skill, index) => (
-
                                         <div
                                             key={index}
                                             className="border rounded-lg p-4 bg-green-50"
                                         >
-
                                             <span className="text-2xl">
                                                 📚
                                             </span>
 
-                                            <p className="font-semibold mt-2">
+                                            <p className="font-semibold mt-2 break-words">
                                                 {skill}
                                             </p>
-
                                         </div>
-
                                     )
                                 )}
 
@@ -423,14 +377,13 @@ const CareerAdvisor = () => {
 
                     </div>
 
-
                     {/* =========================
                         LEARNING ROADMAP
                     ========================= */}
 
-                    <div className="bg-white border rounded-xl shadow-lg p-6">
+                    <div className="bg-white border rounded-xl shadow-lg p-5 sm:p-6">
 
-                        <h2 className="text-2xl font-bold">
+                        <h2 className="text-xl sm:text-2xl font-bold">
                             🛣️ Learning Roadmap
                         </h2>
 
@@ -441,24 +394,20 @@ const CareerAdvisor = () => {
 
                                 {recommendations.learningRoadmap.map(
                                     (step, index) => (
-
                                         <div
                                             key={index}
-                                            className="flex gap-4 items-start"
+                                            className="flex gap-3 sm:gap-4 items-start"
                                         >
-
-                                            <div className="min-w-10 h-10 rounded-full bg-purple-600 text-white flex items-center justify-center font-bold">
+                                            <div className="shrink-0 w-10 h-10 rounded-full bg-purple-600 text-white flex items-center justify-center font-bold">
                                                 {index + 1}
                                             </div>
 
-                                            <div className="border rounded-lg p-4 flex-1 bg-gray-50">
-                                                <p className="text-gray-700">
+                                            <div className="border rounded-lg p-4 flex-1 bg-gray-50 min-w-0">
+                                                <p className="text-gray-700 break-words">
                                                     {step}
                                                 </p>
                                             </div>
-
                                         </div>
-
                                     )
                                 )}
 
@@ -474,14 +423,13 @@ const CareerAdvisor = () => {
 
                     </div>
 
-
                     {/* =========================
                         STRENGTHS
                     ========================= */}
 
-                    <div className="bg-white border rounded-xl shadow-lg p-6">
+                    <div className="bg-white border rounded-xl shadow-lg p-5 sm:p-6">
 
-                        <h2 className="text-2xl font-bold">
+                        <h2 className="text-xl sm:text-2xl font-bold">
                             💪 Your Career Strengths
                         </h2>
 
@@ -492,22 +440,18 @@ const CareerAdvisor = () => {
 
                                 {recommendations.strengths.map(
                                     (strength, index) => (
-
                                         <li
                                             key={index}
                                             className="flex gap-3 text-gray-700"
                                         >
-
                                             <span>
                                                 ✅
                                             </span>
 
-                                            <span>
+                                            <span className="break-words">
                                                 {strength}
                                             </span>
-
                                         </li>
-
                                     )
                                 )}
 
@@ -523,14 +467,13 @@ const CareerAdvisor = () => {
 
                     </div>
 
-
                     {/* =========================
                         CAREER ADVICE
                     ========================= */}
 
-                    <div className="bg-yellow-50 border border-yellow-200 rounded-xl shadow-lg p-6">
+                    <div className="bg-yellow-50 border border-yellow-200 rounded-xl shadow-lg p-5 sm:p-6">
 
-                        <h2 className="text-2xl font-bold">
+                        <h2 className="text-xl sm:text-2xl font-bold">
                             💡 Career Advice
                         </h2>
 
@@ -541,22 +484,18 @@ const CareerAdvisor = () => {
 
                                 {recommendations.careerAdvice.map(
                                     (advice, index) => (
-
                                         <li
                                             key={index}
                                             className="flex gap-3 text-gray-700"
                                         >
-
                                             <span>
                                                 💡
                                             </span>
 
-                                            <span>
+                                            <span className="break-words">
                                                 {advice}
                                             </span>
-
                                         </li>
-
                                     )
                                 )}
 
@@ -572,14 +511,13 @@ const CareerAdvisor = () => {
 
                     </div>
 
-
                     {/* =========================
                         NEXT STEPS
                     ========================= */}
 
-                    <div className="bg-blue-50 border border-blue-200 rounded-xl shadow-lg p-6">
+                    <div className="bg-blue-50 border border-blue-200 rounded-xl shadow-lg p-5 sm:p-6">
 
-                        <h2 className="text-2xl font-bold">
+                        <h2 className="text-xl sm:text-2xl font-bold">
                             🚀 Next Steps
                         </h2>
 
@@ -590,22 +528,18 @@ const CareerAdvisor = () => {
 
                                 {recommendations.nextSteps.map(
                                     (step, index) => (
-
                                         <li
                                             key={index}
                                             className="flex gap-3"
                                         >
-
-                                            <span className="font-bold text-blue-600">
+                                            <span className="font-bold text-blue-600 shrink-0">
                                                 {index + 1}.
                                             </span>
 
-                                            <span className="text-gray-700">
+                                            <span className="text-gray-700 break-words">
                                                 {step}
                                             </span>
-
                                         </li>
-
                                     )
                                 )}
 
@@ -624,7 +558,7 @@ const CareerAdvisor = () => {
                 </div>
             )}
 
-        </DashboardLayout>
+        </div>
     );
 };
 

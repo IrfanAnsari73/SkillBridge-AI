@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import DashboardLayout from "../../components/layout/DashboardLayout";
 
 const Certificates = () => {
     const [certificates, setCertificates] = useState([]);
@@ -19,6 +18,7 @@ const Certificates = () => {
     // =========================
     // FETCH CERTIFICATES
     // =========================
+
     const fetchCertificates = async () => {
         try {
             const token = localStorage.getItem("token");
@@ -41,15 +41,21 @@ const Certificates = () => {
 
             if (!response.ok) {
                 setError(
-                    data.message || "Failed to load certificates."
+                    data.message ||
+                    "Failed to load certificates."
                 );
                 return;
             }
 
             setCertificates(data.certificates || []);
         } catch (error) {
-            console.error("Fetch Certificates Error:", error);
-            setError("Unable to connect to server.");
+            console.error(
+                "Fetch Certificates Error:",
+                error
+            );
+            setError(
+                "Unable to connect to server."
+            );
         } finally {
             setLoading(false);
         }
@@ -62,6 +68,7 @@ const Certificates = () => {
     // =========================
     // INPUT CHANGE
     // =========================
+
     const handleChange = (e) => {
         setFormData({
             ...formData,
@@ -72,6 +79,7 @@ const Certificates = () => {
     // =========================
     // RESET FORM
     // =========================
+
     const resetForm = () => {
         setFormData({
             title: "",
@@ -89,6 +97,7 @@ const Certificates = () => {
     // =========================
     // EDIT CERTIFICATE
     // =========================
+
     const handleEdit = (certificate) => {
         setFormData({
             title: certificate.title || "",
@@ -96,11 +105,15 @@ const Certificates = () => {
             issueDate: certificate.issueDate
                 ? certificate.issueDate.split("T")[0]
                 : "",
-            credentialUrl: certificate.credentialUrl || "",
-            description: certificate.description || "",
+            credentialUrl:
+                certificate.credentialUrl || "",
+            description:
+                certificate.description || "",
         });
 
-        setEditingCertificateId(certificate._id);
+        setEditingCertificateId(
+            certificate._id
+        );
         setShowForm(true);
 
         window.scrollTo({
@@ -112,11 +125,13 @@ const Certificates = () => {
     // =========================
     // CREATE / UPDATE
     // =========================
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         try {
-            const token = localStorage.getItem("token");
+            const token =
+                localStorage.getItem("token");
 
             if (!token) {
                 setError("Please login first.");
@@ -134,19 +149,25 @@ const Certificates = () => {
             const response = await fetch(url, {
                 method,
                 headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}`,
+                    "Content-Type":
+                        "application/json",
+                    Authorization:
+                        `Bearer ${token}`,
                 },
                 body: JSON.stringify({
                     title: formData.title,
                     issuer: formData.issuer,
-                    issueDate: formData.issueDate,
-                    credentialUrl: formData.credentialUrl,
-                    description: formData.description,
+                    issueDate:
+                        formData.issueDate,
+                    credentialUrl:
+                        formData.credentialUrl,
+                    description:
+                        formData.description,
                 }),
             });
 
-            const data = await response.json();
+            const data =
+                await response.json();
 
             if (!response.ok) {
                 setError(
@@ -161,10 +182,12 @@ const Certificates = () => {
 
             if (editingCertificateId) {
                 setCertificates(
-                    certificates.map((certificate) =>
-                        certificate._id === editingCertificateId
-                            ? data.certificate
-                            : certificate
+                    certificates.map(
+                        (certificate) =>
+                            certificate._id ===
+                                editingCertificateId
+                                ? data.certificate
+                                : certificate
                     )
                 );
             } else {
@@ -176,35 +199,47 @@ const Certificates = () => {
 
             resetForm();
         } catch (error) {
-            console.error("Certificate Save Error:", error);
-            setError("Unable to connect to server.");
+            console.error(
+                "Certificate Save Error:",
+                error
+            );
+            setError(
+                "Unable to connect to server."
+            );
         }
     };
 
     // =========================
     // DELETE CERTIFICATE
     // =========================
-    const handleDelete = async (certificateId) => {
-        const confirmDelete = window.confirm(
-            "Are you sure you want to delete this certificate?"
-        );
+
+    const handleDelete = async (
+        certificateId
+    ) => {
+        const confirmDelete =
+            window.confirm(
+                "Are you sure you want to delete this certificate?"
+            );
 
         if (!confirmDelete) return;
 
         try {
-            const token = localStorage.getItem("token");
+            const token =
+                localStorage.getItem("token");
 
             const response = await fetch(
                 `http://localhost:5000/api/certificates/${certificateId}`,
                 {
                     method: "DELETE",
                     headers: {
-                        Authorization: `Bearer ${token}`,
+                        Authorization:
+                            `Bearer ${token}`,
                     },
                 }
             );
 
-            const data = await response.json();
+            const data =
+                await response.json();
 
             if (!response.ok) {
                 setError(
@@ -217,7 +252,8 @@ const Certificates = () => {
             setCertificates(
                 certificates.filter(
                     (certificate) =>
-                        certificate._id !== certificateId
+                        certificate._id !==
+                        certificateId
                 )
             );
         } catch (error) {
@@ -226,14 +262,17 @@ const Certificates = () => {
                 error
             );
 
-            setError("Unable to connect to server.");
+            setError(
+                "Unable to connect to server."
+            );
         }
     };
 
     return (
-        <DashboardLayout>
+        <div className="w-full max-w-7xl mx-auto min-w-0 space-y-6">
 
             {/* Header */}
+
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
 
                 <div>
@@ -254,7 +293,7 @@ const Certificates = () => {
                             setShowForm(true);
                         }
                     }}
-                    className="bg-green-600 text-white px-5 py-3 rounded-lg hover:bg-green-700 transition"
+                    className="bg-green-600 text-white px-5 py-3 rounded-lg hover:bg-green-700 transition w-full md:w-auto"
                 >
                     {showForm
                         ? "Close Form"
@@ -264,15 +303,17 @@ const Certificates = () => {
             </div>
 
             {/* Error */}
+
             {error && (
-                <div className="mt-6 bg-red-50 border border-red-300 text-red-700 px-4 py-3 rounded-lg">
+                <div className="bg-red-50 border border-red-300 text-red-700 px-4 py-3 rounded-lg">
                     {error}
                 </div>
             )}
 
             {/* Add / Edit Form */}
+
             {showForm && (
-                <div className="bg-white rounded-xl shadow-lg p-8 mt-8">
+                <div className="bg-white rounded-xl shadow-lg p-6 md:p-8">
 
                     <h2 className="text-2xl font-bold text-green-600 mb-6">
                         {editingCertificateId
@@ -286,6 +327,7 @@ const Certificates = () => {
                     >
 
                         {/* Title */}
+
                         <div>
                             <label className="block mb-2 font-medium">
                                 Certificate Name
@@ -303,6 +345,7 @@ const Certificates = () => {
                         </div>
 
                         {/* Issuer */}
+
                         <div>
                             <label className="block mb-2 font-medium">
                                 Issuing Organization
@@ -320,6 +363,7 @@ const Certificates = () => {
                         </div>
 
                         {/* Date */}
+
                         <div>
                             <label className="block mb-2 font-medium">
                                 Issue Date
@@ -335,6 +379,7 @@ const Certificates = () => {
                         </div>
 
                         {/* Credential URL */}
+
                         <div>
                             <label className="block mb-2 font-medium">
                                 Credential URL
@@ -343,7 +388,9 @@ const Certificates = () => {
                             <input
                                 type="url"
                                 name="credentialUrl"
-                                value={formData.credentialUrl}
+                                value={
+                                    formData.credentialUrl
+                                }
                                 onChange={handleChange}
                                 placeholder="https://example.com/certificate"
                                 className="w-full border rounded-lg p-3 outline-none focus:ring-2 focus:ring-green-500"
@@ -351,6 +398,7 @@ const Certificates = () => {
                         </div>
 
                         {/* Description */}
+
                         <div>
                             <label className="block mb-2 font-medium">
                                 Description
@@ -358,7 +406,9 @@ const Certificates = () => {
 
                             <textarea
                                 name="description"
-                                value={formData.description}
+                                value={
+                                    formData.description
+                                }
                                 onChange={handleChange}
                                 placeholder="Successfully completed the course..."
                                 rows="4"
@@ -367,7 +417,8 @@ const Certificates = () => {
                         </div>
 
                         {/* Buttons */}
-                        <div className="flex gap-3">
+
+                        <div className="flex flex-col sm:flex-row gap-3">
 
                             <button
                                 type="submit"
@@ -395,7 +446,8 @@ const Certificates = () => {
             )}
 
             {/* Certificates */}
-            <div className="bg-white rounded-xl shadow-lg p-8 mt-8">
+
+            <div className="bg-white rounded-xl shadow-lg p-6 md:p-8">
 
                 <h2 className="text-2xl font-bold text-green-600 mb-6">
                     Your Certificates
@@ -420,79 +472,93 @@ const Certificates = () => {
                 ) : (
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-                        {certificates.map((certificate) => (
-                            <div
-                                key={certificate._id}
-                                className="border rounded-xl p-6 hover:shadow-md transition"
-                            >
+                        {certificates.map(
+                            (certificate) => (
+                                <div
+                                    key={
+                                        certificate._id
+                                    }
+                                    className="border rounded-xl p-6 hover:shadow-md transition"
+                                >
 
-                                <h3 className="text-xl font-bold text-green-600">
-                                    {certificate.title}
-                                </h3>
+                                    <h3 className="text-xl font-bold text-green-600">
+                                        {
+                                            certificate.title
+                                        }
+                                    </h3>
 
-                                <p className="text-gray-700 font-medium mt-2">
-                                    {certificate.issuer}
-                                </p>
-
-                                {certificate.issueDate && (
-                                    <p className="text-gray-500 text-sm mt-2">
-                                        Issued on:{" "}
-                                        {new Date(
-                                            certificate.issueDate
-                                        ).toLocaleDateString()}
+                                    <p className="text-gray-700 font-medium mt-2">
+                                        {
+                                            certificate.issuer
+                                        }
                                     </p>
-                                )}
 
-                                {certificate.description && (
-                                    <p className="text-gray-600 mt-4">
-                                        {certificate.description}
-                                    </p>
-                                )}
-
-                                <div className="flex flex-wrap gap-3 mt-5">
-
-                                    {certificate.credentialUrl && (
-                                        <a
-                                            href={certificate.credentialUrl}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition"
-                                        >
-                                            View Credential
-                                        </a>
+                                    {certificate.issueDate && (
+                                        <p className="text-gray-500 text-sm mt-2">
+                                            Issued on:{" "}
+                                            {new Date(
+                                                certificate.issueDate
+                                            ).toLocaleDateString()}
+                                        </p>
                                     )}
 
-                                    <button
-                                        onClick={() =>
-                                            handleEdit(certificate)
-                                        }
-                                        className="border border-green-600 text-green-600 px-4 py-2 rounded-lg hover:bg-green-600 hover:text-white transition"
-                                    >
-                                        Edit
-                                    </button>
+                                    {certificate.description && (
+                                        <p className="text-gray-600 mt-4">
+                                            {
+                                                certificate.description
+                                            }
+                                        </p>
+                                    )}
 
-                                    <button
-                                        onClick={() =>
-                                            handleDelete(
-                                                certificate._id
-                                            )
-                                        }
-                                        className="border border-red-500 text-red-500 px-4 py-2 rounded-lg hover:bg-red-500 hover:text-white transition"
-                                    >
-                                        Delete
-                                    </button>
+                                    <div className="flex flex-wrap gap-3 mt-5">
+
+                                        {certificate.credentialUrl && (
+                                            <a
+                                                href={
+                                                    certificate.credentialUrl
+                                                }
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition"
+                                            >
+                                                View Credential
+                                            </a>
+                                        )}
+
+                                        <button
+                                            onClick={() =>
+                                                handleEdit(
+                                                    certificate
+                                                )
+                                            }
+                                            className="border border-green-600 text-green-600 px-4 py-2 rounded-lg hover:bg-green-600 hover:text-white transition"
+                                        >
+                                            Edit
+                                        </button>
+
+                                        <button
+                                            onClick={() =>
+                                                handleDelete(
+                                                    certificate._id
+                                                )
+                                            }
+                                            className="border border-red-500 text-red-500 px-4 py-2 rounded-lg hover:bg-red-500 hover:text-white transition"
+                                        >
+                                            Delete
+                                        </button>
+
+                                    </div>
 
                                 </div>
-
-                            </div>
-                        ))}
+                            )
+                        )}
 
                     </div>
                 )}
 
             </div>
 
-        </DashboardLayout>
+        </div>
     );
 };
 

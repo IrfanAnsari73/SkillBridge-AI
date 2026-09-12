@@ -1,74 +1,162 @@
-import { NavLink } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 const Sidebar = () => {
-    const linkClasses = ({ isActive }) =>
-        `px-3 py-3 rounded-lg transition duration-300 ${isActive
-            ? "bg-green-700 text-white"
-            : "hover:bg-green-700 text-white"
-        }`;
+    const location = useLocation();
+    const navigate = useNavigate();
+
+    const menuItems = [
+        {
+            name: "Dashboard",
+            path: "/dashboard",
+            icon: "🏠",
+        },
+        {
+            name: "Profile",
+            path: "/profile",
+            icon: "👤",
+        },
+        {
+            name: "Skills",
+            path: "/skills",
+            icon: "🛠️",
+        },
+        {
+            name: "Projects",
+            path: "/projects",
+            icon: "💻",
+        },
+        {
+            name: "Certificates",
+            path: "/certificates",
+            icon: "🏆",
+        },
+        {
+            name: "Resume",
+            path: "/resume",
+            icon: "📄",
+        },
+        {
+            name: "Portfolio",
+            path: "/portfolio",
+            icon: "🌐",
+        },
+        {
+            name: "Career Advisor",
+            path: "/career-advisor",
+            icon: "🤖",
+        },
+        {
+            name: "Career Roadmap",
+            path: "/career-roadmap",
+            icon: "🗺️",
+        },
+        {
+            name: "Job Matcher",
+            path: "/job-matcher",
+            icon: "🎯",
+        },
+        {
+            name: "Mock Interview",
+            path: "/mock-interview",
+            icon: "🎤",
+        },
+        {
+            name: "Career Analytics",
+            path: "/career-analytics",
+            icon: "📊",
+        },
+        {
+            name: "Job Applications",
+            path: "/job-applications",
+            icon: "📋",
+        },
+        {
+            name: "AI Application Insights",
+            path: "/application-insights",
+            icon: "🤖",
+        },
+    ];
+
+    const handleLogout = () => {
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+
+        navigate("/login");
+    };
 
     return (
         <div className="w-64 h-screen bg-green-600 text-white p-6 overflow-y-auto">
 
-            <h2 className="text-3xl font-bold mb-10">
-                SkillBridge AI
-            </h2>
+            {/* ========================= */}
+            {/* LOGO / TITLE */}
+            {/* ========================= */}
 
-            <nav className="flex flex-col gap-3">
+            <div className="mb-8">
+                <h1 className="text-2xl font-bold">
+                    SkillBridge AI
+                </h1>
 
-                <NavLink to="/dashboard" className={linkClasses}>
-                    🏠 Dashboard
-                </NavLink>
+                <p className="text-green-100 text-sm mt-1">
+                    Career & Portfolio
+                </p>
+            </div>
 
-                <NavLink to="/profile" className={linkClasses}>
-                    👤 Profile
-                </NavLink>
 
-                <NavLink to="/skills" className={linkClasses}>
-                    💻 Skills
-                </NavLink>
+            {/* ========================= */}
+            {/* MENU */}
+            {/* ========================= */}
 
-                <NavLink to="/projects" className={linkClasses}>
-                    🚀 Projects
-                </NavLink>
+            <nav className="space-y-2">
 
-                <NavLink to="/certificates" className={linkClasses}>
-                    📜 Certificates
-                </NavLink>
+                {menuItems.map((item) => {
 
-                <NavLink to="/resume" className={linkClasses}>
-                    📄 Resume
-                </NavLink>
+                    const isActive =
+                        location.pathname === item.path;
 
-                <NavLink to="/portfolio" className={linkClasses}>
-                    🌐 Portfolio
-                </NavLink>
+                    return (
+                        <Link
+                            key={item.path}
+                            to={item.path}
+                            className={`flex items-center gap-3 px-4 py-3 rounded-lg transition ${isActive
+                                    ? "bg-white text-green-700 font-semibold"
+                                    : "hover:bg-green-700 text-white"
+                                }`}
+                        >
+                            <span className="text-lg">
+                                {item.icon}
+                            </span>
 
-                <NavLink to="/career-advisor" className={linkClasses}>
-                    🤖 Career Advisor
-                </NavLink>
-
-                <NavLink to="/career-roadmap" className={linkClasses}>
-                    🗺️ Career Roadmap
-                </NavLink>
-
-                <NavLink to="/job-matcher" className={linkClasses}>
-                    💼 Job Matcher
-                </NavLink>
-
-                <NavLink to="/mock-interview" className={linkClasses}>
-                    🎤 Mock Interview
-                </NavLink>
-
-                <NavLink to="/career-analytics" className={linkClasses}>
-                    📊 Career Analytics
-                </NavLink>
-
-                <NavLink to="/job-applications" className={linkClasses}>
-                    📋 Job Applications
-                </NavLink>
+                            <span>
+                                {item.name}
+                            </span>
+                        </Link>
+                    );
+                })}
 
             </nav>
+
+
+            {/* ========================= */}
+            {/* LOGOUT */}
+            {/* ========================= */}
+
+            <div className="mt-8 pt-6 border-t border-green-500">
+
+                <button
+                    onClick={handleLogout}
+                    className="w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-red-600 transition text-left"
+                >
+                    <span className="text-lg">
+                        🚪
+                    </span>
+
+                    <span>
+                        Logout
+                    </span>
+                </button>
+
+            </div>
+
         </div>
     );
 };

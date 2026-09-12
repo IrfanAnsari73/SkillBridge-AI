@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import DashboardLayout from "../../components/layout/DashboardLayout";
 
 const initialForm = {
     companyName: "",
@@ -26,6 +25,7 @@ const JobApplications = () => {
     // ===============================
     // FETCH APPLICATIONS
     // ===============================
+
     const fetchApplications = async () => {
         try {
             setLoading(true);
@@ -65,6 +65,7 @@ const JobApplications = () => {
     // ===============================
     // HANDLE INPUT
     // ===============================
+
     const handleChange = (e) => {
         setForm({
             ...form,
@@ -75,6 +76,7 @@ const JobApplications = () => {
     // ===============================
     // ADD / UPDATE
     // ===============================
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -125,6 +127,7 @@ const JobApplications = () => {
     // ===============================
     // EDIT
     // ===============================
+
     const handleEdit = (application) => {
         setEditingId(application._id);
 
@@ -150,6 +153,7 @@ const JobApplications = () => {
     // ===============================
     // DELETE
     // ===============================
+
     const handleDelete = async (id) => {
         const confirmDelete = window.confirm(
             "Are you sure you want to delete this application?"
@@ -190,6 +194,7 @@ const JobApplications = () => {
     // ===============================
     // CANCEL EDIT
     // ===============================
+
     const cancelEdit = () => {
         setEditingId(null);
         setForm(initialForm);
@@ -199,6 +204,7 @@ const JobApplications = () => {
     // ===============================
     // STATISTICS
     // ===============================
+
     const totalApplications = applications.length;
 
     const appliedCount = applications.filter(
@@ -224,6 +230,7 @@ const JobApplications = () => {
     // ===============================
     // STATUS STYLE
     // ===============================
+
     const getStatusClass = (status) => {
         switch (status) {
             case "Selected":
@@ -243,31 +250,39 @@ const JobApplications = () => {
         }
     };
 
+    // ===============================
+    // LOADING
+    // ===============================
+
     if (loading) {
         return (
-            <DashboardLayout>
+            <div className="w-full max-w-7xl mx-auto min-w-0">
                 <div className="flex items-center justify-center min-h-[60vh]">
                     <div className="text-center">
-                        <div className="text-5xl mb-4">💼</div>
+                        <div className="text-5xl mb-4">
+                            💼
+                        </div>
 
                         <p className="text-xl font-semibold text-gray-700">
                             Loading Job Applications...
                         </p>
                     </div>
                 </div>
-            </DashboardLayout>
+            </div>
         );
     }
 
     return (
-        <DashboardLayout>
+        <div className="w-full max-w-7xl mx-auto min-w-0">
+
             <div className="space-y-8">
 
                 {/* ===============================
                     HEADER
                 =============================== */}
+
                 <div>
-                    <h1 className="text-3xl font-bold text-gray-800">
+                    <h1 className="text-3xl sm:text-4xl font-bold text-gray-800">
                         💼 Job Application Tracker
                     </h1>
 
@@ -279,8 +294,9 @@ const JobApplications = () => {
                 {/* ===============================
                     ERROR
                 =============================== */}
+
                 {error && (
-                    <div className="bg-red-50 border border-red-200 text-red-700 rounded-xl p-4">
+                    <div className="bg-red-50 border border-red-200 text-red-700 rounded-xl p-4 break-words">
                         {error}
                     </div>
                 )}
@@ -288,7 +304,8 @@ const JobApplications = () => {
                 {/* ===============================
                     STATISTICS
                 =============================== */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-5">
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5">
 
                     <div className="bg-white rounded-xl shadow p-5">
                         <p className="text-gray-500">
@@ -345,11 +362,12 @@ const JobApplications = () => {
                 {/* ===============================
                     ADD / EDIT FORM
                 =============================== */}
-                <div className="bg-white rounded-2xl shadow-md p-6">
 
-                    <div className="flex items-center justify-between mb-6">
+                <div className="bg-white rounded-2xl shadow-md p-5 sm:p-6">
 
-                        <h2 className="text-2xl font-bold text-gray-800">
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6">
+
+                        <h2 className="text-xl sm:text-2xl font-bold text-gray-800">
                             {editingId
                                 ? "✏️ Edit Application"
                                 : "➕ Add Job Application"}
@@ -358,7 +376,7 @@ const JobApplications = () => {
                         {editingId && (
                             <button
                                 onClick={cancelEdit}
-                                className="text-sm text-red-600 font-semibold hover:underline"
+                                className="text-sm text-red-600 font-semibold hover:underline text-left sm:text-right"
                             >
                                 Cancel Edit
                             </button>
@@ -372,6 +390,7 @@ const JobApplications = () => {
                     >
 
                         {/* Company */}
+
                         <div>
                             <label className="block text-sm font-semibold text-gray-700 mb-2">
                                 Company Name *
@@ -388,6 +407,7 @@ const JobApplications = () => {
                         </div>
 
                         {/* Job Role */}
+
                         <div>
                             <label className="block text-sm font-semibold text-gray-700 mb-2">
                                 Job Role *
@@ -404,6 +424,7 @@ const JobApplications = () => {
                         </div>
 
                         {/* Applied Date */}
+
                         <div>
                             <label className="block text-sm font-semibold text-gray-700 mb-2">
                                 Applied Date
@@ -419,6 +440,7 @@ const JobApplications = () => {
                         </div>
 
                         {/* Status */}
+
                         <div>
                             <label className="block text-sm font-semibold text-gray-700 mb-2">
                                 Status
@@ -453,6 +475,7 @@ const JobApplications = () => {
                         </div>
 
                         {/* Job Type */}
+
                         <div>
                             <label className="block text-sm font-semibold text-gray-700 mb-2">
                                 Job Type
@@ -487,6 +510,7 @@ const JobApplications = () => {
                         </div>
 
                         {/* Location */}
+
                         <div>
                             <label className="block text-sm font-semibold text-gray-700 mb-2">
                                 Location
@@ -503,6 +527,7 @@ const JobApplications = () => {
                         </div>
 
                         {/* Job Link */}
+
                         <div className="md:col-span-2">
                             <label className="block text-sm font-semibold text-gray-700 mb-2">
                                 Job Link
@@ -519,6 +544,7 @@ const JobApplications = () => {
                         </div>
 
                         {/* Notes */}
+
                         <div className="md:col-span-2">
                             <label className="block text-sm font-semibold text-gray-700 mb-2">
                                 Notes
@@ -535,12 +561,13 @@ const JobApplications = () => {
                         </div>
 
                         {/* Submit */}
+
                         <div className="md:col-span-2">
 
                             <button
                                 type="submit"
                                 disabled={saving}
-                                className="px-6 py-3 bg-green-600 text-white rounded-lg font-semibold hover:bg-green-700 disabled:opacity-50 transition"
+                                className="w-full sm:w-auto px-6 py-3 bg-green-600 text-white rounded-lg font-semibold hover:bg-green-700 disabled:opacity-50 transition"
                             >
                                 {saving
                                     ? "Saving..."
@@ -552,16 +579,18 @@ const JobApplications = () => {
                         </div>
 
                     </form>
+
                 </div>
 
                 {/* ===============================
                     APPLICATION LIST
                 =============================== */}
-                <div className="bg-white rounded-2xl shadow-md p-6">
 
-                    <div className="flex items-center justify-between mb-6">
+                <div className="bg-white rounded-2xl shadow-md p-5 sm:p-6">
 
-                        <h2 className="text-2xl font-bold text-gray-800">
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-6">
+
+                        <h2 className="text-xl sm:text-2xl font-bold text-gray-800">
                             📋 My Applications
                         </h2>
 
@@ -604,11 +633,12 @@ const JobApplications = () => {
                                     <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4">
 
                                         {/* Application Info */}
-                                        <div className="flex-1">
+
+                                        <div className="flex-1 min-w-0">
 
                                             <div className="flex flex-wrap items-center gap-3">
 
-                                                <h3 className="text-xl font-bold text-gray-800">
+                                                <h3 className="text-xl font-bold text-gray-800 break-words">
                                                     {application.jobRole}
                                                 </h3>
 
@@ -622,7 +652,7 @@ const JobApplications = () => {
 
                                             </div>
 
-                                            <p className="text-green-700 font-semibold mt-2">
+                                            <p className="text-green-700 font-semibold mt-2 break-words">
                                                 🏢 {application.companyName}
                                             </p>
 
@@ -642,7 +672,7 @@ const JobApplications = () => {
                                                 </span>
 
                                                 {application.location && (
-                                                    <span>
+                                                    <span className="break-words">
                                                         📍{" "}
                                                         {application.location}
                                                     </span>
@@ -651,7 +681,7 @@ const JobApplications = () => {
                                             </div>
 
                                             {application.notes && (
-                                                <p className="text-gray-600 mt-4">
+                                                <p className="text-gray-600 mt-4 break-words">
                                                     📝 {application.notes}
                                                 </p>
                                             )}
@@ -659,6 +689,7 @@ const JobApplications = () => {
                                         </div>
 
                                         {/* Actions */}
+
                                         <div className="flex flex-wrap gap-2">
 
                                             {application.jobLink && (
@@ -709,9 +740,10 @@ const JobApplications = () => {
                 {/* ===============================
                     EXTRA STATISTICS
                 =============================== */}
-                <div className="bg-white rounded-2xl shadow-md p-6">
 
-                    <h2 className="text-2xl font-bold text-gray-800 mb-6">
+                <div className="bg-white rounded-2xl shadow-md p-5 sm:p-6">
+
+                    <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-6">
                         📈 Application Overview
                     </h2>
 
@@ -742,7 +774,8 @@ const JobApplications = () => {
                 </div>
 
             </div>
-        </DashboardLayout>
+
+        </div>
     );
 };
 

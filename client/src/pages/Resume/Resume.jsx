@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import DashboardLayout from "../../components/layout/DashboardLayout";
 
 const Resume = () => {
     const [resume, setResume] = useState(null);
@@ -47,12 +46,18 @@ const Resume = () => {
                 setResume(null);
             } else {
                 setError(
-                    data.message || "Failed to load resume."
+                    data.message ||
+                    "Failed to load resume."
                 );
             }
         } catch (error) {
-            console.error("Fetch Resume Error:", error);
-            setError("Unable to connect to server.");
+            console.error(
+                "Fetch Resume Error:",
+                error
+            );
+            setError(
+                "Unable to connect to server."
+            );
         } finally {
             setLoading(false);
         }
@@ -89,7 +94,9 @@ const Resume = () => {
         }
 
         if (file.size > 5 * 1024 * 1024) {
-            setError("File size must be less than 5 MB.");
+            setError(
+                "File size must be less than 5 MB."
+            );
             setSelectedFile(null);
             return;
         }
@@ -116,7 +123,8 @@ const Resume = () => {
             setMessage("");
             setError("");
 
-            const token = localStorage.getItem("token");
+            const token =
+                localStorage.getItem("token");
 
             const formData = new FormData();
 
@@ -127,17 +135,20 @@ const Resume = () => {
                 {
                     method: "POST",
                     headers: {
-                        Authorization: `Bearer ${token}`,
+                        Authorization:
+                            `Bearer ${token}`,
                     },
                     body: formData,
                 }
             );
 
-            const data = await response.json();
+            const data =
+                await response.json();
 
             if (!response.ok) {
                 setError(
-                    data.message || "Resume upload failed."
+                    data.message ||
+                    "Resume upload failed."
                 );
                 return;
             }
@@ -151,14 +162,21 @@ const Resume = () => {
             setAnalysis(null);
 
             const fileInput =
-                document.getElementById("resumeFile");
+                document.getElementById(
+                    "resumeFile"
+                );
 
             if (fileInput) {
                 fileInput.value = "";
             }
         } catch (error) {
-            console.error("Upload Resume Error:", error);
-            setError("Unable to connect to server.");
+            console.error(
+                "Upload Resume Error:",
+                error
+            );
+            setError(
+                "Unable to connect to server."
+            );
         } finally {
             setUploading(false);
         }
@@ -173,26 +191,31 @@ const Resume = () => {
             setError("");
             setMessage("");
 
-            const token = localStorage.getItem("token");
+            const token =
+                localStorage.getItem("token");
 
             const response = await fetch(
                 "http://localhost:5000/api/resume/download",
                 {
                     method: "GET",
                     headers: {
-                        Authorization: `Bearer ${token}`,
+                        Authorization:
+                            `Bearer ${token}`,
                     },
                 }
             );
 
             if (!response.ok) {
-                let errorMessage = "Download failed.";
+                let errorMessage =
+                    "Download failed.";
 
                 try {
-                    const data = await response.json();
+                    const data =
+                        await response.json();
 
                     errorMessage =
-                        data.message || errorMessage;
+                        data.message ||
+                        errorMessage;
                 } catch {
                     // Ignore JSON parsing error
                 }
@@ -200,15 +223,18 @@ const Resume = () => {
                 throw new Error(errorMessage);
             }
 
-            const blob = await response.blob();
+            const blob =
+                await response.blob();
 
             const downloadUrl =
                 window.URL.createObjectURL(blob);
 
-            const link = document.createElement("a");
+            const link =
+                document.createElement("a");
 
             link.href = downloadUrl;
-            link.download = resume.originalName;
+            link.download =
+                resume.originalName;
 
             document.body.appendChild(link);
 
@@ -216,7 +242,9 @@ const Resume = () => {
 
             link.remove();
 
-            window.URL.revokeObjectURL(downloadUrl);
+            window.URL.revokeObjectURL(
+                downloadUrl
+            );
 
             setMessage(
                 "Resume downloaded successfully! 📥"
@@ -239,9 +267,10 @@ const Resume = () => {
     // =========================
 
     const handleDelete = async () => {
-        const confirmDelete = window.confirm(
-            "Are you sure you want to delete your resume?"
-        );
+        const confirmDelete =
+            window.confirm(
+                "Are you sure you want to delete your resume?"
+            );
 
         if (!confirmDelete) {
             return;
@@ -251,19 +280,22 @@ const Resume = () => {
             setError("");
             setMessage("");
 
-            const token = localStorage.getItem("token");
+            const token =
+                localStorage.getItem("token");
 
             const response = await fetch(
                 "http://localhost:5000/api/resume",
                 {
                     method: "DELETE",
                     headers: {
-                        Authorization: `Bearer ${token}`,
+                        Authorization:
+                            `Bearer ${token}`,
                     },
                 }
             );
 
-            const data = await response.json();
+            const data =
+                await response.json();
 
             if (!response.ok) {
                 setError(
@@ -286,7 +318,9 @@ const Resume = () => {
                 error
             );
 
-            setError("Unable to connect to server.");
+            setError(
+                "Unable to connect to server."
+            );
         }
     };
 
@@ -309,19 +343,22 @@ const Resume = () => {
             setAnalysisStarted(false);
             setAnalysis(null);
 
-            const token = localStorage.getItem("token");
+            const token =
+                localStorage.getItem("token");
 
             const response = await fetch(
                 "http://localhost:5000/api/resume/analyze",
                 {
                     method: "POST",
                     headers: {
-                        Authorization: `Bearer ${token}`,
+                        Authorization:
+                            `Bearer ${token}`,
                     },
                 }
             );
 
-            const data = await response.json();
+            const data =
+                await response.json();
 
             if (!response.ok) {
                 setError(
@@ -369,11 +406,11 @@ const Resume = () => {
 
     if (loading) {
         return (
-            <DashboardLayout>
+            <div className="w-full max-w-7xl mx-auto">
                 <p className="text-gray-600">
                     Loading resume...
                 </p>
-            </DashboardLayout>
+            </div>
         );
     }
 
@@ -382,48 +419,47 @@ const Resume = () => {
     // =========================
 
     return (
-        <DashboardLayout>
+        <div className="w-full max-w-7xl mx-auto min-w-0 space-y-6">
 
             {/* =========================
                 PAGE HEADER
             ========================= */}
 
-            <h1 className="text-4xl font-bold text-green-600">
-                My Resume 📄
-            </h1>
+            <div>
+                <h1 className="text-4xl font-bold text-green-600">
+                    My Resume 📄
+                </h1>
 
-            <p className="text-gray-600 mt-2">
-                Upload and manage your resume.
-            </p>
-
+                <p className="text-gray-600 mt-2">
+                    Upload and manage your resume.
+                </p>
+            </div>
 
             {/* =========================
                 SUCCESS MESSAGE
             ========================= */}
 
             {message && (
-                <div className="mt-6 bg-green-50 border border-green-300 text-green-700 px-4 py-3 rounded-lg">
+                <div className="bg-green-50 border border-green-300 text-green-700 px-4 py-3 rounded-lg">
                     {message}
                 </div>
             )}
-
 
             {/* =========================
                 ERROR MESSAGE
             ========================= */}
 
             {error && (
-                <div className="mt-6 bg-red-50 border border-red-300 text-red-700 px-4 py-3 rounded-lg">
+                <div className="bg-red-50 border border-red-300 text-red-700 px-4 py-3 rounded-lg">
                     {error}
                 </div>
             )}
-
 
             {/* =========================
                 UPLOAD SECTION
             ========================= */}
 
-            <div className="bg-white rounded-xl shadow-lg p-8 mt-8">
+            <div className="bg-white rounded-xl shadow-lg p-6 md:p-8">
 
                 <h2 className="text-2xl font-bold">
                     {resume
@@ -450,8 +486,9 @@ const Resume = () => {
                     />
 
                     {selectedFile && (
-                        <p className="mt-3 text-gray-600">
-                            Selected: {selectedFile.name}
+                        <p className="mt-3 text-gray-600 break-all">
+                            Selected:{" "}
+                            {selectedFile.name}
                         </p>
                     )}
 
@@ -471,13 +508,12 @@ const Resume = () => {
 
             </div>
 
-
             {/* =========================
                 CURRENT RESUME
             ========================= */}
 
             {resume && (
-                <div className="bg-white rounded-xl shadow-lg p-8 mt-8">
+                <div className="bg-white rounded-xl shadow-lg p-6 md:p-8">
 
                     <h2 className="text-2xl font-bold text-green-600">
                         Current Resume
@@ -485,7 +521,7 @@ const Resume = () => {
 
                     <div className="mt-5 border rounded-xl p-5">
 
-                        <h3 className="text-lg font-semibold">
+                        <h3 className="text-lg font-semibold break-all">
                             {resume.originalName}
                         </h3>
 
@@ -513,21 +549,23 @@ const Resume = () => {
                                 View Resume
                             </a>
 
-
                             {/* DOWNLOAD */}
 
                             <button
-                                onClick={handleDownload}
+                                onClick={
+                                    handleDownload
+                                }
                                 className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
                             >
                                 Download
                             </button>
 
-
                             {/* DELETE */}
 
                             <button
-                                onClick={handleDelete}
+                                onClick={
+                                    handleDelete
+                                }
                                 className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700"
                             >
                                 Delete
@@ -540,18 +578,16 @@ const Resume = () => {
                 </div>
             )}
 
-
             {/* =========================
                 AI RESUME ANALYZER
             ========================= */}
 
             {resume && (
-                <div className="bg-white rounded-xl shadow-lg p-8 mt-8">
+                <div className="bg-white rounded-xl shadow-lg p-6 md:p-8">
 
                     <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-5">
 
                         <div>
-
                             <h2 className="text-2xl font-bold text-green-600">
                                 AI Resume Analyzer 🤖
                             </h2>
@@ -560,13 +596,14 @@ const Resume = () => {
                                 Get intelligent insights about your
                                 resume and improve your career profile.
                             </p>
-
                         </div>
 
                         <button
-                            onClick={handleAnalyzeResume}
+                            onClick={
+                                handleAnalyzeResume
+                            }
                             disabled={analyzing}
-                            className="bg-purple-600 text-white px-6 py-3 rounded-lg hover:bg-purple-700 disabled:opacity-50"
+                            className="bg-purple-600 text-white px-6 py-3 rounded-lg hover:bg-purple-700 disabled:opacity-50 w-full md:w-auto"
                         >
                             {analyzing
                                 ? "Analyzing..."
@@ -575,84 +612,72 @@ const Resume = () => {
 
                     </div>
 
-
                     {/* =========================
                         ANALYZER PREVIEW
                     ========================= */}
 
-                    {!analysisStarted && !analyzing && (
-                        <div className="mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                    {!analysisStarted &&
+                        !analyzing && (
+                            <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
 
-                            <div className="border rounded-xl p-5 bg-blue-50">
+                                <div className="border rounded-xl p-5 bg-blue-50">
+                                    <div className="text-3xl">
+                                        📄
+                                    </div>
 
-                                <div className="text-3xl">
-                                    📄
+                                    <h3 className="font-semibold mt-3">
+                                        Resume Summary
+                                    </h3>
+
+                                    <p className="text-sm text-gray-500 mt-1">
+                                        AI-generated resume overview
+                                    </p>
                                 </div>
 
-                                <h3 className="font-semibold mt-3">
-                                    Resume Summary
-                                </h3>
+                                <div className="border rounded-xl p-5 bg-green-50">
+                                    <div className="text-3xl">
+                                        💻
+                                    </div>
 
-                                <p className="text-sm text-gray-500 mt-1">
-                                    AI-generated resume overview
-                                </p>
+                                    <h3 className="font-semibold mt-3">
+                                        Skills Detection
+                                    </h3>
 
-                            </div>
-
-
-                            <div className="border rounded-xl p-5 bg-green-50">
-
-                                <div className="text-3xl">
-                                    💻
+                                    <p className="text-sm text-gray-500 mt-1">
+                                        Identify skills from your resume
+                                    </p>
                                 </div>
 
-                                <h3 className="font-semibold mt-3">
-                                    Skills Detection
-                                </h3>
+                                <div className="border rounded-xl p-5 bg-yellow-50">
+                                    <div className="text-3xl">
+                                        ⭐
+                                    </div>
 
-                                <p className="text-sm text-gray-500 mt-1">
-                                    Identify skills from your resume
-                                </p>
+                                    <h3 className="font-semibold mt-3">
+                                        Strengths
+                                    </h3>
 
-                            </div>
-
-
-                            <div className="border rounded-xl p-5 bg-yellow-50">
-
-                                <div className="text-3xl">
-                                    ⭐
+                                    <p className="text-sm text-gray-500 mt-1">
+                                        Discover your resume strengths
+                                    </p>
                                 </div>
 
-                                <h3 className="font-semibold mt-3">
-                                    Strengths
-                                </h3>
+                                <div className="border rounded-xl p-5 bg-red-50">
+                                    <div className="text-3xl">
+                                        🎯
+                                    </div>
 
-                                <p className="text-sm text-gray-500 mt-1">
-                                    Discover your resume strengths
-                                </p>
+                                    <h3 className="font-semibold mt-3">
+                                        Improvements
+                                    </h3>
 
-                            </div>
-
-
-                            <div className="border rounded-xl p-5 bg-red-50">
-
-                                <div className="text-3xl">
-                                    🎯
+                                    <p className="text-sm text-gray-500 mt-1">
+                                        Get suggestions to improve your resume
+                                    </p>
                                 </div>
 
-                                <h3 className="font-semibold mt-3">
-                                    Improvements
-                                </h3>
-
-                                <p className="text-sm text-gray-500 mt-1">
-                                    Get suggestions to improve your resume
-                                </p>
-
                             </div>
-
-                        </div>
-                    )}
-
+                        )}
 
                     {/* =========================
                         ANALYZING
@@ -675,14 +700,11 @@ const Resume = () => {
                             </p>
 
                             <div className="mt-5 w-full bg-gray-200 rounded-full h-3">
-
                                 <div className="bg-purple-600 h-3 rounded-full w-2/3 animate-pulse"></div>
-
                             </div>
 
                         </div>
                     )}
-
 
                     {/* =========================
                         AI RESULT
@@ -694,16 +716,13 @@ const Resume = () => {
 
                             <div className="mt-8">
 
-                                {/* =========================
-                                    SCORE
-                                ========================= */}
+                                {/* SCORE */}
 
                                 <div className="bg-purple-50 border border-purple-200 rounded-xl p-6">
 
                                     <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-5">
 
                                         <div>
-
                                             <h3 className="text-xl font-bold text-purple-700">
                                                 🤖 AI Resume Analysis
                                             </h3>
@@ -711,7 +730,6 @@ const Resume = () => {
                                             <p className="text-gray-600 mt-2">
                                                 Your resume has been analyzed successfully.
                                             </p>
-
                                         </div>
 
                                         <div className="text-center">
@@ -730,10 +748,7 @@ const Resume = () => {
 
                                 </div>
 
-
-                                {/* =========================
-                                    SUMMARY + SKILLS
-                                ========================= */}
+                                {/* SUMMARY + SKILLS */}
 
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
 
@@ -751,7 +766,6 @@ const Resume = () => {
 
                                     </div>
 
-
                                     {/* SKILLS */}
 
                                     <div className="border rounded-xl p-6">
@@ -761,37 +775,38 @@ const Resume = () => {
                                         </h3>
 
                                         {analysis.skills &&
-                                            analysis.skills.length > 0 ? (
-
+                                            analysis.skills.length >
+                                            0 ? (
                                             <div className="flex flex-wrap gap-2 mt-4">
 
                                                 {analysis.skills.map(
-                                                    (skill, index) => (
+                                                    (
+                                                        skill,
+                                                        index
+                                                    ) => (
                                                         <span
-                                                            key={index}
+                                                            key={
+                                                                index
+                                                            }
                                                             className="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-medium"
                                                         >
-                                                            {skill}
+                                                            {
+                                                                skill
+                                                            }
                                                         </span>
                                                     )
                                                 )}
 
                                             </div>
-
                                         ) : (
-
                                             <p className="text-gray-500 mt-3">
                                                 No technical skills detected.
                                             </p>
-
                                         )}
 
                                     </div>
 
-
-                                    {/* =========================
-                                        STRENGTHS
-                                    ========================= */}
+                                    {/* STRENGTHS */}
 
                                     <div className="border rounded-xl p-6">
 
@@ -800,14 +815,19 @@ const Resume = () => {
                                         </h3>
 
                                         {analysis.strengths &&
-                                            analysis.strengths.length > 0 ? (
-
+                                            analysis.strengths.length >
+                                            0 ? (
                                             <ul className="mt-4 space-y-3">
 
                                                 {analysis.strengths.map(
-                                                    (strength, index) => (
+                                                    (
+                                                        strength,
+                                                        index
+                                                    ) => (
                                                         <li
-                                                            key={index}
+                                                            key={
+                                                                index
+                                                            }
                                                             className="text-gray-600 flex gap-2"
                                                         >
                                                             <span>
@@ -815,28 +835,24 @@ const Resume = () => {
                                                             </span>
 
                                                             <span>
-                                                                {strength}
+                                                                {
+                                                                    strength
+                                                                }
                                                             </span>
                                                         </li>
                                                     )
                                                 )}
 
                                             </ul>
-
                                         ) : (
-
                                             <p className="text-gray-500 mt-3">
                                                 No strengths detected.
                                             </p>
-
                                         )}
 
                                     </div>
 
-
-                                    {/* =========================
-                                        WEAKNESSES
-                                    ========================= */}
+                                    {/* WEAKNESSES */}
 
                                     <div className="border rounded-xl p-6">
 
@@ -845,14 +861,19 @@ const Resume = () => {
                                         </h3>
 
                                         {analysis.weaknesses &&
-                                            analysis.weaknesses.length > 0 ? (
-
+                                            analysis.weaknesses.length >
+                                            0 ? (
                                             <ul className="mt-4 space-y-3">
 
                                                 {analysis.weaknesses.map(
-                                                    (weakness, index) => (
+                                                    (
+                                                        weakness,
+                                                        index
+                                                    ) => (
                                                         <li
-                                                            key={index}
+                                                            key={
+                                                                index
+                                                            }
                                                             className="text-gray-600 flex gap-2"
                                                         >
                                                             <span>
@@ -860,28 +881,24 @@ const Resume = () => {
                                                             </span>
 
                                                             <span>
-                                                                {weakness}
+                                                                {
+                                                                    weakness
+                                                                }
                                                             </span>
                                                         </li>
                                                     )
                                                 )}
 
                                             </ul>
-
                                         ) : (
-
                                             <p className="text-gray-500 mt-3">
                                                 No major weaknesses detected.
                                             </p>
-
                                         )}
 
                                     </div>
 
-
-                                    {/* =========================
-                                        IMPROVEMENTS
-                                    ========================= */}
+                                    {/* IMPROVEMENTS */}
 
                                     <div className="border rounded-xl p-6">
 
@@ -890,14 +907,19 @@ const Resume = () => {
                                         </h3>
 
                                         {analysis.improvements &&
-                                            analysis.improvements.length > 0 ? (
-
+                                            analysis.improvements.length >
+                                            0 ? (
                                             <ul className="mt-4 space-y-3">
 
                                                 {analysis.improvements.map(
-                                                    (improvement, index) => (
+                                                    (
+                                                        improvement,
+                                                        index
+                                                    ) => (
                                                         <li
-                                                            key={index}
+                                                            key={
+                                                                index
+                                                            }
                                                             className="text-gray-600 flex gap-2"
                                                         >
                                                             <span>
@@ -905,28 +927,24 @@ const Resume = () => {
                                                             </span>
 
                                                             <span>
-                                                                {improvement}
+                                                                {
+                                                                    improvement
+                                                                }
                                                             </span>
                                                         </li>
                                                     )
                                                 )}
 
                                             </ul>
-
                                         ) : (
-
                                             <p className="text-gray-500 mt-3">
                                                 No improvement suggestions.
                                             </p>
-
                                         )}
 
                                     </div>
 
-
-                                    {/* =========================
-                                        ATS KEYWORDS
-                                    ========================= */}
+                                    {/* ATS KEYWORDS */}
 
                                     <div className="border rounded-xl p-6">
 
@@ -935,29 +953,33 @@ const Resume = () => {
                                         </h3>
 
                                         {analysis.atsKeywords &&
-                                            analysis.atsKeywords.length > 0 ? (
-
+                                            analysis.atsKeywords.length >
+                                            0 ? (
                                             <div className="flex flex-wrap gap-2 mt-4">
 
                                                 {analysis.atsKeywords.map(
-                                                    (keyword, index) => (
+                                                    (
+                                                        keyword,
+                                                        index
+                                                    ) => (
                                                         <span
-                                                            key={index}
+                                                            key={
+                                                                index
+                                                            }
                                                             className="bg-purple-100 text-purple-700 px-3 py-1 rounded-full text-sm font-medium"
                                                         >
-                                                            {keyword}
+                                                            {
+                                                                keyword
+                                                            }
                                                         </span>
                                                     )
                                                 )}
 
                                             </div>
-
                                         ) : (
-
                                             <p className="text-gray-500 mt-3">
                                                 No ATS keywords detected.
                                             </p>
-
                                         )}
 
                                     </div>
@@ -970,7 +992,7 @@ const Resume = () => {
                 </div>
             )}
 
-        </DashboardLayout>
+        </div>
     );
 };
 

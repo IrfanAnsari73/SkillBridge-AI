@@ -1,148 +1,307 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 
-import Home from "../pages/Home/Home";
-import About from "../pages/About/About";
-import Contact from "../pages/Contact/Contact";
+// ===============================
+// AUTH
+// ===============================
+
 import Login from "../pages/Login/Login";
 import Signup from "../pages/Signup/Signup";
 
+// ===============================
+// LAYOUT
+// ===============================
+
+import DashboardLayout from "../components/layout/DashboardLayout";
+
+// ===============================
+// DASHBOARD
+// ===============================
+
 import Dashboard from "../pages/Dashboard/Dashboard";
+
+// ===============================
+// PROFILE
+// ===============================
+
 import Profile from "../pages/Profile/Profile";
+
+// ===============================
+// SKILLS
+// ===============================
+
 import Skills from "../pages/Skills/Skills";
+
+// ===============================
+// PROJECTS
+// ===============================
+
 import Projects from "../pages/Projects/Projects";
+
+// ===============================
+// CERTIFICATES
+// ===============================
+
 import Certificates from "../pages/Certificates/Certificates";
+
+// ===============================
+// RESUME
+// ===============================
+
 import Resume from "../pages/Resume/Resume";
+
+// ===============================
+// PORTFOLIO
+// ===============================
+
 import Portfolio from "../pages/Portfolio/Portfolio";
+import PublicPortfolio from "../pages/PublicPortfolio/PublicPortfolio";
+
+// ===============================
+// CAREER
+// ===============================
 
 import CareerAdvisor from "../pages/Career/CareerAdvisor";
 import CareerRoadmap from "../pages/Career/CareerRoadmap";
 
+// ===============================
+// JOBS
+// ===============================
+
 import JobMatcher from "../pages/Jobs/JobMatcher";
 import JobApplications from "../pages/Jobs/JobApplications";
+import ApplicationInsights from "../pages/Jobs/ApplicationInsights";
+
+// ===============================
+// INTERVIEW
+// ===============================
+
 import MockInterview from "../pages/Interview/MockInterview";
+
+// ===============================
+// ANALYTICS
+// ===============================
 
 import CareerAnalytics from "../pages/Analytics/CareerAnalytics";
 
-import PublicPortfolio from "../pages/PublicPortfolio/PublicPortfolio";
+// ===============================
+// PROTECTED ROUTE
+// ===============================
 
 import ProtectedRoute from "../components/auth/ProtectedRoute";
 
+
 const AppRoutes = () => {
     return (
-        <BrowserRouter>
-            <Routes>
+        <Routes>
 
-                {/* =========================
-                    PUBLIC ROUTES
-                ========================= */}
+            {/* ========================= */}
+            {/* PUBLIC ROUTES */}
+            {/* ========================= */}
 
+            <Route
+                path="/login"
+                element={<Login />}
+            />
+
+            <Route
+                path="/signup"
+                element={<Signup />}
+            />
+
+            <Route
+                path="/portfolio/public/:userId"
+                element={<PublicPortfolio />}
+            />
+
+
+            {/* ========================= */}
+            {/* PROTECTED ROUTES */}
+            {/* ========================= */}
+
+            <Route element={<ProtectedRoute />}>
+
+                {/* Dashboard */}
                 <Route
-                    path="/"
-                    element={<Home />}
+                    path="/dashboard"
+                    element={
+                        <DashboardLayout>
+                            <Dashboard />
+                        </DashboardLayout>
+                    }
                 />
 
-                <Route
-                    path="/about"
-                    element={<About />}
-                />
 
+                {/* Profile */}
                 <Route
-                    path="/contact"
-                    element={<Contact />}
-                />
-
-                <Route
-                    path="/login"
-                    element={<Login />}
-                />
-
-                <Route
-                    path="/signup"
-                    element={<Signup />}
-                />
-
-                <Route
-                    path="/portfolio/public/:userId"
-                    element={<PublicPortfolio />}
+                    path="/profile"
+                    element={
+                        <DashboardLayout>
+                            <Profile />
+                        </DashboardLayout>
+                    }
                 />
 
 
-                {/* =========================
-                    PROTECTED ROUTES
-                ========================= */}
+                {/* Skills */}
+                <Route
+                    path="/skills"
+                    element={
+                        <DashboardLayout>
+                            <Skills />
+                        </DashboardLayout>
+                    }
+                />
 
-                <Route element={<ProtectedRoute />}>
 
-                    <Route
-                        path="/dashboard"
-                        element={<Dashboard />}
-                    />
+                {/* Projects */}
+                <Route
+                    path="/projects"
+                    element={
+                        <DashboardLayout>
+                            <Projects />
+                        </DashboardLayout>
+                    }
+                />
 
-                    <Route
-                        path="/profile"
-                        element={<Profile />}
-                    />
 
-                    <Route
-                        path="/skills"
-                        element={<Skills />}
-                    />
+                {/* Certificates */}
+                <Route
+                    path="/certificates"
+                    element={
+                        <DashboardLayout>
+                            <Certificates />
+                        </DashboardLayout>
+                    }
+                />
 
-                    <Route
-                        path="/projects"
-                        element={<Projects />}
-                    />
 
-                    <Route
-                        path="/certificates"
-                        element={<Certificates />}
-                    />
+                {/* Resume */}
+                <Route
+                    path="/resume"
+                    element={
+                        <DashboardLayout>
+                            <Resume />
+                        </DashboardLayout>
+                    }
+                />
 
-                    <Route
-                        path="/resume"
-                        element={<Resume />}
-                    />
 
-                    <Route
-                        path="/portfolio"
-                        element={<Portfolio />}
-                    />
+                {/* Portfolio */}
+                <Route
+                    path="/portfolio"
+                    element={
+                        <DashboardLayout>
+                            <Portfolio />
+                        </DashboardLayout>
+                    }
+                />
 
-                    <Route
-                        path="/career-advisor"
-                        element={<CareerAdvisor />}
-                    />
 
-                    <Route
-                        path="/career-roadmap"
-                        element={<CareerRoadmap />}
-                    />
+                {/* Career Advisor */}
+                <Route
+                    path="/career-advisor"
+                    element={
+                        <DashboardLayout>
+                            <CareerAdvisor />
+                        </DashboardLayout>
+                    }
+                />
 
-                    <Route
-                        path="/job-matcher"
-                        element={<JobMatcher />}
-                    />
 
-                    <Route
-                        path="/mock-interview"
-                        element={<MockInterview />}
-                    />
+                {/* Career Roadmap */}
+                <Route
+                    path="/career-roadmap"
+                    element={
+                        <DashboardLayout>
+                            <CareerRoadmap />
+                        </DashboardLayout>
+                    }
+                />
 
-                    <Route
-                        path="/career-analytics"
-                        element={<CareerAnalytics />}
-                    />
 
-                    <Route
-                        path="/job-applications"
-                        element={<JobApplications />}
-                    />
+                {/* Job Matcher */}
+                <Route
+                    path="/job-matcher"
+                    element={
+                        <DashboardLayout>
+                            <JobMatcher />
+                        </DashboardLayout>
+                    }
+                />
 
-                </Route>
 
-            </Routes>
-        </BrowserRouter>
+                {/* Mock Interview */}
+                <Route
+                    path="/mock-interview"
+                    element={
+                        <DashboardLayout>
+                            <MockInterview />
+                        </DashboardLayout>
+                    }
+                />
+
+
+                {/* Career Analytics */}
+                <Route
+                    path="/career-analytics"
+                    element={
+                        <DashboardLayout>
+                            <CareerAnalytics />
+                        </DashboardLayout>
+                    }
+                />
+
+
+                {/* Job Applications */}
+                <Route
+                    path="/job-applications"
+                    element={
+                        <DashboardLayout>
+                            <JobApplications />
+                        </DashboardLayout>
+                    }
+                />
+
+
+                {/* AI Application Insights */}
+                <Route
+                    path="/application-insights"
+                    element={
+                        <DashboardLayout>
+                            <ApplicationInsights />
+                        </DashboardLayout>
+                    }
+                />
+
+            </Route>
+
+
+            {/* ========================= */}
+            {/* ROOT */}
+            {/* ========================= */}
+
+            <Route
+                path="/"
+                element={
+                    <DashboardLayout>
+                        <Dashboard />
+                    </DashboardLayout>
+                }
+            />
+
+
+            {/* ========================= */}
+            {/* FALLBACK */}
+            {/* ========================= */}
+
+            <Route
+                path="*"
+                element={<Login />}
+            />
+
+        </Routes>
     );
 };
+
 
 export default AppRoutes;

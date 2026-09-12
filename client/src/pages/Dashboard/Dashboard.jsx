@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import DashboardLayout from "../../components/layout/DashboardLayout";
 
 const Dashboard = () => {
     const [projectCount, setProjectCount] = useState(0);
@@ -11,6 +10,7 @@ const Dashboard = () => {
 
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
+
 
     // =========================
     // GET USER FROM LOCAL STORAGE
@@ -28,6 +28,7 @@ const Dashboard = () => {
         }
     };
 
+
     // =========================
     // FETCH DASHBOARD DATA
     // =========================
@@ -39,6 +40,7 @@ const Dashboard = () => {
             if (!token) {
                 return;
             }
+
 
             // =========================
             // FETCH PROJECTS
@@ -63,6 +65,7 @@ const Dashboard = () => {
                 setProjectCount(projects.length);
             }
 
+
             // =========================
             // FETCH SKILLS
             // =========================
@@ -85,6 +88,7 @@ const Dashboard = () => {
 
                 setSkillCount(skills.length);
             }
+
 
             // =========================
             // FETCH CERTIFICATES
@@ -111,6 +115,7 @@ const Dashboard = () => {
                 setCertificateCount(certificates.length);
             }
 
+
             // =========================
             // FETCH RESUME
             // =========================
@@ -134,6 +139,7 @@ const Dashboard = () => {
                 setResumeUploaded(false);
             }
 
+
             // =========================
             // CREATE RECENT ACTIVITIES
             // =========================
@@ -153,9 +159,8 @@ const Dashboard = () => {
 
                 activities.push({
                     icon: "🚀",
-                    text: `Project added: ${
-                        latestProject.title || "New Project"
-                    }`,
+                    text: `Project added: ${latestProject.title || "New Project"
+                        }`,
                 });
             }
 
@@ -165,9 +170,8 @@ const Dashboard = () => {
 
                 activities.push({
                     icon: "💻",
-                    text: `Skill added: ${
-                        latestSkill.name || "New Skill"
-                    }`,
+                    text: `Skill added: ${latestSkill.name || "New Skill"
+                        }`,
                 });
             }
 
@@ -177,10 +181,9 @@ const Dashboard = () => {
 
                 activities.push({
                     icon: "📜",
-                    text: `Certificate added: ${
-                        latestCertificate.title ||
+                    text: `Certificate added: ${latestCertificate.title ||
                         "New Certificate"
-                    }`,
+                        }`,
                 });
             }
 
@@ -192,6 +195,7 @@ const Dashboard = () => {
             }
 
             setRecentActivities(activities);
+
         } catch (error) {
             console.error(
                 "Dashboard Data Error:",
@@ -202,6 +206,7 @@ const Dashboard = () => {
         }
     };
 
+
     // =========================
     // INITIAL LOAD
     // =========================
@@ -210,6 +215,7 @@ const Dashboard = () => {
         getUser();
         fetchDashboardData();
     }, []);
+
 
     // =========================
     // PROGRESS CALCULATION
@@ -241,6 +247,7 @@ const Dashboard = () => {
         ) / 4
     );
 
+
     // =========================
     // PUBLIC PORTFOLIO URL
     // =========================
@@ -251,6 +258,7 @@ const Dashboard = () => {
         userId
             ? `http://localhost:5173/portfolio/public/${userId}`
             : "";
+
 
     // =========================
     // COPY PORTFOLIO LINK
@@ -267,6 +275,7 @@ const Dashboard = () => {
             );
 
             alert("Portfolio link copied!");
+
         } catch (error) {
             console.error(
                 "Copy Link Error:",
@@ -278,6 +287,7 @@ const Dashboard = () => {
             );
         }
     };
+
 
     // =========================
     // PROGRESS BAR COMPONENT
@@ -294,6 +304,7 @@ const Dashboard = () => {
                 <div className="flex justify-between items-center mb-2">
 
                     <div className="flex items-center gap-2">
+
                         <span className="text-xl">
                             {icon}
                         </span>
@@ -301,6 +312,7 @@ const Dashboard = () => {
                         <span className="font-semibold text-gray-700">
                             {title}
                         </span>
+
                     </div>
 
                     <span className="font-bold text-green-600">
@@ -308,6 +320,7 @@ const Dashboard = () => {
                     </span>
 
                 </div>
+
 
                 <div className="w-full bg-gray-200 rounded-full h-3">
 
@@ -324,32 +337,36 @@ const Dashboard = () => {
         );
     };
 
+
     return (
-        <DashboardLayout>
+        <div className="w-full max-w-7xl mx-auto min-w-0 space-y-6">
 
             {/* =========================
                 PAGE HEADER
             ========================= */}
 
-            <h1 className="text-4xl font-bold text-green-600">
-                Welcome, {user?.name || "User"} 👋
-            </h1>
+            <div>
 
-            <p className="text-gray-600 mt-2">
-                Here's an overview of your
-                career progress.
-            </p>
+                <h1 className="text-4xl font-bold text-green-600">
+                    Welcome, {user?.name || "User"} 👋
+                </h1>
+
+                <p className="text-gray-600 mt-2">
+                    Here's an overview of your career progress.
+                </p>
+
+            </div>
 
 
             {/* =========================
                 DASHBOARD CARDS
             ========================= */}
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-10">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
 
                 {/* PROJECTS */}
 
-                <div className="bg-white rounded-xl shadow-lg p-6">
+                <div className="bg-white rounded-xl shadow-lg p-6 min-w-0">
 
                     <h2 className="text-lg font-semibold">
                         Projects
@@ -366,7 +383,7 @@ const Dashboard = () => {
 
                 {/* SKILLS */}
 
-                <div className="bg-white rounded-xl shadow-lg p-6">
+                <div className="bg-white rounded-xl shadow-lg p-6 min-w-0">
 
                     <h2 className="text-lg font-semibold">
                         Skills
@@ -383,7 +400,7 @@ const Dashboard = () => {
 
                 {/* CERTIFICATES */}
 
-                <div className="bg-white rounded-xl shadow-lg p-6">
+                <div className="bg-white rounded-xl shadow-lg p-6 min-w-0">
 
                     <h2 className="text-lg font-semibold">
                         Certificates
@@ -400,18 +417,17 @@ const Dashboard = () => {
 
                 {/* RESUME */}
 
-                <div className="bg-white rounded-xl shadow-lg p-6">
+                <div className="bg-white rounded-xl shadow-lg p-6 min-w-0">
 
                     <h2 className="text-lg font-semibold">
                         Resume
                     </h2>
 
                     <p
-                        className={`text-xl font-bold mt-3 ${
-                            resumeUploaded
+                        className={`text-xl font-bold mt-3 ${resumeUploaded
                                 ? "text-green-600"
                                 : "text-red-500"
-                        }`}
+                            }`}
                     >
                         {loading
                             ? "..."
@@ -429,11 +445,12 @@ const Dashboard = () => {
                 CAREER PROGRESS
             ========================= */}
 
-            <div className="mt-10 bg-white rounded-xl shadow-lg p-6">
+            <div className="bg-white rounded-xl shadow-lg p-6">
 
                 <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-8">
 
                     <div>
+
                         <h2 className="text-2xl font-bold text-green-600">
                             Career Progress 📊
                         </h2>
@@ -441,7 +458,9 @@ const Dashboard = () => {
                         <p className="text-gray-600 mt-2">
                             Track your career profile completion.
                         </p>
+
                     </div>
+
 
                     <div className="mt-5 md:mt-0 text-center">
 
@@ -497,7 +516,7 @@ const Dashboard = () => {
                 PUBLIC PORTFOLIO
             ========================= */}
 
-            <div className="mt-10 bg-white rounded-xl shadow-lg p-6">
+            <div className="bg-white rounded-xl shadow-lg p-6">
 
                 <h2 className="text-2xl font-bold text-green-600">
                     Your Public Portfolio 🌐
@@ -507,6 +526,7 @@ const Dashboard = () => {
                     Share your portfolio with
                     recruiters and employers.
                 </p>
+
 
                 <div className="flex flex-wrap gap-4 mt-5">
 
@@ -520,6 +540,7 @@ const Dashboard = () => {
                             View Public Portfolio
                         </a>
                     )}
+
 
                     <button
                         onClick={copyPortfolioLink}
@@ -538,7 +559,7 @@ const Dashboard = () => {
                 QUICK ACTIONS
             ========================= */}
 
-            <div className="mt-10 bg-white rounded-xl shadow-lg p-6">
+            <div className="bg-white rounded-xl shadow-lg p-6">
 
                 <h2 className="text-2xl font-bold text-green-600">
                     Quick Actions ⚡
@@ -547,6 +568,7 @@ const Dashboard = () => {
                 <p className="text-gray-600 mt-2">
                     Quickly manage your career profile.
                 </p>
+
 
                 <div className="flex flex-wrap gap-4 mt-5">
 
@@ -587,11 +609,12 @@ const Dashboard = () => {
                 RECENT ACTIVITY
             ========================= */}
 
-            <div className="mt-10 bg-white rounded-xl shadow-lg p-6">
+            <div className="bg-white rounded-xl shadow-lg p-6">
 
                 <h2 className="text-2xl font-bold text-green-600 mb-5">
                     Recent Activity
                 </h2>
+
 
                 {loading ? (
                     <p className="text-gray-500">
@@ -622,8 +645,9 @@ const Dashboard = () => {
 
             </div>
 
-        </DashboardLayout>
+        </div>
     );
 };
+
 
 export default Dashboard;

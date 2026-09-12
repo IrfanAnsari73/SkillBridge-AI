@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import DashboardLayout from "../../components/layout/DashboardLayout";
 
 const Portfolio = () => {
     const [portfolio, setPortfolio] = useState({
@@ -142,36 +141,39 @@ const Portfolio = () => {
     // =========================
     if (loading) {
         return (
-            <DashboardLayout>
+            <div className="w-full max-w-7xl mx-auto min-w-0">
                 <p className="text-gray-600">
                     Loading portfolio...
                 </p>
-            </DashboardLayout>
+            </div>
         );
     }
 
     return (
-        <DashboardLayout>
+        <div className="w-full max-w-7xl mx-auto min-w-0 space-y-6">
 
-            <h1 className="text-4xl font-bold text-green-600">
-                My Portfolio 🌐
-            </h1>
+            {/* PAGE HEADER */}
+            <div>
+                <h1 className="text-4xl font-bold text-green-600">
+                    My Portfolio 🌐
+                </h1>
 
-            <p className="text-gray-600 mt-2">
-                Showcase your portfolio and personal
-                branding.
-            </p>
+                <p className="text-gray-600 mt-2">
+                    Showcase your portfolio and personal
+                    branding.
+                </p>
+            </div>
 
             {/* SUCCESS MESSAGE */}
             {message && (
-                <div className="mt-6 bg-green-50 border border-green-300 text-green-700 px-4 py-3 rounded-lg">
+                <div className="bg-green-50 border border-green-300 text-green-700 px-4 py-3 rounded-lg">
                     {message}
                 </div>
             )}
 
             {/* ERROR MESSAGE */}
             {error && (
-                <div className="mt-6 bg-red-50 border border-red-300 text-red-700 px-4 py-3 rounded-lg">
+                <div className="bg-red-50 border border-red-300 text-red-700 px-4 py-3 rounded-lg">
                     {error}
                 </div>
             )}
@@ -179,9 +181,8 @@ const Portfolio = () => {
             {/* PORTFOLIO FORM */}
             <form
                 onSubmit={handleSubmit}
-                className="bg-white rounded-xl shadow-lg p-8 mt-8"
+                className="bg-white rounded-xl shadow-lg p-5 sm:p-8"
             >
-
                 <div className="space-y-6">
 
                     {/* Portfolio Title */}
@@ -236,7 +237,7 @@ const Portfolio = () => {
                     <button
                         type="submit"
                         disabled={saving}
-                        className="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 disabled:opacity-50"
+                        className="w-full sm:w-auto bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 disabled:opacity-50 transition"
                     >
                         {saving
                             ? "Saving..."
@@ -244,10 +245,9 @@ const Portfolio = () => {
                     </button>
 
                 </div>
-
             </form>
 
-        </DashboardLayout>
+        </div>
     );
 };
 
