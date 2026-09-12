@@ -8,7 +8,7 @@ const Sidebar = () => {
         }`;
 
     return (
-        <div className="fixed left-0 top-0 w-64 h-screen bg-green-600 text-white p-6 overflow-y-auto">
+        <div className="w-64 h-screen bg-green-600 text-white p-6 overflow-y-auto">
 
             <h2 className="text-3xl font-bold mb-10">
                 SkillBridge AI
@@ -62,6 +62,10 @@ const Sidebar = () => {
 
                 <NavLink to="/career-analytics" className={linkClasses}>
                     📊 Career Analytics
+                </NavLink>
+
+                <NavLink to="/job-applications" className={linkClasses}>
+                    📋 Job Applications
                 </NavLink>
 
             </nav>
