@@ -8,7 +8,7 @@ const Sidebar = () => {
         }`;
 
     return (
-        <div className="w-64 min-h-screen bg-green-600 text-white p-6">
+        <div className="fixed left-0 top-0 w-64 h-screen bg-green-600 text-white p-6 overflow-y-auto">
 
             <h2 className="text-3xl font-bold mb-10">
                 SkillBridge AI
@@ -16,81 +16,52 @@ const Sidebar = () => {
 
             <nav className="flex flex-col gap-3">
 
-                <NavLink
-                    to="/dashboard"
-                    className={linkClasses}
-                >
+                <NavLink to="/dashboard" className={linkClasses}>
                     🏠 Dashboard
                 </NavLink>
 
-                <NavLink
-                    to="/profile"
-                    className={linkClasses}
-                >
+                <NavLink to="/profile" className={linkClasses}>
                     👤 Profile
                 </NavLink>
 
-                <NavLink
-                    to="/skills"
-                    className={linkClasses}
-                >
+                <NavLink to="/skills" className={linkClasses}>
                     💻 Skills
                 </NavLink>
 
-                <NavLink
-                    to="/projects"
-                    className={linkClasses}
-                >
+                <NavLink to="/projects" className={linkClasses}>
                     🚀 Projects
                 </NavLink>
 
-                <NavLink
-                    to="/certificates"
-                    className={linkClasses}
-                >
+                <NavLink to="/certificates" className={linkClasses}>
                     📜 Certificates
                 </NavLink>
 
-                <NavLink
-                    to="/resume"
-                    className={linkClasses}
-                >
+                <NavLink to="/resume" className={linkClasses}>
                     📄 Resume
                 </NavLink>
 
-                <NavLink
-                    to="/portfolio"
-                    className={linkClasses}
-                >
+                <NavLink to="/portfolio" className={linkClasses}>
                     🌐 Portfolio
                 </NavLink>
 
-                <NavLink
-                    to="/career-advisor"
-                    className={linkClasses}
-                >
+                <NavLink to="/career-advisor" className={linkClasses}>
                     🤖 Career Advisor
                 </NavLink>
 
-                <NavLink
-                    to="/career-roadmap"
-                    className={linkClasses}
-                >
+                <NavLink to="/career-roadmap" className={linkClasses}>
                     🗺️ Career Roadmap
                 </NavLink>
 
-                <NavLink
-                    to="/job-matcher"
-                    className={linkClasses}
-                >
+                <NavLink to="/job-matcher" className={linkClasses}>
                     💼 Job Matcher
                 </NavLink>
 
-                <NavLink
-                    to="/mock-interview"
-                    className={linkClasses}
-                >
+                <NavLink to="/mock-interview" className={linkClasses}>
                     🎤 Mock Interview
+                </NavLink>
+
+                <NavLink to="/career-analytics" className={linkClasses}>
+                    📊 Career Analytics
                 </NavLink>
 
             </nav>

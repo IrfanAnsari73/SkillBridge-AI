@@ -19,6 +19,7 @@ import CareerRoadmap from "../pages/Career/CareerRoadmap";
 
 import JobMatcher from "../pages/Jobs/JobMatcher";
 import MockInterview from "../pages/Interview/MockInterview";
+import CareerAnalytics from "../pages/Analytics/CareerAnalytics";
 
 import PublicPortfolio from "../pages/PublicPortfolio/PublicPortfolio";
 
@@ -31,10 +32,26 @@ const AppRoutes = () => {
 
                 {/* Public Routes */}
                 <Route path="/" element={<Home />} />
-                <Route path="/about" element={<About />} />
-                <Route path="/contact" element={<Contact />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/signup" element={<Signup />} />
+
+                <Route
+                    path="/about"
+                    element={<About />}
+                />
+
+                <Route
+                    path="/contact"
+                    element={<Contact />}
+                />
+
+                <Route
+                    path="/login"
+                    element={<Login />}
+                />
+
+                <Route
+                    path="/signup"
+                    element={<Signup />}
+                />
 
                 <Route
                     path="/portfolio/public/:userId"
@@ -92,6 +109,11 @@ const AppRoutes = () => {
                     <Route
                         path="/job-matcher"
                         element={<JobMatcher />}
+                    />
+
+                    <Route
+                        path="/career-analytics"
+                        element={<CareerAnalytics />}
                     />
 
                     <Route
