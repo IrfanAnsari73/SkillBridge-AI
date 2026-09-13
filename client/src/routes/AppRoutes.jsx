@@ -90,6 +90,11 @@ import CareerAnalytics from "../pages/Analytics/CareerAnalytics";
 
 import ProtectedRoute from "../components/auth/ProtectedRoute";
 
+// ===============================
+// Career Goal
+// ===============================
+
+import CareerGoals from "../pages/Career/CareerGoals";
 
 const AppRoutes = () => {
     return (
@@ -226,6 +231,15 @@ const AppRoutes = () => {
                     element={
                         <DashboardLayout>
                             <CareerActionCenter />
+                        </DashboardLayout>
+                    }
+                />
+
+                <Route
+                    path="/career-goals"
+                    element={
+                        <DashboardLayout>
+                            <CareerGoals />
                         </DashboardLayout>
                     }
                 />

@@ -56,6 +56,11 @@ const Sidebar = () => {
             icon: "🎯",
         },
         {
+            name: "Career Goals",
+            path: "/career-goals",
+            icon: "🎯",
+        },
+        {
             name: "Job Matcher",
             path: "/job-matcher",
             icon: "🎯",
@@ -122,8 +127,8 @@ const Sidebar = () => {
                             key={item.path}
                             to={item.path}
                             className={`flex items-center gap-3 px-4 py-3 rounded-lg transition ${isActive
-                                    ? "bg-white text-green-700 font-semibold"
-                                    : "hover:bg-green-700 text-white"
+                                ? "bg-white text-green-700 font-semibold"
+                                : "hover:bg-green-700 text-white"
                                 }`}
                         >
                             <span className="text-lg">
