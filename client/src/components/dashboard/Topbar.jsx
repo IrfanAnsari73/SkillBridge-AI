@@ -8,6 +8,23 @@ const Topbar = () => {
     const [showResults, setShowResults] = useState(false);
 
     // =========================
+    // GET USER
+    // =========================
+
+    const storedUser = localStorage.getItem("user");
+
+    let user = {};
+
+    try {
+        user = storedUser ? JSON.parse(storedUser) : {};
+    } catch {
+        user = {};
+    }
+
+    const userName = user?.name || "Irfan Ansari";
+    const userRole = "Student";
+
+    // =========================
     // LOGOUT
     // =========================
 
@@ -36,7 +53,7 @@ const Topbar = () => {
         {
             name: "Skills",
             path: "/skills",
-            icon: "💻",
+            icon: "🛠️",
         },
         {
             name: "Projects",
@@ -46,7 +63,7 @@ const Topbar = () => {
         {
             name: "Certificates",
             path: "/certificates",
-            icon: "📜",
+            icon: "🏆",
         },
         {
             name: "Resume",
@@ -62,6 +79,46 @@ const Topbar = () => {
             name: "Career Advisor",
             path: "/career-advisor",
             icon: "🤖",
+        },
+        {
+            name: "Career Roadmap",
+            path: "/career-roadmap",
+            icon: "🗺️",
+        },
+        {
+            name: "Career Action Center",
+            path: "/career-actions",
+            icon: "🎯",
+        },
+        {
+            name: "Career Goals",
+            path: "/career-goals",
+            icon: "🎯",
+        },
+        {
+            name: "Job Matcher",
+            path: "/job-matcher",
+            icon: "💼",
+        },
+        {
+            name: "Mock Interview",
+            path: "/mock-interview",
+            icon: "🎤",
+        },
+        {
+            name: "Career Analytics",
+            path: "/career-analytics",
+            icon: "📊",
+        },
+        {
+            name: "Job Applications",
+            path: "/job-applications",
+            icon: "📋",
+        },
+        {
+            name: "AI Application Insights",
+            path: "/application-insights",
+            icon: "✨",
         },
     ];
 
@@ -103,109 +160,158 @@ const Topbar = () => {
     };
 
     return (
-        <div className="w-full box-border bg-white shadow-md rounded-xl p-4 flex items-center gap-4">
+        <div className="w-full bg-white border border-gray-200 rounded-2xl shadow-sm px-5 py-4">
 
-            {/* =========================
-                SEARCH SECTION
-            ========================= */}
+            <div className="flex items-center justify-between gap-5">
 
-            <div className="flex-1 min-w-0 relative">
+                {/* =================================
+                    SEARCH
+                ================================= */}
 
-                <input
-                    type="text"
-                    value={search}
-                    onChange={handleSearchChange}
-                    onFocus={() => {
-                        if (search.trim() !== "") {
-                            setShowResults(true);
-                        }
-                    }}
-                    placeholder="🔍 Search..."
-                    className="border border-gray-300 rounded-lg px-4 py-2 w-72 max-w-full outline-none focus:ring-2 focus:ring-green-500"
-                />
+                <div className="relative flex-1 max-w-xl">
 
+                    <div className="relative">
 
-                {/* =========================
-                    SEARCH RESULTS
-                ========================= */}
+                        <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-lg">
+                            🔍
+                        </span>
 
-                {showResults && search.trim() !== "" && (
-                    <div className="absolute top-12 left-0 w-72 bg-white border border-gray-200 rounded-lg shadow-lg z-50 overflow-hidden">
-
-                        {filteredItems.length > 0 ? (
-
-                            filteredItems.map((item) => (
-                                <button
-                                    key={item.path}
-                                    onClick={() =>
-                                        handleResultClick(
-                                            item.path
-                                        )
-                                    }
-                                    className="w-full text-left px-4 py-3 hover:bg-green-50 flex items-center gap-3 transition"
-                                >
-                                    <span>
-                                        {item.icon}
-                                    </span>
-
-                                    <span className="font-medium text-gray-700">
-                                        {item.name}
-                                    </span>
-                                </button>
-                            ))
-
-                        ) : (
-
-                            <div className="px-4 py-3 text-gray-500">
-                                No results found
-                            </div>
-
-                        )}
+                        <input
+                            type="text"
+                            value={search}
+                            onChange={handleSearchChange}
+                            onFocus={() => {
+                                if (search.trim() !== "") {
+                                    setShowResults(true);
+                                }
+                            }}
+                            placeholder="Search your career tools..."
+                            className="w-full h-12 bg-gray-50 border border-gray-200 rounded-xl pl-11 pr-4 text-sm text-gray-800 placeholder-gray-400 outline-none transition focus:bg-white focus:border-green-500 focus:ring-4 focus:ring-green-500/10"
+                        />
 
                     </div>
-                )}
 
-            </div>
+                    {/* =========================
+                        SEARCH RESULTS
+                    ========================= */}
 
+                    {showResults && search.trim() !== "" && (
+                        <div className="absolute top-14 left-0 w-full bg-white border border-gray-200 rounded-xl shadow-xl z-50 overflow-hidden">
 
-            {/* =========================
-                USER SECTION
-            ========================= */}
+                            <div className="px-4 py-2.5 border-b border-gray-100">
+                                <p className="text-xs font-semibold uppercase tracking-wide text-gray-400">
+                                    Quick Navigation
+                                </p>
+                            </div>
 
-            <div className="flex items-center gap-4 flex-shrink-0">
+                            {filteredItems.length > 0 ? (
 
-                {/* USER NAME */}
+                                <div className="max-h-80 overflow-y-auto">
 
-                <div className="text-right flex-shrink-0">
+                                    {filteredItems.map((item) => (
 
-                    <h3 className="font-semibold text-lg whitespace-nowrap">
-                        Irfan Ansari
-                    </h3>
+                                        <button
+                                            key={item.path}
+                                            onClick={() =>
+                                                handleResultClick(
+                                                    item.path
+                                                )
+                                            }
+                                            className="w-full text-left px-4 py-3 flex items-center gap-3 hover:bg-green-50 transition"
+                                        >
 
-                    <p className="text-sm text-gray-500 whitespace-nowrap">
-                        Student
-                    </p>
+                                            <span className="w-9 h-9 rounded-lg bg-gray-100 flex items-center justify-center text-base">
+                                                {item.icon}
+                                            </span>
+
+                                            <span className="font-medium text-gray-700 text-sm">
+                                                {item.name}
+                                            </span>
+
+                                            <span className="ml-auto text-gray-400">
+                                                →
+                                            </span>
+
+                                        </button>
+
+                                    ))}
+
+                                </div>
+
+                            ) : (
+
+                                <div className="px-4 py-6 text-center">
+
+                                    <div className="text-2xl mb-2">
+                                        🔎
+                                    </div>
+
+                                    <p className="text-sm font-medium text-gray-700">
+                                        No results found
+                                    </p>
+
+                                    <p className="text-xs text-gray-400 mt-1">
+                                        Try another search
+                                    </p>
+
+                                </div>
+
+                            )}
+
+                        </div>
+                    )}
 
                 </div>
 
+                {/* =================================
+                    USER AREA
+                ================================= */}
 
-                {/* PROFILE IMAGE */}
+                <div className="flex items-center gap-4">
 
-                <img
-                    src="https://ui-avatars.com/api/?name=Irfan+Ansari&background=16a34a&color=fff"
-                    alt="Profile"
-                    className="w-12 h-12 rounded-full flex-shrink-0"
-                />
+                    {/* USER INFO */}
 
+                    <div className="hidden sm:block text-right">
 
-                {/* LOGOUT */}
+                        <p className="text-sm font-bold text-gray-800 whitespace-nowrap">
+                            {userName}
+                        </p>
 
-                <button
-                    onClick={handleLogout}
-                    className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition whitespace-nowrap flex-shrink-0"
-                >
-                    Logout
-                </button>
+                        <p className="text-xs text-gray-500 mt-0.5">
+                            {userRole}
+                        </p>
+
+                    </div>
+
+                    {/* AVATAR */}
+
+                    <div className="relative">
+
+                        <div className="w-11 h-11 rounded-full bg-green-600 text-white flex items-center justify-center font-bold text-sm shadow-md shadow-green-600/20">
+                            {userName
+                                .split(" ")
+                                .map((word) => word[0])
+                                .join("")
+                                .slice(0, 2)
+                                .toUpperCase()}
+                        </div>
+
+                        {/* Online Indicator */}
+
+                        <span className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white rounded-full" />
+
+                    </div>
+
+                    {/* LOGOUT */}
+
+                    <button
+                        onClick={handleLogout}
+                        className="h-11 px-5 bg-red-500 hover:bg-red-600 text-white text-sm font-semibold rounded-xl transition-all duration-200 shadow-sm hover:shadow-md"
+                    >
+                        Logout
+                    </button>
+
+                </div>
 
             </div>
 

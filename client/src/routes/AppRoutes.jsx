@@ -1,6 +1,16 @@
 import { Routes, Route } from "react-router-dom";
 
 // ===============================
+// PUBLIC PAGES
+// ===============================
+
+import Home from "../pages/Home/Home";
+import About from "../pages/About/About";
+import Contact from "../pages/Contact/Contact";
+import PrivacyPolicy from "../pages/PrivacyPolicy/PrivacyPolicy";
+import Terms from "../pages/Terms/Terms";
+
+// ===============================
 // AUTH
 // ===============================
 
@@ -63,6 +73,7 @@ import PublicPortfolio from "../pages/PublicPortfolio/PublicPortfolio";
 import CareerAdvisor from "../pages/Career/CareerAdvisor";
 import CareerRoadmap from "../pages/Career/CareerRoadmap";
 import CareerActionCenter from "../pages/Career/CareerActionCenter";
+import CareerGoals from "../pages/Career/CareerGoals";
 
 // ===============================
 // JOBS
@@ -90,43 +101,74 @@ import CareerAnalytics from "../pages/Analytics/CareerAnalytics";
 
 import ProtectedRoute from "../components/auth/ProtectedRoute";
 
-// ===============================
-// Career Goal
-// ===============================
-
-import CareerGoals from "../pages/Career/CareerGoals";
 
 const AppRoutes = () => {
     return (
         <Routes>
 
-            {/* ========================= */}
-            {/* PUBLIC ROUTES */}
-            {/* ========================= */}
+            {/* =================================
+                PUBLIC ROUTES
+            ================================= */}
 
+            {/* Home */}
+            <Route
+                path="/"
+                element={<Home />}
+            />
+
+            {/* About */}
+            <Route
+                path="/about"
+                element={<About />}
+            />
+
+            {/* Contact */}
+            <Route
+                path="/contact"
+                element={<Contact />}
+            />
+
+            {/* Privacy Policy */}
+            <Route
+                path="/privacy-policy"
+                element={<PrivacyPolicy />}
+            />
+
+            {/* Terms & Conditions */}
+            <Route
+                path="/terms"
+                element={<Terms />}
+            />
+
+            {/* Login */}
             <Route
                 path="/login"
                 element={<Login />}
             />
 
+            {/* Signup */}
             <Route
                 path="/signup"
                 element={<Signup />}
             />
 
+            {/* Public Portfolio */}
             <Route
                 path="/portfolio/public/:userId"
                 element={<PublicPortfolio />}
             />
 
 
-            {/* ========================= */}
-            {/* PROTECTED ROUTES */}
-            {/* ========================= */}
+            {/* =================================
+                PROTECTED ROUTES
+            ================================= */}
 
             <Route element={<ProtectedRoute />}>
 
-                {/* Dashboard */}
+                {/* =========================
+                    DASHBOARD
+                ========================= */}
+
                 <Route
                     path="/dashboard"
                     element={
@@ -137,7 +179,10 @@ const AppRoutes = () => {
                 />
 
 
-                {/* Profile */}
+                {/* =========================
+                    PROFILE
+                ========================= */}
+
                 <Route
                     path="/profile"
                     element={
@@ -148,7 +193,10 @@ const AppRoutes = () => {
                 />
 
 
-                {/* Skills */}
+                {/* =========================
+                    SKILLS
+                ========================= */}
+
                 <Route
                     path="/skills"
                     element={
@@ -159,7 +207,10 @@ const AppRoutes = () => {
                 />
 
 
-                {/* Projects */}
+                {/* =========================
+                    PROJECTS
+                ========================= */}
+
                 <Route
                     path="/projects"
                     element={
@@ -170,7 +221,10 @@ const AppRoutes = () => {
                 />
 
 
-                {/* Certificates */}
+                {/* =========================
+                    CERTIFICATES
+                ========================= */}
+
                 <Route
                     path="/certificates"
                     element={
@@ -181,7 +235,10 @@ const AppRoutes = () => {
                 />
 
 
-                {/* Resume */}
+                {/* =========================
+                    RESUME
+                ========================= */}
+
                 <Route
                     path="/resume"
                     element={
@@ -192,7 +249,10 @@ const AppRoutes = () => {
                 />
 
 
-                {/* Portfolio */}
+                {/* =========================
+                    PORTFOLIO
+                ========================= */}
+
                 <Route
                     path="/portfolio"
                     element={
@@ -203,7 +263,10 @@ const AppRoutes = () => {
                 />
 
 
-                {/* Career Advisor */}
+                {/* =========================
+                    CAREER ADVISOR
+                ========================= */}
+
                 <Route
                     path="/career-advisor"
                     element={
@@ -214,7 +277,10 @@ const AppRoutes = () => {
                 />
 
 
-                {/* Career Roadmap */}
+                {/* =========================
+                    CAREER ROADMAP
+                ========================= */}
+
                 <Route
                     path="/career-roadmap"
                     element={
@@ -225,7 +291,10 @@ const AppRoutes = () => {
                 />
 
 
-                {/* Career Action Center */}
+                {/* =========================
+                    CAREER ACTION CENTER
+                ========================= */}
+
                 <Route
                     path="/career-actions"
                     element={
@@ -234,6 +303,11 @@ const AppRoutes = () => {
                         </DashboardLayout>
                     }
                 />
+
+
+                {/* =========================
+                    CAREER GOALS
+                ========================= */}
 
                 <Route
                     path="/career-goals"
@@ -245,7 +319,10 @@ const AppRoutes = () => {
                 />
 
 
-                {/* Job Matcher */}
+                {/* =========================
+                    JOB MATCHER
+                ========================= */}
+
                 <Route
                     path="/job-matcher"
                     element={
@@ -256,7 +333,10 @@ const AppRoutes = () => {
                 />
 
 
-                {/* Mock Interview */}
+                {/* =========================
+                    MOCK INTERVIEW
+                ========================= */}
+
                 <Route
                     path="/mock-interview"
                     element={
@@ -267,7 +347,10 @@ const AppRoutes = () => {
                 />
 
 
-                {/* Career Analytics */}
+                {/* =========================
+                    CAREER ANALYTICS
+                ========================= */}
+
                 <Route
                     path="/career-analytics"
                     element={
@@ -278,7 +361,10 @@ const AppRoutes = () => {
                 />
 
 
-                {/* Job Applications */}
+                {/* =========================
+                    JOB APPLICATIONS
+                ========================= */}
+
                 <Route
                     path="/job-applications"
                     element={
@@ -289,7 +375,10 @@ const AppRoutes = () => {
                 />
 
 
-                {/* AI Application Insights */}
+                {/* =========================
+                    AI APPLICATION INSIGHTS
+                ========================= */}
+
                 <Route
                     path="/application-insights"
                     element={
@@ -302,27 +391,13 @@ const AppRoutes = () => {
             </Route>
 
 
-            {/* ========================= */}
-            {/* ROOT */}
-            {/* ========================= */}
-
-            <Route
-                path="/"
-                element={
-                    <DashboardLayout>
-                        <Dashboard />
-                    </DashboardLayout>
-                }
-            />
-
-
-            {/* ========================= */}
-            {/* FALLBACK */}
-            {/* ========================= */}
+            {/* =================================
+                FALLBACK
+            ================================= */}
 
             <Route
                 path="*"
-                element={<Login />}
+                element={<Home />}
             />
 
         </Routes>

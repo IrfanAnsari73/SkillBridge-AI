@@ -45,13 +45,17 @@ const JobApplications = () => {
 
             if (!response.ok) {
                 throw new Error(
-                    data.message || "Failed to fetch applications"
+                    data.message ||
+                    "Failed to fetch applications"
                 );
             }
 
             setApplications(data.applications || []);
         } catch (err) {
-            console.error("Fetch Applications Error:", err);
+            console.error(
+                "Fetch Applications Error:",
+                err
+            );
             setError(err.message);
         } finally {
             setLoading(false);
@@ -81,7 +85,9 @@ const JobApplications = () => {
         e.preventDefault();
 
         if (!form.companyName || !form.jobRole) {
-            setError("Company name and job role are required.");
+            setError(
+                "Company name and job role are required."
+            );
             return;
         }
 
@@ -108,7 +114,8 @@ const JobApplications = () => {
 
             if (!response.ok) {
                 throw new Error(
-                    data.message || "Failed to save application"
+                    data.message ||
+                    "Failed to save application"
                 );
             }
 
@@ -117,7 +124,10 @@ const JobApplications = () => {
 
             await fetchApplications();
         } catch (err) {
-            console.error("Save Application Error:", err);
+            console.error(
+                "Save Application Error:",
+                err
+            );
             setError(err.message);
         } finally {
             setSaving(false);
@@ -132,17 +142,27 @@ const JobApplications = () => {
         setEditingId(application._id);
 
         setForm({
-            companyName: application.companyName || "",
-            jobRole: application.jobRole || "",
-            appliedDate: application.appliedDate
-                ? application.appliedDate.split("T")[0]
-                : "",
-            status: application.status || "Applied",
-            jobType: application.jobType || "Full Time",
-            location: application.location || "",
-            notes: application.notes || "",
-            jobLink: application.jobLink || "",
+            companyName:
+                application.companyName || "",
+            jobRole:
+                application.jobRole || "",
+            appliedDate:
+                application.appliedDate
+                    ? application.appliedDate.split("T")[0]
+                    : "",
+            status:
+                application.status || "Applied",
+            jobType:
+                application.jobType || "Full Time",
+            location:
+                application.location || "",
+            notes:
+                application.notes || "",
+            jobLink:
+                application.jobLink || "",
         });
+
+        setError("");
 
         window.scrollTo({
             top: 0,
@@ -180,13 +200,17 @@ const JobApplications = () => {
 
             if (!response.ok) {
                 throw new Error(
-                    data.message || "Failed to delete application"
+                    data.message ||
+                    "Failed to delete application"
                 );
             }
 
             await fetchApplications();
         } catch (err) {
-            console.error("Delete Application Error:", err);
+            console.error(
+                "Delete Application Error:",
+                err
+            );
             setError(err.message);
         }
     };
@@ -205,27 +229,33 @@ const JobApplications = () => {
     // STATISTICS
     // ===============================
 
-    const totalApplications = applications.length;
+    const totalApplications =
+        applications.length;
 
-    const appliedCount = applications.filter(
-        (app) => app.status === "Applied"
-    ).length;
+    const appliedCount =
+        applications.filter(
+            (app) => app.status === "Applied"
+        ).length;
 
-    const shortlistedCount = applications.filter(
-        (app) => app.status === "Shortlisted"
-    ).length;
+    const shortlistedCount =
+        applications.filter(
+            (app) => app.status === "Shortlisted"
+        ).length;
 
-    const interviewCount = applications.filter(
-        (app) => app.status === "Interview"
-    ).length;
+    const interviewCount =
+        applications.filter(
+            (app) => app.status === "Interview"
+        ).length;
 
-    const selectedCount = applications.filter(
-        (app) => app.status === "Selected"
-    ).length;
+    const selectedCount =
+        applications.filter(
+            (app) => app.status === "Selected"
+        ).length;
 
-    const rejectedCount = applications.filter(
-        (app) => app.status === "Rejected"
-    ).length;
+    const rejectedCount =
+        applications.filter(
+            (app) => app.status === "Rejected"
+        ).length;
 
     // ===============================
     // STATUS STYLE
@@ -234,19 +264,19 @@ const JobApplications = () => {
     const getStatusClass = (status) => {
         switch (status) {
             case "Selected":
-                return "bg-green-100 text-green-700";
+                return "bg-green-100 text-green-700 border-green-200";
 
             case "Interview":
-                return "bg-blue-100 text-blue-700";
+                return "bg-green-50 text-green-700 border-green-200";
 
             case "Shortlisted":
-                return "bg-yellow-100 text-yellow-700";
+                return "bg-gray-100 text-gray-700 border-gray-200";
 
             case "Rejected":
-                return "bg-red-100 text-red-700";
+                return "bg-red-50 text-red-700 border-red-200";
 
             default:
-                return "bg-gray-100 text-gray-700";
+                return "bg-gray-100 text-gray-700 border-gray-200";
         }
     };
 
@@ -257,47 +287,131 @@ const JobApplications = () => {
     if (loading) {
         return (
             <div className="w-full max-w-7xl mx-auto min-w-0">
-                <div className="flex items-center justify-center min-h-[60vh]">
+
+                <div className="min-h-[70vh] flex items-center justify-center">
+
                     <div className="text-center">
-                        <div className="text-5xl mb-4">
-                            💼
+
+                        <div className="mx-auto mb-5 w-16 h-16 rounded-2xl bg-green-50 border border-green-100 flex items-center justify-center">
+
+                            <div className="w-8 h-8 animate-spin rounded-full border-4 border-gray-200 border-t-green-600" />
+
                         </div>
 
-                        <p className="text-xl font-semibold text-gray-700">
-                            Loading Job Applications...
+                        <p className="text-xs font-black uppercase tracking-[0.2em] text-green-600">
+                            Career Management
                         </p>
+
+                        <h2 className="text-xl md:text-2xl font-black text-slate-950 mt-2">
+                            Loading Job Applications...
+                        </h2>
+
+                        <p className="text-gray-500 mt-2">
+                            Preparing your application tracker.
+                        </p>
+
                     </div>
+
                 </div>
+
             </div>
         );
     }
 
     return (
-        <div className="w-full max-w-7xl mx-auto min-w-0">
+        <div className="w-full max-w-7xl mx-auto min-w-0 pb-12">
 
-            <div className="space-y-8">
+            <div className="space-y-7">
 
                 {/* ===============================
-                    HEADER
+                    HERO HEADER
                 =============================== */}
 
-                <div>
-                    <h1 className="text-3xl sm:text-4xl font-bold text-gray-800">
-                        💼 Job Application Tracker
-                    </h1>
+                <section className="relative overflow-hidden rounded-[28px] bg-slate-950 text-white shadow-2xl">
 
-                    <p className="text-gray-600 mt-2">
-                        Track your job and internship applications in one place.
-                    </p>
-                </div>
+                    <div className="absolute -right-28 -top-32 w-96 h-96 rounded-full bg-green-500/10 blur-3xl" />
+
+                    <div className="absolute -left-28 -bottom-32 w-96 h-96 rounded-full bg-green-500/5 blur-3xl" />
+
+                    <div className="relative p-6 md:p-9">
+
+                        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
+
+                            <div className="flex-1">
+
+                                <div className="inline-flex items-center gap-2 rounded-full border border-green-400/20 bg-green-500/10 px-4 py-2 text-sm font-semibold text-green-300">
+                                    💼 Career Application Hub
+                                </div>
+
+                                <h1 className="mt-5 text-3xl md:text-5xl font-black leading-tight">
+                                    Job Application Tracker
+                                    <span className="text-green-500">
+                                        .
+                                    </span>
+                                </h1>
+
+                                <p className="mt-4 max-w-2xl text-gray-400 leading-7">
+                                    Track your job and internship
+                                    applications, monitor progress
+                                    and stay organized throughout
+                                    your career journey.
+                                </p>
+
+                                <div className="mt-6 flex flex-wrap gap-3">
+
+                                    <span className="rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-sm">
+                                        📋 Track Applications
+                                    </span>
+
+                                    <span className="rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-sm">
+                                        🎯 Monitor Progress
+                                    </span>
+
+                                    <span className="rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-sm">
+                                        📊 View Statistics
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                            <div className="hidden sm:flex w-32 h-32 shrink-0 rounded-3xl border border-green-400/20 bg-green-500/10 items-center justify-center text-6xl">
+                                💼
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </section>
 
                 {/* ===============================
                     ERROR
                 =============================== */}
 
                 {error && (
-                    <div className="bg-red-50 border border-red-200 text-red-700 rounded-xl p-4 break-words">
-                        {error}
+                    <div className="rounded-2xl border border-red-200 bg-red-50 p-4 md:p-5 text-red-700 break-words">
+
+                        <div className="flex items-start gap-3">
+
+                            <span className="text-xl">
+                                ⚠️
+                            </span>
+
+                            <div className="min-w-0">
+
+                                <p className="font-bold">
+                                    Something went wrong
+                                </p>
+
+                                <p className="mt-1 text-sm break-words">
+                                    {error}
+                                </p>
+
+                            </div>
+
+                        </div>
+
                     </div>
                 )}
 
@@ -305,473 +419,733 @@ const JobApplications = () => {
                     STATISTICS
                 =============================== */}
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5">
+                <section>
 
-                    <div className="bg-white rounded-xl shadow p-5">
-                        <p className="text-gray-500">
-                            📋 Total
+                    <div className="mb-5">
+
+                        <p className="text-xs font-black uppercase tracking-[0.18em] text-green-600">
+                            Application Overview
                         </p>
 
-                        <h2 className="text-3xl font-bold text-gray-800 mt-2">
-                            {totalApplications}
+                        <h2 className="text-2xl font-black text-slate-950 mt-1">
+                            Your Application Pipeline
                         </h2>
+
                     </div>
 
-                    <div className="bg-white rounded-xl shadow p-5">
-                        <p className="text-gray-500">
-                            📝 Applied
-                        </p>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5">
 
-                        <h2 className="text-3xl font-bold text-gray-800 mt-2">
-                            {appliedCount}
-                        </h2>
+                        {/* TOTAL */}
+
+                        <div className="bg-white rounded-[24px] border border-gray-200 shadow-lg p-5 hover:-translate-y-1 transition">
+
+                            <div className="flex items-center justify-between">
+
+                                <div className="w-11 h-11 rounded-xl bg-green-50 flex items-center justify-center text-xl">
+                                    📋
+                                </div>
+
+                                <span className="text-xs font-black text-gray-400">
+                                    TOTAL
+                                </span>
+
+                            </div>
+
+                            <p className="text-3xl font-black text-slate-950 mt-5">
+                                {totalApplications}
+                            </p>
+
+                            <p className="text-gray-500 mt-1 text-sm">
+                                Applications
+                            </p>
+
+                        </div>
+
+                        {/* APPLIED */}
+
+                        <div className="bg-white rounded-[24px] border border-gray-200 shadow-lg p-5 hover:-translate-y-1 transition">
+
+                            <div className="flex items-center justify-between">
+
+                                <div className="w-11 h-11 rounded-xl bg-green-50 flex items-center justify-center text-xl">
+                                    📝
+                                </div>
+
+                                <span className="text-xs font-black text-gray-400">
+                                    APPLIED
+                                </span>
+
+                            </div>
+
+                            <p className="text-3xl font-black text-slate-950 mt-5">
+                                {appliedCount}
+                            </p>
+
+                            <p className="text-gray-500 mt-1 text-sm">
+                                Pending applications
+                            </p>
+
+                        </div>
+
+                        {/* SHORTLISTED */}
+
+                        <div className="bg-white rounded-[24px] border border-gray-200 shadow-lg p-5 hover:-translate-y-1 transition">
+
+                            <div className="flex items-center justify-between">
+
+                                <div className="w-11 h-11 rounded-xl bg-green-50 flex items-center justify-center text-xl">
+                                    ⭐
+                                </div>
+
+                                <span className="text-xs font-black text-gray-400">
+                                    SHORTLISTED
+                                </span>
+
+                            </div>
+
+                            <p className="text-3xl font-black text-slate-950 mt-5">
+                                {shortlistedCount}
+                            </p>
+
+                            <p className="text-gray-500 mt-1 text-sm">
+                                Shortlisted
+                            </p>
+
+                        </div>
+
+                        {/* INTERVIEWS */}
+
+                        <div className="bg-white rounded-[24px] border border-gray-200 shadow-lg p-5 hover:-translate-y-1 transition">
+
+                            <div className="flex items-center justify-between">
+
+                                <div className="w-11 h-11 rounded-xl bg-green-50 flex items-center justify-center text-xl">
+                                    🎤
+                                </div>
+
+                                <span className="text-xs font-black text-gray-400">
+                                    INTERVIEWS
+                                </span>
+
+                            </div>
+
+                            <p className="text-3xl font-black text-slate-950 mt-5">
+                                {interviewCount}
+                            </p>
+
+                            <p className="text-gray-500 mt-1 text-sm">
+                                Interview stages
+                            </p>
+
+                        </div>
+
+                        {/* SELECTED */}
+
+                        <div className="bg-slate-950 rounded-[24px] border border-slate-800 shadow-lg p-5 text-white hover:-translate-y-1 transition">
+
+                            <div className="flex items-center justify-between">
+
+                                <div className="w-11 h-11 rounded-xl bg-green-500/10 flex items-center justify-center text-xl">
+                                    🏆
+                                </div>
+
+                                <span className="text-xs font-black text-green-300">
+                                    SELECTED
+                                </span>
+
+                            </div>
+
+                            <p className="text-3xl font-black text-green-400 mt-5">
+                                {selectedCount}
+                            </p>
+
+                            <p className="text-gray-400 mt-1 text-sm">
+                                Successful applications
+                            </p>
+
+                        </div>
+
                     </div>
 
-                    <div className="bg-white rounded-xl shadow p-5">
-                        <p className="text-gray-500">
-                            ⭐ Shortlisted
-                        </p>
-
-                        <h2 className="text-3xl font-bold text-gray-800 mt-2">
-                            {shortlistedCount}
-                        </h2>
-                    </div>
-
-                    <div className="bg-white rounded-xl shadow p-5">
-                        <p className="text-gray-500">
-                            🎤 Interviews
-                        </p>
-
-                        <h2 className="text-3xl font-bold text-gray-800 mt-2">
-                            {interviewCount}
-                        </h2>
-                    </div>
-
-                    <div className="bg-white rounded-xl shadow p-5">
-                        <p className="text-gray-500">
-                            🏆 Selected
-                        </p>
-
-                        <h2 className="text-3xl font-bold text-green-600 mt-2">
-                            {selectedCount}
-                        </h2>
-                    </div>
-
-                </div>
+                </section>
 
                 {/* ===============================
                     ADD / EDIT FORM
                 =============================== */}
 
-                <div className="bg-white rounded-2xl shadow-md p-5 sm:p-6">
+                <section className="bg-white rounded-[28px] border border-gray-200 shadow-xl overflow-hidden">
 
-                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6">
+                    <div className="px-6 md:px-8 py-6 border-b border-gray-200 bg-gradient-to-br from-white to-green-50/40">
 
-                        <h2 className="text-xl sm:text-2xl font-bold text-gray-800">
-                            {editingId
-                                ? "✏️ Edit Application"
-                                : "➕ Add Job Application"}
-                        </h2>
+                        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
 
-                        {editingId && (
-                            <button
-                                onClick={cancelEdit}
-                                className="text-sm text-red-600 font-semibold hover:underline text-left sm:text-right"
-                            >
-                                Cancel Edit
-                            </button>
-                        )}
+                            <div>
+
+                                <p className="text-xs font-black uppercase tracking-[0.18em] text-green-600">
+                                    Application Management
+                                </p>
+
+                                <h2 className="text-2xl font-black text-slate-950 mt-1">
+                                    {editingId
+                                        ? "✏️ Edit Application"
+                                        : "➕ Add Job Application"}
+                                </h2>
+
+                                <p className="text-gray-500 mt-1">
+                                    {editingId
+                                        ? "Update your application details."
+                                        : "Save a new job or internship opportunity."}
+                                </p>
+
+                            </div>
+
+                            {editingId && (
+                                <button
+                                    onClick={cancelEdit}
+                                    className="rounded-xl border border-gray-200 bg-white px-4 py-2 text-sm font-bold text-gray-600 hover:border-red-200 hover:text-red-600 transition"
+                                >
+                                    ✕ Cancel Edit
+                                </button>
+                            )}
+
+                        </div>
 
                     </div>
 
-                    <form
-                        onSubmit={handleSubmit}
-                        className="grid grid-cols-1 md:grid-cols-2 gap-5"
-                    >
+                    <div className="p-6 md:p-8">
 
-                        {/* Company */}
+                        <form
+                            onSubmit={handleSubmit}
+                            className="grid grid-cols-1 md:grid-cols-2 gap-5"
+                        >
 
-                        <div>
-                            <label className="block text-sm font-semibold text-gray-700 mb-2">
-                                Company Name *
-                            </label>
+                            {/* COMPANY */}
 
-                            <input
-                                type="text"
-                                name="companyName"
-                                value={form.companyName}
-                                onChange={handleChange}
-                                placeholder="e.g. TCS"
-                                className="w-full border rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-green-500"
-                            />
-                        </div>
+                            <div>
 
-                        {/* Job Role */}
+                                <label className="block text-sm font-black text-slate-950 mb-2">
+                                    Company Name *
+                                </label>
 
-                        <div>
-                            <label className="block text-sm font-semibold text-gray-700 mb-2">
-                                Job Role *
-                            </label>
+                                <input
+                                    type="text"
+                                    name="companyName"
+                                    value={form.companyName}
+                                    onChange={handleChange}
+                                    placeholder="e.g. TCS"
+                                    className="w-full rounded-xl border border-gray-300 bg-gray-50 px-4 py-3.5 text-gray-800 outline-none transition focus:border-green-500 focus:bg-white focus:ring-4 focus:ring-green-500/10"
+                                />
 
-                            <input
-                                type="text"
-                                name="jobRole"
-                                value={form.jobRole}
-                                onChange={handleChange}
-                                placeholder="e.g. Full Stack Developer"
-                                className="w-full border rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-green-500"
-                            />
-                        </div>
+                            </div>
 
-                        {/* Applied Date */}
+                            {/* JOB ROLE */}
 
-                        <div>
-                            <label className="block text-sm font-semibold text-gray-700 mb-2">
-                                Applied Date
-                            </label>
+                            <div>
 
-                            <input
-                                type="date"
-                                name="appliedDate"
-                                value={form.appliedDate}
-                                onChange={handleChange}
-                                className="w-full border rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-green-500"
-                            />
-                        </div>
+                                <label className="block text-sm font-black text-slate-950 mb-2">
+                                    Job Role *
+                                </label>
 
-                        {/* Status */}
+                                <input
+                                    type="text"
+                                    name="jobRole"
+                                    value={form.jobRole}
+                                    onChange={handleChange}
+                                    placeholder="e.g. Full Stack Developer"
+                                    className="w-full rounded-xl border border-gray-300 bg-gray-50 px-4 py-3.5 text-gray-800 outline-none transition focus:border-green-500 focus:bg-white focus:ring-4 focus:ring-green-500/10"
+                                />
 
-                        <div>
-                            <label className="block text-sm font-semibold text-gray-700 mb-2">
-                                Status
-                            </label>
+                            </div>
 
-                            <select
-                                name="status"
-                                value={form.status}
-                                onChange={handleChange}
-                                className="w-full border rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-green-500"
-                            >
-                                <option value="Applied">
-                                    Applied
-                                </option>
+                            {/* DATE */}
 
-                                <option value="Shortlisted">
-                                    Shortlisted
-                                </option>
+                            <div>
 
-                                <option value="Interview">
-                                    Interview
-                                </option>
+                                <label className="block text-sm font-black text-slate-950 mb-2">
+                                    Applied Date
+                                </label>
 
-                                <option value="Selected">
-                                    Selected
-                                </option>
+                                <input
+                                    type="date"
+                                    name="appliedDate"
+                                    value={form.appliedDate}
+                                    onChange={handleChange}
+                                    className="w-full rounded-xl border border-gray-300 bg-gray-50 px-4 py-3.5 text-gray-800 outline-none transition focus:border-green-500 focus:bg-white focus:ring-4 focus:ring-green-500/10"
+                                />
 
-                                <option value="Rejected">
-                                    Rejected
-                                </option>
-                            </select>
-                        </div>
+                            </div>
 
-                        {/* Job Type */}
+                            {/* STATUS */}
 
-                        <div>
-                            <label className="block text-sm font-semibold text-gray-700 mb-2">
-                                Job Type
-                            </label>
+                            <div>
 
-                            <select
-                                name="jobType"
-                                value={form.jobType}
-                                onChange={handleChange}
-                                className="w-full border rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-green-500"
-                            >
-                                <option value="Full Time">
-                                    Full Time
-                                </option>
+                                <label className="block text-sm font-black text-slate-950 mb-2">
+                                    Status
+                                </label>
 
-                                <option value="Part Time">
-                                    Part Time
-                                </option>
+                                <select
+                                    name="status"
+                                    value={form.status}
+                                    onChange={handleChange}
+                                    className="w-full rounded-xl border border-gray-300 bg-gray-50 px-4 py-3.5 text-gray-800 outline-none transition focus:border-green-500 focus:bg-white focus:ring-4 focus:ring-green-500/10"
+                                >
 
-                                <option value="Internship">
-                                    Internship
-                                </option>
+                                    <option value="Applied">
+                                        Applied
+                                    </option>
 
-                                <option value="Remote">
-                                    Remote
-                                </option>
+                                    <option value="Shortlisted">
+                                        Shortlisted
+                                    </option>
 
-                                <option value="Freelance">
-                                    Freelance
-                                </option>
-                            </select>
-                        </div>
+                                    <option value="Interview">
+                                        Interview
+                                    </option>
 
-                        {/* Location */}
+                                    <option value="Selected">
+                                        Selected
+                                    </option>
 
-                        <div>
-                            <label className="block text-sm font-semibold text-gray-700 mb-2">
-                                Location
-                            </label>
+                                    <option value="Rejected">
+                                        Rejected
+                                    </option>
 
-                            <input
-                                type="text"
-                                name="location"
-                                value={form.location}
-                                onChange={handleChange}
-                                placeholder="e.g. Lucknow / Remote"
-                                className="w-full border rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-green-500"
-                            />
-                        </div>
+                                </select>
 
-                        {/* Job Link */}
+                            </div>
 
-                        <div className="md:col-span-2">
-                            <label className="block text-sm font-semibold text-gray-700 mb-2">
-                                Job Link
-                            </label>
+                            {/* JOB TYPE */}
 
-                            <input
-                                type="url"
-                                name="jobLink"
-                                value={form.jobLink}
-                                onChange={handleChange}
-                                placeholder="https://example.com/job"
-                                className="w-full border rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-green-500"
-                            />
-                        </div>
+                            <div>
 
-                        {/* Notes */}
+                                <label className="block text-sm font-black text-slate-950 mb-2">
+                                    Job Type
+                                </label>
 
-                        <div className="md:col-span-2">
-                            <label className="block text-sm font-semibold text-gray-700 mb-2">
-                                Notes
-                            </label>
+                                <select
+                                    name="jobType"
+                                    value={form.jobType}
+                                    onChange={handleChange}
+                                    className="w-full rounded-xl border border-gray-300 bg-gray-50 px-4 py-3.5 text-gray-800 outline-none transition focus:border-green-500 focus:bg-white focus:ring-4 focus:ring-green-500/10"
+                                >
 
-                            <textarea
-                                name="notes"
-                                value={form.notes}
-                                onChange={handleChange}
-                                rows="4"
-                                placeholder="Add interview details, recruiter information, preparation notes..."
-                                className="w-full border rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-green-500"
-                            ></textarea>
-                        </div>
+                                    <option value="Full Time">
+                                        Full Time
+                                    </option>
 
-                        {/* Submit */}
+                                    <option value="Part Time">
+                                        Part Time
+                                    </option>
 
-                        <div className="md:col-span-2">
+                                    <option value="Internship">
+                                        Internship
+                                    </option>
 
-                            <button
-                                type="submit"
-                                disabled={saving}
-                                className="w-full sm:w-auto px-6 py-3 bg-green-600 text-white rounded-lg font-semibold hover:bg-green-700 disabled:opacity-50 transition"
-                            >
-                                {saving
-                                    ? "Saving..."
-                                    : editingId
-                                        ? "Update Application"
-                                        : "Add Application"}
-                            </button>
+                                    <option value="Remote">
+                                        Remote
+                                    </option>
 
-                        </div>
+                                    <option value="Freelance">
+                                        Freelance
+                                    </option>
 
-                    </form>
+                                </select>
 
-                </div>
+                            </div>
+
+                            {/* LOCATION */}
+
+                            <div>
+
+                                <label className="block text-sm font-black text-slate-950 mb-2">
+                                    Location
+                                </label>
+
+                                <input
+                                    type="text"
+                                    name="location"
+                                    value={form.location}
+                                    onChange={handleChange}
+                                    placeholder="e.g. Lucknow / Remote"
+                                    className="w-full rounded-xl border border-gray-300 bg-gray-50 px-4 py-3.5 text-gray-800 outline-none transition focus:border-green-500 focus:bg-white focus:ring-4 focus:ring-green-500/10"
+                                />
+
+                            </div>
+
+                            {/* JOB LINK */}
+
+                            <div className="md:col-span-2">
+
+                                <label className="block text-sm font-black text-slate-950 mb-2">
+                                    Job Link
+                                </label>
+
+                                <input
+                                    type="url"
+                                    name="jobLink"
+                                    value={form.jobLink}
+                                    onChange={handleChange}
+                                    placeholder="https://example.com/job"
+                                    className="w-full rounded-xl border border-gray-300 bg-gray-50 px-4 py-3.5 text-gray-800 outline-none transition focus:border-green-500 focus:bg-white focus:ring-4 focus:ring-green-500/10"
+                                />
+
+                            </div>
+
+                            {/* NOTES */}
+
+                            <div className="md:col-span-2">
+
+                                <label className="block text-sm font-black text-slate-950 mb-2">
+                                    Notes
+                                </label>
+
+                                <textarea
+                                    name="notes"
+                                    value={form.notes}
+                                    onChange={handleChange}
+                                    rows="4"
+                                    placeholder="Add interview details, recruiter information, preparation notes..."
+                                    className="w-full resize-none rounded-xl border border-gray-300 bg-gray-50 px-4 py-3.5 text-gray-800 outline-none transition focus:border-green-500 focus:bg-white focus:ring-4 focus:ring-green-500/10"
+                                />
+
+                            </div>
+
+                            {/* SUBMIT */}
+
+                            <div className="md:col-span-2">
+
+                                <button
+                                    type="submit"
+                                    disabled={saving}
+                                    className="w-full sm:w-auto rounded-xl bg-green-600 px-7 py-3.5 font-black text-white transition hover:bg-green-700 hover:-translate-y-0.5 shadow-lg shadow-green-600/20 disabled:cursor-not-allowed disabled:opacity-50"
+                                >
+                                    {saving
+                                        ? "⏳ Saving..."
+                                        : editingId
+                                            ? "✓ Update Application"
+                                            : "➕ Add Application"}
+                                </button>
+
+                            </div>
+
+                        </form>
+
+                    </div>
+
+                </section>
 
                 {/* ===============================
                     APPLICATION LIST
                 =============================== */}
 
-                <div className="bg-white rounded-2xl shadow-md p-5 sm:p-6">
+                <section className="bg-white rounded-[28px] border border-gray-200 shadow-xl overflow-hidden">
 
-                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-6">
+                    <div className="px-6 md:px-8 py-6 border-b border-gray-200 bg-gradient-to-br from-white to-green-50/40">
 
-                        <h2 className="text-xl sm:text-2xl font-bold text-gray-800">
-                            📋 My Applications
-                        </h2>
+                        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
 
-                        <span className="text-sm text-gray-500">
-                            {applications.length} application
-                            {applications.length !== 1 ? "s" : ""}
-                        </span>
+                            <div>
+
+                                <p className="text-xs font-black uppercase tracking-[0.18em] text-green-600">
+                                    Your Pipeline
+                                </p>
+
+                                <h2 className="text-2xl font-black text-slate-950 mt-1">
+                                    📋 My Applications
+                                </h2>
+
+                            </div>
+
+                            <span className="inline-flex w-fit rounded-full bg-green-50 border border-green-200 px-4 py-2 text-sm font-bold text-green-700">
+                                {applications.length} application
+                                {applications.length !== 1
+                                    ? "s"
+                                    : ""}
+                            </span>
+
+                        </div>
 
                     </div>
 
-                    {applications.length === 0 ? (
+                    <div className="p-5 md:p-8">
 
-                        <div className="text-center py-12">
+                        {applications.length === 0 ? (
 
-                            <div className="text-5xl mb-4">
-                                📭
-                            </div>
+                            <div className="text-center py-14">
 
-                            <h3 className="text-xl font-bold text-gray-700">
-                                No Applications Yet
-                            </h3>
-
-                            <p className="text-gray-500 mt-2">
-                                Add your first job or internship application above.
-                            </p>
-
-                        </div>
-
-                    ) : (
-
-                        <div className="space-y-4">
-
-                            {applications.map((application) => (
-
-                                <div
-                                    key={application._id}
-                                    className="border rounded-xl p-5 hover:shadow-md transition"
-                                >
-
-                                    <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4">
-
-                                        {/* Application Info */}
-
-                                        <div className="flex-1 min-w-0">
-
-                                            <div className="flex flex-wrap items-center gap-3">
-
-                                                <h3 className="text-xl font-bold text-gray-800 break-words">
-                                                    {application.jobRole}
-                                                </h3>
-
-                                                <span
-                                                    className={`px-3 py-1 rounded-full text-xs font-semibold ${getStatusClass(
-                                                        application.status
-                                                    )}`}
-                                                >
-                                                    {application.status}
-                                                </span>
-
-                                            </div>
-
-                                            <p className="text-green-700 font-semibold mt-2 break-words">
-                                                🏢 {application.companyName}
-                                            </p>
-
-                                            <div className="flex flex-wrap gap-4 text-sm text-gray-500 mt-3">
-
-                                                <span>
-                                                    📅{" "}
-                                                    {application.appliedDate
-                                                        ? new Date(
-                                                            application.appliedDate
-                                                        ).toLocaleDateString()
-                                                        : "N/A"}
-                                                </span>
-
-                                                <span>
-                                                    💼 {application.jobType}
-                                                </span>
-
-                                                {application.location && (
-                                                    <span className="break-words">
-                                                        📍{" "}
-                                                        {application.location}
-                                                    </span>
-                                                )}
-
-                                            </div>
-
-                                            {application.notes && (
-                                                <p className="text-gray-600 mt-4 break-words">
-                                                    📝 {application.notes}
-                                                </p>
-                                            )}
-
-                                        </div>
-
-                                        {/* Actions */}
-
-                                        <div className="flex flex-wrap gap-2">
-
-                                            {application.jobLink && (
-                                                <a
-                                                    href={application.jobLink}
-                                                    target="_blank"
-                                                    rel="noopener noreferrer"
-                                                    className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-semibold hover:bg-blue-700"
-                                                >
-                                                    🔗 Job
-                                                </a>
-                                            )}
-
-                                            <button
-                                                onClick={() =>
-                                                    handleEdit(application)
-                                                }
-                                                className="px-4 py-2 bg-yellow-500 text-white rounded-lg text-sm font-semibold hover:bg-yellow-600"
-                                            >
-                                                ✏️ Edit
-                                            </button>
-
-                                            <button
-                                                onClick={() =>
-                                                    handleDelete(
-                                                        application._id
-                                                    )
-                                                }
-                                                className="px-4 py-2 bg-red-600 text-white rounded-lg text-sm font-semibold hover:bg-red-700"
-                                            >
-                                                🗑️ Delete
-                                            </button>
-
-                                        </div>
-
-                                    </div>
-
+                                <div className="w-16 h-16 mx-auto rounded-2xl bg-green-50 flex items-center justify-center text-3xl">
+                                    📭
                                 </div>
 
-                            ))}
+                                <h3 className="text-xl font-black text-slate-950 mt-5">
+                                    No Applications Yet
+                                </h3>
 
-                        </div>
+                                <p className="text-gray-500 mt-2 max-w-md mx-auto">
+                                    Add your first job or internship
+                                    application using the form above.
+                                </p>
 
-                    )}
+                            </div>
 
-                </div>
+                        ) : (
+
+                            <div className="space-y-4">
+
+                                {applications.map(
+                                    (application) => (
+
+                                        <div
+                                            key={
+                                                application._id
+                                            }
+                                            className="group rounded-2xl border border-gray-200 p-5 md:p-6 hover:border-green-200 hover:shadow-lg transition-all"
+                                        >
+
+                                            <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-5">
+
+                                                {/* INFO */}
+
+                                                <div className="flex-1 min-w-0">
+
+                                                    <div className="flex items-start gap-4">
+
+                                                        <div className="w-12 h-12 shrink-0 rounded-2xl bg-green-50 flex items-center justify-center text-2xl">
+                                                            💼
+                                                        </div>
+
+                                                        <div className="min-w-0">
+
+                                                            <div className="flex flex-wrap items-center gap-3">
+
+                                                                <h3 className="text-xl font-black text-slate-950 break-words">
+                                                                    {
+                                                                        application.jobRole
+                                                                    }
+                                                                </h3>
+
+                                                                <span
+                                                                    className={`px-3 py-1.5 rounded-full border text-xs font-black ${getStatusClass(
+                                                                        application.status
+                                                                    )}`}
+                                                                >
+                                                                    {
+                                                                        application.status
+                                                                    }
+                                                                </span>
+
+                                                            </div>
+
+                                                            <p className="text-green-700 font-bold mt-2 break-words">
+                                                                🏢{" "}
+                                                                {
+                                                                    application.companyName
+                                                                }
+                                                            </p>
+
+                                                        </div>
+
+                                                    </div>
+
+                                                    {/* META */}
+
+                                                    <div className="flex flex-wrap gap-2 mt-5">
+
+                                                        <span className="rounded-xl bg-gray-50 border border-gray-200 px-3 py-2 text-sm text-gray-600">
+                                                            📅{" "}
+                                                            {application.appliedDate
+                                                                ? new Date(
+                                                                    application.appliedDate
+                                                                ).toLocaleDateString()
+                                                                : "N/A"}
+                                                        </span>
+
+                                                        <span className="rounded-xl bg-gray-50 border border-gray-200 px-3 py-2 text-sm text-gray-600">
+                                                            💼{" "}
+                                                            {
+                                                                application.jobType
+                                                            }
+                                                        </span>
+
+                                                        {application.location && (
+                                                            <span className="rounded-xl bg-gray-50 border border-gray-200 px-3 py-2 text-sm text-gray-600 break-words">
+                                                                📍{" "}
+                                                                {
+                                                                    application.location
+                                                                }
+                                                            </span>
+                                                        )}
+
+                                                    </div>
+
+                                                    {/* NOTES */}
+
+                                                    {application.notes && (
+                                                        <div className="mt-4 rounded-xl bg-gray-50 border border-gray-200 p-4">
+
+                                                            <p className="text-xs font-black uppercase tracking-wide text-gray-500 mb-1">
+                                                                Notes
+                                                            </p>
+
+                                                            <p className="text-gray-600 leading-6 break-words">
+                                                                📝{" "}
+                                                                {
+                                                                    application.notes
+                                                                }
+                                                            </p>
+
+                                                        </div>
+                                                    )}
+
+                                                </div>
+
+                                                {/* ACTIONS */}
+
+                                                <div className="flex flex-wrap gap-2 lg:max-w-xs">
+
+                                                    {application.jobLink && (
+                                                        <a
+                                                            href={
+                                                                application.jobLink
+                                                            }
+                                                            target="_blank"
+                                                            rel="noopener noreferrer"
+                                                            className="rounded-xl bg-slate-950 px-4 py-2.5 text-white text-sm font-bold hover:bg-gray-800 transition"
+                                                        >
+                                                            🔗 Job
+                                                        </a>
+                                                    )}
+
+                                                    <button
+                                                        onClick={() =>
+                                                            handleEdit(
+                                                                application
+                                                            )
+                                                        }
+                                                        className="rounded-xl bg-green-600 px-4 py-2.5 text-white text-sm font-bold hover:bg-green-700 transition"
+                                                    >
+                                                        ✏️ Edit
+                                                    </button>
+
+                                                    <button
+                                                        onClick={() =>
+                                                            handleDelete(
+                                                                application._id
+                                                            )
+                                                        }
+                                                        className="rounded-xl border border-red-200 bg-red-50 px-4 py-2.5 text-red-600 text-sm font-bold hover:bg-red-100 transition"
+                                                    >
+                                                        🗑️ Delete
+                                                    </button>
+
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+                                    )
+                                )}
+
+                            </div>
+
+                        )}
+
+                    </div>
+
+                </section>
 
                 {/* ===============================
                     EXTRA STATISTICS
                 =============================== */}
 
-                <div className="bg-white rounded-2xl shadow-md p-5 sm:p-6">
+                <section className="relative overflow-hidden rounded-[28px] bg-slate-950 text-white shadow-2xl">
 
-                    <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-6">
-                        📈 Application Overview
-                    </h2>
+                    <div className="absolute -right-24 -top-24 w-80 h-80 rounded-full bg-green-500/10 blur-3xl" />
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="relative p-6 md:p-8">
 
-                        <div className="bg-blue-50 rounded-xl p-5">
-                            <p className="text-blue-700 font-semibold">
-                                🎤 Interview Stage
-                            </p>
+                        <div className="flex items-start gap-4">
 
-                            <p className="text-3xl font-bold text-blue-800 mt-2">
-                                {interviewCount}
-                            </p>
+                            <div className="w-14 h-14 shrink-0 rounded-2xl bg-green-500/10 border border-green-400/20 flex items-center justify-center text-2xl">
+                                📈
+                            </div>
+
+                            <div>
+
+                                <p className="text-xs font-black uppercase tracking-[0.18em] text-green-300">
+                                    Pipeline Insights
+                                </p>
+
+                                <h2 className="text-2xl md:text-3xl font-black mt-1">
+                                    Application Overview
+                                </h2>
+
+                                <p className="text-gray-400 mt-2">
+                                    A quick look at the later stages
+                                    of your application pipeline.
+                                </p>
+
+                            </div>
+
                         </div>
 
-                        <div className="bg-red-50 rounded-xl p-5">
-                            <p className="text-red-700 font-semibold">
-                                ❌ Rejected
-                            </p>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-7">
 
-                            <p className="text-3xl font-bold text-red-800 mt-2">
-                                {rejectedCount}
-                            </p>
+                            <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
+
+                                <div className="flex items-center justify-between">
+
+                                    <p className="font-bold text-gray-300">
+                                        🎤 Interview Stage
+                                    </p>
+
+                                    <span className="text-2xl">
+                                        🎯
+                                    </span>
+
+                                </div>
+
+                                <p className="text-4xl font-black text-green-400 mt-4">
+                                    {interviewCount}
+                                </p>
+
+                                <p className="text-sm text-gray-500 mt-1">
+                                    Applications currently at
+                                    interview stage
+                                </p>
+
+                            </div>
+
+                            <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
+
+                                <div className="flex items-center justify-between">
+
+                                    <p className="font-bold text-gray-300">
+                                        ❌ Rejected
+                                    </p>
+
+                                    <span className="text-2xl">
+                                        📉
+                                    </span>
+
+                                </div>
+
+                                <p className="text-4xl font-black text-gray-300 mt-4">
+                                    {rejectedCount}
+                                </p>
+
+                                <p className="text-sm text-gray-500 mt-1">
+                                    Applications marked rejected
+                                </p>
+
+                            </div>
+
                         </div>
 
                     </div>
 
-                </div>
+                </section>
 
             </div>
 

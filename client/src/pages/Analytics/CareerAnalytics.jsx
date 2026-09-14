@@ -5,6 +5,10 @@ const CareerAnalytics = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
 
+    // =========================
+    // FETCH ANALYTICS
+    // =========================
+
     const fetchAnalytics = async () => {
         try {
             setLoading(true);
@@ -26,7 +30,8 @@ const CareerAnalytics = () => {
 
             if (!response.ok) {
                 throw new Error(
-                    data.message || "Failed to load analytics"
+                    data.message ||
+                    "Failed to load analytics"
                 );
             }
 
@@ -44,27 +49,68 @@ const CareerAnalytics = () => {
     }, []);
 
     // =========================
+    // HELPER
+    // =========================
+
+    const getSkillWidth = (level) => {
+        const value = level?.toLowerCase();
+
+        if (value === "advanced") return "90%";
+        if (value === "intermediate") return "65%";
+
+        return "40%";
+    };
+
+    const getReadinessMessage = (score) => {
+        if (score >= 80) {
+            return "Excellent! Your profile is looking highly job-ready.";
+        }
+
+        if (score >= 60) {
+            return "Good progress! A few improvements can make your profile stronger.";
+        }
+
+        if (score >= 40) {
+            return "You are building a solid foundation. Keep improving your profile.";
+        }
+
+        return "Your career profile needs more work. Start by completing the key sections.";
+    };
+
+    // =========================
     // LOADING
     // =========================
 
     if (loading) {
         return (
             <div className="w-full max-w-7xl mx-auto min-w-0">
-                <div className="flex items-center justify-center min-h-[60vh]">
+
+                <div className="min-h-[70vh] flex items-center justify-center">
+
                     <div className="text-center">
-                        <div className="text-5xl mb-4">
-                            📊
+
+                        <div className="mx-auto mb-5 w-16 h-16 rounded-2xl bg-green-50 border border-green-100 flex items-center justify-center">
+
+                            <div className="w-8 h-8 animate-spin rounded-full border-4 border-gray-200 border-t-green-600" />
+
                         </div>
 
-                        <p className="text-xl font-semibold text-gray-700">
-                            Generating Career Analytics...
+                        <p className="text-xs font-black uppercase tracking-[0.2em] text-green-600">
+                            Career Intelligence
                         </p>
+
+                        <h2 className="text-xl md:text-2xl font-black text-slate-950 mt-2">
+                            Generating Career Analytics...
+                        </h2>
 
                         <p className="text-gray-500 mt-2">
                             Analyzing your career profile
                         </p>
+
                     </div>
+
                 </div>
+
             </div>
         );
     }
@@ -76,325 +122,712 @@ const CareerAnalytics = () => {
     if (error) {
         return (
             <div className="w-full max-w-7xl mx-auto min-w-0">
-                <div className="max-w-3xl mx-auto mt-10 bg-red-50 border border-red-200 rounded-xl p-6">
 
-                    <h2 className="text-xl font-bold text-red-700 mb-2">
-                        Unable to Load Analytics
-                    </h2>
+                <div className="min-h-[65vh] flex items-center justify-center">
 
-                    <p className="text-red-600 mb-4 break-words">
-                        {error}
-                    </p>
+                    <div className="w-full max-w-xl bg-white rounded-[28px] border border-gray-200 shadow-xl p-7 md:p-9 text-center">
 
-                    <button
-                        onClick={fetchAnalytics}
-                        className="px-5 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition"
-                    >
-                        Try Again
-                    </button>
+                        <div className="w-16 h-16 mx-auto rounded-2xl bg-red-50 flex items-center justify-center text-3xl">
+                            ⚠️
+                        </div>
+
+                        <p className="text-xs font-black uppercase tracking-[0.2em] text-red-600 mt-6">
+                            Analytics Error
+                        </p>
+
+                        <h2 className="text-2xl font-black text-slate-950 mt-2">
+                            Unable to Load Analytics
+                        </h2>
+
+                        <p className="text-red-600 mt-3 mb-5 break-words">
+                            {error}
+                        </p>
+
+                        <button
+                            onClick={fetchAnalytics}
+                            className="rounded-xl bg-green-600 px-6 py-3 font-bold text-white hover:bg-green-700 transition shadow-lg shadow-green-600/20"
+                        >
+                            🔄 Try Again
+                        </button>
+
+                    </div>
 
                 </div>
+
             </div>
         );
     }
 
+    const readiness =
+        analytics?.overallReadiness || 0;
+
     return (
-        <div className="w-full max-w-7xl mx-auto min-w-0">
+        <div className="w-full max-w-7xl mx-auto min-w-0 pb-12">
 
-            <div className="space-y-8">
+            <div className="relative space-y-7">
 
-                {/* Header */}
+                {/* =========================
+                    HERO HEADER
+                ========================= */}
 
-                <div>
-                    <h1 className="text-3xl sm:text-4xl font-bold text-gray-800">
-                        📊 Career Analytics
-                    </h1>
+                <section className="relative overflow-hidden rounded-[28px] bg-slate-950 text-white shadow-2xl">
 
-                    <p className="text-gray-600 mt-2">
-                        Track your career profile strength and readiness.
-                    </p>
-                </div>
+                    <div className="absolute -right-28 -top-32 w-96 h-96 rounded-full bg-green-500/10 blur-3xl" />
 
-                {/* Overall Readiness */}
+                    <div className="absolute -left-28 -bottom-32 w-96 h-96 rounded-full bg-green-500/5 blur-3xl" />
 
-                <div className="bg-white rounded-2xl shadow-md p-5 sm:p-8">
+                    <div className="relative p-6 md:p-9">
 
-                    <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+                        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
 
-                        <div className="text-center md:text-left">
-                            <h2 className="text-2xl font-bold text-gray-800">
-                                Overall Career Readiness
-                            </h2>
+                            <div className="flex-1">
 
-                            <p className="text-gray-500 mt-2">
-                                Based on your skills, projects,
-                                certificates and resume.
-                            </p>
+                                <div className="inline-flex items-center gap-2 rounded-full border border-green-400/20 bg-green-500/10 px-4 py-2 text-sm font-semibold text-green-300">
+                                    📊 Career Intelligence
+                                </div>
+
+                                <h1 className="mt-5 text-3xl md:text-5xl font-black leading-tight">
+                                    Career Analytics
+                                    <span className="text-green-500">
+                                        .
+                                    </span>
+                                </h1>
+
+                                <p className="mt-4 max-w-2xl text-gray-400 leading-7">
+                                    Track your career profile strength,
+                                    understand your current readiness
+                                    and discover areas that need
+                                    improvement.
+                                </p>
+
+                                <div className="mt-6 flex flex-wrap gap-3">
+
+                                    <span className="rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-sm">
+                                        💻 Skills
+                                    </span>
+
+                                    <span className="rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-sm">
+                                        🚀 Projects
+                                    </span>
+
+                                    <span className="rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-sm">
+                                        📜 Certificates
+                                    </span>
+
+                                    <span className="rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-sm">
+                                        📄 Resume
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                            {/* READINESS */}
+
+                            <div className="shrink-0">
+
+                                <div className="w-56 rounded-3xl border border-green-400/20 bg-white/5 p-6 text-center">
+
+                                    <p className="text-xs font-black uppercase tracking-[0.18em] text-green-300">
+                                        Career Readiness
+                                    </p>
+
+                                    <div className="relative w-32 h-32 mx-auto mt-5">
+
+                                        <div className="absolute inset-0 rounded-full border-[10px] border-white/10" />
+
+                                        <div
+                                            className="absolute inset-0 rounded-full border-[10px] border-green-500"
+                                            style={{
+                                                clipPath: `polygon(
+                                                    0 0,
+                                                    100% 0,
+                                                    100% ${Math.min(
+                                                    readiness,
+                                                    100
+                                                )}%,
+                                                    0 ${Math.min(
+                                                    readiness,
+                                                    100
+                                                )}%
+                                                )`,
+                                            }}
+                                        />
+
+                                        <div className="absolute inset-0 flex items-center justify-center">
+
+                                            <span className="text-3xl font-black">
+                                                {readiness}%
+                                            </span>
+
+                                        </div>
+
+                                    </div>
+
+                                    <p className="text-gray-400 text-sm mt-4">
+                                        Overall readiness score
+                                    </p>
+
+                                </div>
+
+                            </div>
+
                         </div>
 
-                        <div className="text-center">
+                    </div>
 
-                            <div className="w-32 h-32 sm:w-36 sm:h-36 rounded-full border-8 border-green-500 flex items-center justify-center">
+                </section>
 
-                                <span className="text-3xl sm:text-4xl font-bold text-green-600">
-                                    {analytics?.overallReadiness || 0}%
+                {/* =========================
+                    READINESS SUMMARY
+                ========================= */}
+
+                <section className="bg-white rounded-[28px] border border-gray-200 shadow-xl overflow-hidden">
+
+                    <div className="p-6 md:p-8">
+
+                        <div className="flex flex-col md:flex-row md:items-center gap-6">
+
+                            <div className="w-16 h-16 shrink-0 rounded-2xl bg-green-50 border border-green-100 flex items-center justify-center text-3xl">
+                                🎯
+                            </div>
+
+                            <div className="flex-1">
+
+                                <p className="text-xs font-black uppercase tracking-[0.18em] text-green-600">
+                                    Readiness Overview
+                                </p>
+
+                                <h2 className="text-2xl font-black text-slate-950 mt-1">
+                                    Overall Career Readiness
+                                </h2>
+
+                                <p className="text-gray-500 mt-2 leading-6">
+                                    {getReadinessMessage(
+                                        readiness
+                                    )}
+                                </p>
+
+                            </div>
+
+                            <div className="shrink-0 text-center md:text-right">
+
+                                <p className="text-4xl font-black text-green-600">
+                                    {readiness}%
+                                </p>
+
+                                <p className="text-sm font-semibold text-gray-500 mt-1">
+                                    Readiness Score
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+                {/* =========================
+                    PROFILE STATS
+                ========================= */}
+
+                <section>
+
+                    <div className="mb-5">
+
+                        <p className="text-xs font-black uppercase tracking-[0.18em] text-green-600">
+                            Profile Overview
+                        </p>
+
+                        <h2 className="text-2xl font-black text-slate-950 mt-1">
+                            Your Career Assets
+                        </h2>
+
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+
+                        {/* SKILLS */}
+
+                        <div className="group bg-white rounded-[24px] border border-gray-200 shadow-lg p-6 hover:-translate-y-1 transition-all">
+
+                            <div className="flex items-center justify-between">
+
+                                <div className="w-12 h-12 rounded-2xl bg-green-50 flex items-center justify-center text-2xl">
+                                    💻
+                                </div>
+
+                                <span className="text-xs font-bold text-green-600">
+                                    SKILLS
                                 </span>
 
                             </div>
 
-                            <p className="font-semibold text-gray-700 mt-3">
-                                Readiness Score
+                            <p className="text-4xl font-black text-slate-950 mt-6">
+                                {analytics?.profile?.skills || 0}
+                            </p>
+
+                            <p className="text-gray-500 mt-1">
+                                Technical skills
+                            </p>
+
+                        </div>
+
+                        {/* PROJECTS */}
+
+                        <div className="group bg-white rounded-[24px] border border-gray-200 shadow-lg p-6 hover:-translate-y-1 transition-all">
+
+                            <div className="flex items-center justify-between">
+
+                                <div className="w-12 h-12 rounded-2xl bg-green-50 flex items-center justify-center text-2xl">
+                                    🚀
+                                </div>
+
+                                <span className="text-xs font-bold text-green-600">
+                                    PROJECTS
+                                </span>
+
+                            </div>
+
+                            <p className="text-4xl font-black text-slate-950 mt-6">
+                                {analytics?.profile?.projects || 0}
+                            </p>
+
+                            <p className="text-gray-500 mt-1">
+                                Portfolio projects
+                            </p>
+
+                        </div>
+
+                        {/* CERTIFICATES */}
+
+                        <div className="group bg-white rounded-[24px] border border-gray-200 shadow-lg p-6 hover:-translate-y-1 transition-all">
+
+                            <div className="flex items-center justify-between">
+
+                                <div className="w-12 h-12 rounded-2xl bg-green-50 flex items-center justify-center text-2xl">
+                                    📜
+                                </div>
+
+                                <span className="text-xs font-bold text-green-600">
+                                    CERTIFICATES
+                                </span>
+
+                            </div>
+
+                            <p className="text-4xl font-black text-slate-950 mt-6">
+                                {analytics?.profile?.certificates || 0}
+                            </p>
+
+                            <p className="text-gray-500 mt-1">
+                                Verified credentials
+                            </p>
+
+                        </div>
+
+                        {/* RESUME */}
+
+                        <div className="group bg-white rounded-[24px] border border-gray-200 shadow-lg p-6 hover:-translate-y-1 transition-all">
+
+                            <div className="flex items-center justify-between">
+
+                                <div className="w-12 h-12 rounded-2xl bg-green-50 flex items-center justify-center text-2xl">
+                                    📄
+                                </div>
+
+                                <span className="text-xs font-bold text-green-600">
+                                    RESUME
+                                </span>
+
+                            </div>
+
+                            <p className="text-xl font-black text-slate-950 mt-7">
+                                {analytics?.profile?.resumeUploaded
+                                    ? "Uploaded"
+                                    : "Missing"}
+                            </p>
+
+                            <p className="text-gray-500 mt-1">
+                                Resume status
                             </p>
 
                         </div>
 
                     </div>
 
-                </div>
+                </section>
 
-                {/* Profile Stats */}
+                {/* =========================
+                    SKILL ANALYSIS
+                ========================= */}
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                <section className="bg-white rounded-[28px] border border-gray-200 shadow-xl overflow-hidden">
 
-                    <div className="bg-white rounded-xl shadow p-6">
-                        <p className="text-gray-500">
-                            💻 Skills
+                    <div className="px-6 md:px-8 py-6 border-b border-gray-200 bg-gradient-to-br from-white to-green-50/40">
+
+                        <p className="text-xs font-black uppercase tracking-[0.18em] text-green-600">
+                            Technical Profile
                         </p>
 
-                        <h3 className="text-3xl font-bold text-gray-800 mt-2">
-                            {analytics?.profile?.skills || 0}
-                        </h3>
-                    </div>
+                        <h2 className="text-2xl font-black text-slate-950 mt-1">
+                            💻 Skill Analysis
+                        </h2>
 
-                    <div className="bg-white rounded-xl shadow p-6">
-                        <p className="text-gray-500">
-                            🚀 Projects
+                        <p className="text-gray-500 mt-1">
+                            Understand the strength of your current
+                            technical skill set.
                         </p>
 
-                        <h3 className="text-3xl font-bold text-gray-800 mt-2">
-                            {analytics?.profile?.projects || 0}
-                        </h3>
                     </div>
 
-                    <div className="bg-white rounded-xl shadow p-6">
-                        <p className="text-gray-500">
-                            📜 Certificates
-                        </p>
+                    <div className="p-6 md:p-8">
 
-                        <h3 className="text-3xl font-bold text-gray-800 mt-2">
-                            {analytics?.profile?.certificates || 0}
-                        </h3>
-                    </div>
+                        {analytics?.skillAnalysis?.length > 0 ? (
 
-                    <div className="bg-white rounded-xl shadow p-6">
-                        <p className="text-gray-500">
-                            📄 Resume
-                        </p>
+                            <div className="space-y-6">
 
-                        <h3 className="text-3xl font-bold text-gray-800 mt-2">
-                            {analytics?.profile?.resumeUploaded
-                                ? "Uploaded"
-                                : "Missing"}
-                        </h3>
-                    </div>
+                                {analytics.skillAnalysis.map(
+                                    (skill, index) => (
 
-                </div>
+                                        <div key={index}>
 
-                {/* Skills */}
+                                            <div className="flex flex-wrap justify-between gap-2 mb-2">
 
-                <div className="bg-white rounded-2xl shadow-md p-5 sm:p-6">
+                                                <span className="font-black text-slate-950 break-words">
+                                                    {skill.name}
+                                                </span>
 
-                    <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-6">
-                        💻 Skill Analysis
-                    </h2>
+                                                <span className="rounded-full bg-green-50 border border-green-200 px-3 py-1 text-xs font-bold text-green-700">
+                                                    {skill.level}
+                                                </span>
 
-                    {analytics?.skillAnalysis?.length > 0 ? (
+                                            </div>
 
-                        <div className="space-y-5">
+                                            <div className="w-full bg-gray-100 rounded-full h-3 overflow-hidden">
 
-                            {analytics.skillAnalysis.map(
-                                (skill, index) => (
-                                    <div key={index}>
+                                                <div
+                                                    className="bg-green-600 h-3 rounded-full transition-all duration-700"
+                                                    style={{
+                                                        width: getSkillWidth(
+                                                            skill.level
+                                                        ),
+                                                    }}
+                                                />
 
-                                        <div className="flex flex-wrap justify-between gap-2 mb-2">
-
-                                            <span className="font-semibold text-gray-700 break-words">
-                                                {skill.name}
-                                            </span>
-
-                                            <span className="text-sm text-gray-500">
-                                                {skill.level}
-                                            </span>
+                                            </div>
 
                                         </div>
 
-                                        <div className="w-full bg-gray-200 rounded-full h-3">
+                                    )
+                                )}
 
-                                            <div
-                                                className="bg-green-500 h-3 rounded-full"
-                                                style={{
-                                                    width:
-                                                        skill.level
-                                                            ?.toLowerCase() ===
-                                                            "advanced"
-                                                            ? "90%"
-                                                            : skill.level
-                                                                ?.toLowerCase() ===
-                                                                "intermediate"
-                                                                ? "65%"
-                                                                : "40%",
-                                                }}
-                                            ></div>
+                            </div>
 
-                                        </div>
+                        ) : (
 
-                                    </div>
-                                )
-                            )}
+                            <div className="rounded-2xl bg-gray-50 border border-gray-200 p-6 text-center">
 
-                        </div>
-
-                    ) : (
-
-                        <p className="text-gray-500">
-                            No skills added yet.
-                        </p>
-
-                    )}
-
-                </div>
-
-                {/* Projects */}
-
-                <div className="bg-white rounded-2xl shadow-md p-5 sm:p-6">
-
-                    <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-6">
-                        🚀 Project Analysis
-                    </h2>
-
-                    {analytics?.projectAnalysis?.length > 0 ? (
-
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-
-                            {analytics.projectAnalysis.map(
-                                (project, index) => (
-                                    <div
-                                        key={index}
-                                        className="border rounded-xl p-5 hover:shadow-md transition"
-                                    >
-
-                                        <h3 className="font-bold text-lg text-gray-800 break-words">
-                                            {project.title}
-                                        </h3>
-
-                                        <p className="text-gray-500 mt-2 break-words">
-                                            Technology:{" "}
-                                            {project.technology}
-                                        </p>
-
-                                    </div>
-                                )
-                            )}
-
-                        </div>
-
-                    ) : (
-
-                        <p className="text-gray-500">
-                            No projects added yet.
-                        </p>
-
-                    )}
-
-                </div>
-
-                {/* Certificates */}
-
-                <div className="bg-white rounded-2xl shadow-md p-5 sm:p-6">
-
-                    <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-6">
-                        📜 Certificate Analysis
-                    </h2>
-
-                    {analytics?.certificateAnalysis?.length > 0 ? (
-
-                        <div className="space-y-4">
-
-                            {analytics.certificateAnalysis.map(
-                                (certificate, index) => (
-                                    <div
-                                        key={index}
-                                        className="border rounded-xl p-4"
-                                    >
-
-                                        <h3 className="font-bold text-gray-800 break-words">
-                                            {certificate.title}
-                                        </h3>
-
-                                        <p className="text-gray-500 mt-1 break-words">
-                                            Issuer:{" "}
-                                            {certificate.issuer}
-                                        </p>
-
-                                    </div>
-                                )
-                            )}
-
-                        </div>
-
-                    ) : (
-
-                        <p className="text-gray-500">
-                            No certificates added yet.
-                        </p>
-
-                    )}
-
-                </div>
-
-                {/* Suggestions */}
-
-                <div className="bg-white rounded-2xl shadow-md p-5 sm:p-6">
-
-                    <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-6">
-                        🎯 AI Career Improvement Suggestions
-                    </h2>
-
-                    <div className="space-y-4">
-
-                        {analytics?.suggestions?.map(
-                            (suggestion, index) => (
-                                <div
-                                    key={index}
-                                    className="flex items-start gap-3 bg-green-50 rounded-xl p-4"
-                                >
-
-                                    <span className="text-xl shrink-0">
-                                        💡
-                                    </span>
-
-                                    <p className="text-gray-700 break-words">
-                                        {suggestion}
-                                    </p>
-
+                                <div className="text-3xl">
+                                    💻
                                 </div>
-                            )
+
+                                <p className="font-bold text-slate-950 mt-3">
+                                    No skills added yet
+                                </p>
+
+                                <p className="text-gray-500 text-sm mt-1">
+                                    Add your technical skills to
+                                    see detailed analysis.
+                                </p>
+
+                            </div>
+
                         )}
 
                     </div>
 
-                </div>
+                </section>
 
-                {/* Refresh */}
+                {/* =========================
+                    PROJECT ANALYSIS
+                ========================= */}
 
-                <div className="text-center pb-8">
+                <section className="bg-white rounded-[28px] border border-gray-200 shadow-xl overflow-hidden">
+
+                    <div className="px-6 md:px-8 py-6 border-b border-gray-200 bg-gradient-to-br from-white to-green-50/40">
+
+                        <p className="text-xs font-black uppercase tracking-[0.18em] text-green-600">
+                            Portfolio Strength
+                        </p>
+
+                        <h2 className="text-2xl font-black text-slate-950 mt-1">
+                            🚀 Project Analysis
+                        </h2>
+
+                        <p className="text-gray-500 mt-1">
+                            Review the projects contributing to your
+                            career profile.
+                        </p>
+
+                    </div>
+
+                    <div className="p-5 md:p-8">
+
+                        {analytics?.projectAnalysis?.length > 0 ? (
+
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+
+                                {analytics.projectAnalysis.map(
+                                    (project, index) => (
+
+                                        <div
+                                            key={index}
+                                            className="group rounded-2xl border border-gray-200 p-5 hover:border-green-200 hover:shadow-lg transition-all"
+                                        >
+
+                                            <div className="flex items-start gap-4">
+
+                                                <div className="w-11 h-11 shrink-0 rounded-xl bg-green-50 flex items-center justify-center text-xl">
+                                                    🚀
+                                                </div>
+
+                                                <div className="min-w-0">
+
+                                                    <h3 className="font-black text-lg text-slate-950 break-words">
+                                                        {project.title}
+                                                    </h3>
+
+                                                    <div className="mt-3 inline-flex rounded-full bg-gray-100 px-3 py-1 text-xs font-bold text-gray-600 break-words">
+                                                        ⚙️{" "}
+                                                        {project.technology}
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+                                    )
+                                )}
+
+                            </div>
+
+                        ) : (
+
+                            <div className="rounded-2xl bg-gray-50 border border-gray-200 p-6 text-center">
+
+                                <div className="text-3xl">
+                                    🚀
+                                </div>
+
+                                <p className="font-bold text-slate-950 mt-3">
+                                    No projects added yet
+                                </p>
+
+                                <p className="text-gray-500 text-sm mt-1">
+                                    Add projects to strengthen your
+                                    portfolio.
+                                </p>
+
+                            </div>
+
+                        )}
+
+                    </div>
+
+                </section>
+
+                {/* =========================
+                    CERTIFICATE ANALYSIS
+                ========================= */}
+
+                <section className="bg-white rounded-[28px] border border-gray-200 shadow-xl overflow-hidden">
+
+                    <div className="px-6 md:px-8 py-6 border-b border-gray-200 bg-gradient-to-br from-white to-green-50/40">
+
+                        <p className="text-xs font-black uppercase tracking-[0.18em] text-green-600">
+                            Credentials
+                        </p>
+
+                        <h2 className="text-2xl font-black text-slate-950 mt-1">
+                            📜 Certificate Analysis
+                        </h2>
+
+                    </div>
+
+                    <div className="p-5 md:p-8">
+
+                        {analytics?.certificateAnalysis?.length > 0 ? (
+
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+                                {analytics.certificateAnalysis.map(
+                                    (
+                                        certificate,
+                                        index
+                                    ) => (
+
+                                        <div
+                                            key={index}
+                                            className="rounded-2xl border border-gray-200 p-5 hover:shadow-md hover:border-green-200 transition"
+                                        >
+
+                                            <div className="flex items-start gap-4">
+
+                                                <div className="w-11 h-11 shrink-0 rounded-xl bg-green-50 flex items-center justify-center text-xl">
+                                                    📜
+                                                </div>
+
+                                                <div className="min-w-0">
+
+                                                    <h3 className="font-black text-slate-950 break-words">
+                                                        {
+                                                            certificate.title
+                                                        }
+                                                    </h3>
+
+                                                    <p className="text-gray-500 mt-2 break-words text-sm">
+                                                        Issuer:{" "}
+                                                        {
+                                                            certificate.issuer
+                                                        }
+                                                    </p>
+
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+                                    )
+                                )}
+
+                            </div>
+
+                        ) : (
+
+                            <div className="rounded-2xl bg-gray-50 border border-gray-200 p-6 text-center">
+
+                                <div className="text-3xl">
+                                    📜
+                                </div>
+
+                                <p className="font-bold text-slate-950 mt-3">
+                                    No certificates added yet
+                                </p>
+
+                                <p className="text-gray-500 text-sm mt-1">
+                                    Add your certifications to improve
+                                    your career profile.
+                                </p>
+
+                            </div>
+
+                        )}
+
+                    </div>
+
+                </section>
+
+                {/* =========================
+                    AI SUGGESTIONS
+                ========================= */}
+
+                <section className="relative overflow-hidden rounded-[28px] bg-slate-950 text-white shadow-2xl">
+
+                    <div className="absolute -right-24 -top-24 w-80 h-80 rounded-full bg-green-500/10 blur-3xl" />
+
+                    <div className="relative p-6 md:p-8">
+
+                        <div className="flex items-start gap-4">
+
+                            <div className="w-14 h-14 shrink-0 rounded-2xl bg-green-500/10 border border-green-400/20 flex items-center justify-center text-2xl">
+                                🤖
+                            </div>
+
+                            <div>
+
+                                <p className="text-xs font-black uppercase tracking-[0.18em] text-green-300">
+                                    AI Career Coach
+                                </p>
+
+                                <h2 className="text-2xl md:text-3xl font-black mt-1">
+                                    Career Improvement Suggestions
+                                </h2>
+
+                                <p className="text-gray-400 mt-2">
+                                    Personalized recommendations based
+                                    on your current career profile.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                        <div className="mt-7 space-y-3">
+
+                            {analytics?.suggestions?.length > 0 ? (
+
+                                analytics.suggestions.map(
+                                    (
+                                        suggestion,
+                                        index
+                                    ) => (
+
+                                        <div
+                                            key={index}
+                                            className="flex items-start gap-4 rounded-2xl border border-white/10 bg-white/5 p-4 md:p-5"
+                                        >
+
+                                            <span className="w-9 h-9 shrink-0 rounded-xl bg-green-500/10 text-green-300 flex items-center justify-center font-black">
+                                                {index + 1}
+                                            </span>
+
+                                            <p className="text-gray-300 leading-6 break-words pt-1">
+                                                {
+                                                    suggestion
+                                                }
+                                            </p>
+
+                                        </div>
+
+                                    )
+                                )
+
+                            ) : (
+
+                                <div className="rounded-2xl bg-white/5 border border-white/10 p-5 text-gray-400">
+                                    No improvement suggestions available
+                                    right now.
+                                </div>
+
+                            )}
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+                {/* =========================
+                    REFRESH
+                ========================= */}
+
+                <div className="flex flex-col items-center gap-3 pb-5">
 
                     <button
                         onClick={fetchAnalytics}
-                        className="w-full sm:w-auto px-6 py-3 bg-green-600 text-white rounded-lg font-semibold hover:bg-green-700 transition"
+                        className="w-full sm:w-auto rounded-xl bg-green-600 px-7 py-3.5 font-black text-white transition hover:bg-green-700 hover:-translate-y-0.5 shadow-lg shadow-green-600/20"
                     >
                         🔄 Refresh Analytics
                     </button>
+
+                    <p className="text-xs text-gray-400 text-center">
+                        Refresh to analyze the latest information
+                        in your career profile.
+                    </p>
 
                 </div>
 

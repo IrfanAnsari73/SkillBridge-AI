@@ -8,21 +8,20 @@ const Resume = () => {
     const [message, setMessage] = useState("");
     const [error, setError] = useState("");
 
-    // =========================
-    // AI ANALYZER STATES
-    // =========================
-
+    // AI ANALYZER
     const [analyzing, setAnalyzing] = useState(false);
-    const [analysisStarted, setAnalysisStarted] = useState(false);
+    const [analysisStarted, setAnalysisStarted] =
+        useState(false);
     const [analysis, setAnalysis] = useState(null);
 
-    // =========================
+    // =========================================
     // FETCH RESUME
-    // =========================
+    // =========================================
 
     const fetchResume = async () => {
         try {
-            const token = localStorage.getItem("token");
+            const token =
+                localStorage.getItem("token");
 
             if (!token) {
                 setError("Please login first.");
@@ -55,6 +54,7 @@ const Resume = () => {
                 "Fetch Resume Error:",
                 error
             );
+
             setError(
                 "Unable to connect to server."
             );
@@ -67,9 +67,9 @@ const Resume = () => {
         fetchResume();
     }, []);
 
-    // =========================
-    // SELECT FILE
-    // =========================
+    // =========================================
+    // FILE CHANGE
+    // =========================================
 
     const handleFileChange = (e) => {
         const file = e.target.files[0];
@@ -106,9 +106,9 @@ const Resume = () => {
         setSelectedFile(file);
     };
 
-    // =========================
+    // =========================================
     // UPLOAD / REPLACE
-    // =========================
+    // =========================================
 
     const handleUpload = async (e) => {
         e.preventDefault();
@@ -128,7 +128,10 @@ const Resume = () => {
 
             const formData = new FormData();
 
-            formData.append("resume", selectedFile);
+            formData.append(
+                "resume",
+                selectedFile
+            );
 
             const response = await fetch(
                 "http://localhost:5000/api/resume",
@@ -157,7 +160,6 @@ const Resume = () => {
             setSelectedFile(null);
             setMessage(data.message);
 
-            // Reset previous AI analysis
             setAnalysisStarted(false);
             setAnalysis(null);
 
@@ -174,6 +176,7 @@ const Resume = () => {
                 "Upload Resume Error:",
                 error
             );
+
             setError(
                 "Unable to connect to server."
             );
@@ -182,9 +185,9 @@ const Resume = () => {
         }
     };
 
-    // =========================
-    // DOWNLOAD RESUME
-    // =========================
+    // =========================================
+    // DOWNLOAD
+    // =========================================
 
     const handleDownload = async () => {
         try {
@@ -217,7 +220,7 @@ const Resume = () => {
                         data.message ||
                         errorMessage;
                 } catch {
-                    // Ignore JSON parsing error
+                    // Ignore
                 }
 
                 throw new Error(errorMessage);
@@ -227,7 +230,9 @@ const Resume = () => {
                 await response.blob();
 
             const downloadUrl =
-                window.URL.createObjectURL(blob);
+                window.URL.createObjectURL(
+                    blob
+                );
 
             const link =
                 document.createElement("a");
@@ -262,9 +267,9 @@ const Resume = () => {
         }
     };
 
-    // =========================
-    // DELETE RESUME
-    // =========================
+    // =========================================
+    // DELETE
+    // =========================================
 
     const handleDelete = async () => {
         const confirmDelete =
@@ -272,9 +277,7 @@ const Resume = () => {
                 "Are you sure you want to delete your resume?"
             );
 
-        if (!confirmDelete) {
-            return;
-        }
+        if (!confirmDelete) return;
 
         try {
             setError("");
@@ -306,8 +309,6 @@ const Resume = () => {
             }
 
             setResume(null);
-
-            // Reset AI analyzer
             setAnalysisStarted(false);
             setAnalysis(null);
 
@@ -324,9 +325,9 @@ const Resume = () => {
         }
     };
 
-    // =========================
+    // =========================================
     // AI RESUME ANALYZER
-    // =========================
+    // =========================================
 
     const handleAnalyzeResume = async () => {
         if (!resume) {
@@ -388,9 +389,9 @@ const Resume = () => {
         }
     };
 
-    // =========================
+    // =========================================
     // FILE SIZE
-    // =========================
+    // =========================================
 
     const getFileSize = (bytes) => {
         if (!bytes) {
@@ -400,597 +401,1007 @@ const Resume = () => {
         return `${(bytes / 1024).toFixed(1)} KB`;
     };
 
-    // =========================
+    // =========================================
     // LOADING
-    // =========================
+    // =========================================
 
     if (loading) {
         return (
-            <div className="w-full max-w-7xl mx-auto">
-                <p className="text-gray-600">
-                    Loading resume...
-                </p>
+            <div className="w-full max-w-7xl mx-auto flex items-center justify-center py-20">
+                <div className="text-center">
+                    <div className="w-12 h-12 mx-auto rounded-full border-4 border-green-100 border-t-green-600 animate-spin" />
+
+                    <p className="text-gray-500 mt-4 font-medium">
+                        Loading your resume...
+                    </p>
+                </div>
             </div>
         );
     }
 
-    // =========================
+    // =========================================
     // UI
-    // =========================
+    // =========================================
 
     return (
-        <div className="w-full max-w-7xl mx-auto min-w-0 space-y-6">
+        <div className="w-full max-w-7xl mx-auto min-w-0 pb-12">
 
-            {/* =========================
-                PAGE HEADER
-            ========================= */}
+            <div className="relative">
 
-            <div>
-                <h1 className="text-4xl font-bold text-green-600">
-                    My Resume 📄
-                </h1>
+                {/* BACKGROUND GLOW */}
 
-                <p className="text-gray-600 mt-2">
-                    Upload and manage your resume.
-                </p>
-            </div>
+                <div className="pointer-events-none absolute -top-24 right-0 w-96 h-96 bg-green-400/10 rounded-full blur-3xl" />
 
-            {/* =========================
-                SUCCESS MESSAGE
-            ========================= */}
+                <div className="pointer-events-none absolute top-[700px] -left-40 w-96 h-96 bg-emerald-400/5 rounded-full blur-3xl" />
 
-            {message && (
-                <div className="bg-green-50 border border-green-300 text-green-700 px-4 py-3 rounded-lg">
-                    {message}
-                </div>
-            )}
+                <div className="relative space-y-7">
 
-            {/* =========================
-                ERROR MESSAGE
-            ========================= */}
+                    {/* =================================
+                        HEADER
+                    ================================= */}
 
-            {error && (
-                <div className="bg-red-50 border border-red-300 text-red-700 px-4 py-3 rounded-lg">
-                    {error}
-                </div>
-            )}
-
-            {/* =========================
-                UPLOAD SECTION
-            ========================= */}
-
-            <div className="bg-white rounded-xl shadow-lg p-6 md:p-8">
-
-                <h2 className="text-2xl font-bold">
-                    {resume
-                        ? "Replace Resume"
-                        : "Upload Resume"}
-                </h2>
-
-                <p className="text-gray-500 mt-2">
-                    PDF, DOC and DOCX files only.
-                    Maximum size: 5 MB.
-                </p>
-
-                <form
-                    onSubmit={handleUpload}
-                    className="mt-6"
-                >
-
-                    <input
-                        id="resumeFile"
-                        type="file"
-                        accept=".pdf,.doc,.docx"
-                        onChange={handleFileChange}
-                        className="block w-full border rounded-lg p-3"
-                    />
-
-                    {selectedFile && (
-                        <p className="mt-3 text-gray-600 break-all">
-                            Selected:{" "}
-                            {selectedFile.name}
-                        </p>
-                    )}
-
-                    <button
-                        type="submit"
-                        disabled={uploading}
-                        className="mt-5 bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 disabled:opacity-50"
-                    >
-                        {uploading
-                            ? "Uploading..."
-                            : resume
-                                ? "Replace Resume"
-                                : "Upload Resume"}
-                    </button>
-
-                </form>
-
-            </div>
-
-            {/* =========================
-                CURRENT RESUME
-            ========================= */}
-
-            {resume && (
-                <div className="bg-white rounded-xl shadow-lg p-6 md:p-8">
-
-                    <h2 className="text-2xl font-bold text-green-600">
-                        Current Resume
-                    </h2>
-
-                    <div className="mt-5 border rounded-xl p-5">
-
-                        <h3 className="text-lg font-semibold break-all">
-                            {resume.originalName}
-                        </h3>
-
-                        <p className="text-gray-500 mt-2">
-                            Size:{" "}
-                            {getFileSize(
-                                resume.fileSize
-                            )}
-                        </p>
-
-                        <p className="text-gray-500">
-                            Type: {resume.mimeType}
-                        </p>
-
-                        <div className="flex flex-wrap gap-3 mt-5">
-
-                            {/* VIEW */}
-
-                            <a
-                                href={`http://localhost:5000/uploads/${resume.fileName}`}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700"
-                            >
-                                View Resume
-                            </a>
-
-                            {/* DOWNLOAD */}
-
-                            <button
-                                onClick={
-                                    handleDownload
-                                }
-                                className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
-                            >
-                                Download
-                            </button>
-
-                            {/* DELETE */}
-
-                            <button
-                                onClick={
-                                    handleDelete
-                                }
-                                className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700"
-                            >
-                                Delete
-                            </button>
-
-                        </div>
-
-                    </div>
-
-                </div>
-            )}
-
-            {/* =========================
-                AI RESUME ANALYZER
-            ========================= */}
-
-            {resume && (
-                <div className="bg-white rounded-xl shadow-lg p-6 md:p-8">
-
-                    <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-5">
+                    <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-5">
 
                         <div>
-                            <h2 className="text-2xl font-bold text-green-600">
-                                AI Resume Analyzer 🤖
-                            </h2>
 
-                            <p className="text-gray-600 mt-2">
-                                Get intelligent insights about your
-                                resume and improve your career profile.
+                            <p className="text-xs md:text-sm font-black uppercase tracking-[0.2em] text-green-600">
+                                Career Document
                             </p>
+
+                            <h1 className="text-4xl md:text-5xl font-black text-slate-950 mt-2 tracking-tight">
+                                My Resume
+                                <span className="text-green-600">
+                                    .
+                                </span>
+                            </h1>
+
+                            <p className="text-gray-500 mt-2 text-base md:text-lg">
+                                Manage your resume,
+                                download it anytime and
+                                get AI-powered insights.
+                            </p>
+
                         </div>
 
-                        <button
-                            onClick={
-                                handleAnalyzeResume
-                            }
-                            disabled={analyzing}
-                            className="bg-purple-600 text-white px-6 py-3 rounded-lg hover:bg-purple-700 disabled:opacity-50 w-full md:w-auto"
-                        >
-                            {analyzing
-                                ? "Analyzing..."
-                                : "Analyze Resume 🤖"}
-                        </button>
+                        {resume && (
+                            <button
+                                onClick={
+                                    handleAnalyzeResume
+                                }
+                                disabled={analyzing}
+                                className="inline-flex items-center justify-center gap-2 bg-green-600 text-white px-6 py-3.5 rounded-xl font-bold hover:bg-green-500 hover:-translate-y-0.5 transition-all shadow-lg shadow-green-600/20 disabled:opacity-50"
+                            >
+                                {analyzing
+                                    ? "🤖 Analyzing..."
+                                    : "🤖 Analyze with AI"}
+                            </button>
+                        )}
 
                     </div>
 
-                    {/* =========================
-                        ANALYZER PREVIEW
-                    ========================= */}
+                    {/* =================================
+                        HERO
+                    ================================= */}
 
-                    {!analysisStarted &&
-                        !analyzing && (
-                            <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <section className="relative overflow-hidden rounded-[28px] bg-slate-950 text-white shadow-2xl">
 
-                                <div className="border rounded-xl p-5 bg-blue-50">
-                                    <div className="text-3xl">
-                                        📄
+                        <div className="absolute -right-24 -top-28 w-96 h-96 bg-green-500/20 rounded-full blur-3xl" />
+
+                        <div className="absolute -left-24 -bottom-32 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl" />
+
+                        <div className="relative p-6 md:p-8">
+
+                            <div className="flex flex-col lg:flex-row lg:items-center gap-8">
+
+                                <div className="flex-1">
+
+                                    <div className="inline-flex items-center gap-2 bg-green-500/10 border border-green-400/20 text-green-300 px-4 py-2 rounded-full text-sm font-semibold">
+                                        📄 Professional Resume
                                     </div>
 
-                                    <h3 className="font-semibold mt-3">
-                                        Resume Summary
-                                    </h3>
+                                    <h2 className="text-2xl md:text-3xl font-black mt-4">
+                                        Build a resume that
+                                        gets noticed.
+                                    </h2>
 
-                                    <p className="text-sm text-gray-500 mt-1">
-                                        AI-generated resume overview
+                                    <p className="text-slate-400 mt-3 max-w-2xl leading-7">
+                                        Keep your latest resume
+                                        ready for opportunities
+                                        and use AI to identify
+                                        strengths, weaknesses,
+                                        skills and ATS keywords.
                                     </p>
+
+                                    <div className="flex flex-wrap gap-3 mt-6">
+
+                                        <div className="bg-white/5 border border-white/10 px-4 py-2 rounded-xl text-sm">
+                                            📄 PDF / DOC / DOCX
+                                        </div>
+
+                                        <div className="bg-white/5 border border-white/10 px-4 py-2 rounded-xl text-sm">
+                                            🔒 Secure Profile
+                                        </div>
+
+                                        <div className="bg-white/5 border border-white/10 px-4 py-2 rounded-xl text-sm">
+                                            🤖 AI Analysis
+                                        </div>
+
+                                    </div>
+
                                 </div>
 
-                                <div className="border rounded-xl p-5 bg-green-50">
-                                    <div className="text-3xl">
-                                        💻
+                                <div className="lg:w-72">
+
+                                    <div className="bg-white/5 border border-white/10 rounded-3xl p-6">
+
+                                        <div className="w-16 h-16 rounded-2xl bg-green-500/10 border border-green-400/20 flex items-center justify-center text-4xl">
+                                            📄
+                                        </div>
+
+                                        <p className="text-slate-400 text-sm mt-5">
+                                            Resume Status
+                                        </p>
+
+                                        <p className="text-2xl font-black text-green-400 mt-1">
+                                            {resume
+                                                ? "Ready"
+                                                : "Not Uploaded"}
+                                        </p>
+
+                                        <div className="mt-4 h-2 bg-white/10 rounded-full overflow-hidden">
+
+                                            <div
+                                                className={`h-full rounded-full ${resume
+                                                        ? "w-full bg-green-500"
+                                                        : "w-0"
+                                                    }`}
+                                            />
+
+                                        </div>
+
                                     </div>
 
-                                    <h3 className="font-semibold mt-3">
-                                        Skills Detection
-                                    </h3>
-
-                                    <p className="text-sm text-gray-500 mt-1">
-                                        Identify skills from your resume
-                                    </p>
-                                </div>
-
-                                <div className="border rounded-xl p-5 bg-yellow-50">
-                                    <div className="text-3xl">
-                                        ⭐
-                                    </div>
-
-                                    <h3 className="font-semibold mt-3">
-                                        Strengths
-                                    </h3>
-
-                                    <p className="text-sm text-gray-500 mt-1">
-                                        Discover your resume strengths
-                                    </p>
-                                </div>
-
-                                <div className="border rounded-xl p-5 bg-red-50">
-                                    <div className="text-3xl">
-                                        🎯
-                                    </div>
-
-                                    <h3 className="font-semibold mt-3">
-                                        Improvements
-                                    </h3>
-
-                                    <p className="text-sm text-gray-500 mt-1">
-                                        Get suggestions to improve your resume
-                                    </p>
                                 </div>
 
                             </div>
-                        )}
 
-                    {/* =========================
-                        ANALYZING
-                    ========================= */}
+                        </div>
 
-                    {analyzing && (
-                        <div className="mt-8 border rounded-xl p-8 text-center">
+                    </section>
 
-                            <div className="text-5xl">
-                                🤖
-                            </div>
+                    {/* =================================
+                        MESSAGES
+                    ================================= */}
 
-                            <h3 className="text-xl font-bold mt-4">
-                                AI is analyzing your resume...
-                            </h3>
+                    {message && (
+                        <div className="flex items-center gap-3 bg-green-50 border border-green-200 text-green-700 px-5 py-4 rounded-2xl font-semibold shadow-sm">
 
-                            <p className="text-gray-500 mt-2">
-                                Please wait while we prepare your
-                                resume insights.
-                            </p>
+                            <span className="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center">
+                                ✓
+                            </span>
 
-                            <div className="mt-5 w-full bg-gray-200 rounded-full h-3">
-                                <div className="bg-purple-600 h-3 rounded-full w-2/3 animate-pulse"></div>
-                            </div>
+                            {message}
 
                         </div>
                     )}
 
-                    {/* =========================
-                        AI RESULT
-                    ========================= */}
+                    {error && (
+                        <div className="flex items-center gap-3 bg-red-50 border border-red-200 text-red-700 px-5 py-4 rounded-2xl font-semibold shadow-sm">
 
-                    {analysisStarted &&
-                        !analyzing &&
-                        analysis && (
+                            <span className="w-8 h-8 rounded-full bg-red-100 flex items-center justify-center">
+                                !
+                            </span>
 
-                            <div className="mt-8">
+                            {error}
 
-                                {/* SCORE */}
+                        </div>
+                    )}
 
-                                <div className="bg-purple-50 border border-purple-200 rounded-xl p-6">
+                    {/* =================================
+                        UPLOAD SECTION
+                    ================================= */}
 
-                                    <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-5">
+                    <section className="rounded-[28px] border border-gray-200 bg-white shadow-xl overflow-hidden">
 
-                                        <div>
-                                            <h3 className="text-xl font-bold text-purple-700">
-                                                🤖 AI Resume Analysis
-                                            </h3>
+                        <div className="h-1.5 bg-gradient-to-r from-green-600 via-emerald-400 to-green-600" />
 
-                                            <p className="text-gray-600 mt-2">
-                                                Your resume has been analyzed successfully.
-                                            </p>
-                                        </div>
+                        <div className="p-6 md:p-8">
 
-                                        <div className="text-center">
+                            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-5">
 
-                                            <div className="text-4xl font-bold text-purple-700">
-                                                {analysis.score}/100
-                                            </div>
+                                <div>
 
-                                            <p className="text-sm text-gray-500">
-                                                Resume Score
-                                            </p>
+                                    <p className="text-xs font-black uppercase tracking-[0.18em] text-green-600">
+                                        Resume Management
+                                    </p>
 
-                                        </div>
+                                    <h2 className="text-2xl md:text-3xl font-black text-slate-950 mt-1">
+                                        {resume
+                                            ? "Replace Your Resume"
+                                            : "Upload Your Resume"}
+                                    </h2>
 
-                                    </div>
+                                    <p className="text-gray-500 mt-1">
+                                        Keep your latest
+                                        professional resume
+                                        available.
+                                    </p>
 
                                 </div>
 
-                                {/* SUMMARY + SKILLS */}
+                                <div className="flex gap-2">
 
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                                    <span className="px-3 py-2 rounded-xl bg-green-50 text-green-700 text-xs font-bold border border-green-100">
+                                        PDF
+                                    </span>
 
-                                    {/* SUMMARY */}
+                                    <span className="px-3 py-2 rounded-xl bg-gray-50 text-gray-600 text-xs font-bold border border-gray-100">
+                                        DOC
+                                    </span>
 
-                                    <div className="border rounded-xl p-6">
+                                    <span className="px-3 py-2 rounded-xl bg-gray-50 text-gray-600 text-xs font-bold border border-gray-100">
+                                        5 MB
+                                    </span>
 
-                                        <h3 className="text-lg font-bold">
-                                            📄 Resume Summary
+                                </div>
+
+                            </div>
+
+                            <form
+                                onSubmit={
+                                    handleUpload
+                                }
+                                className="mt-7"
+                            >
+
+                                <label
+                                    htmlFor="resumeFile"
+                                    className="group block cursor-pointer"
+                                >
+
+                                    <div className="border-2 border-dashed border-gray-200 hover:border-green-400 bg-slate-50 hover:bg-green-50/40 rounded-2xl p-8 md:p-10 text-center transition-all">
+
+                                        <div className="w-20 h-20 mx-auto rounded-3xl bg-white shadow-sm border border-gray-100 flex items-center justify-center text-4xl group-hover:scale-105 transition">
+                                            📤
+                                        </div>
+
+                                        <h3 className="text-xl font-black text-slate-950 mt-5">
+                                            Choose your resume
                                         </h3>
 
-                                        <p className="text-gray-600 mt-3">
-                                            {analysis.summary}
+                                        <p className="text-gray-500 mt-2">
+                                            Click here to select
+                                            PDF, DOC or DOCX
+                                            file
+                                        </p>
+
+                                        <p className="text-xs text-gray-400 mt-2">
+                                            Maximum file size:
+                                            5 MB
                                         </p>
 
                                     </div>
 
-                                    {/* SKILLS */}
+                                    <input
+                                        id="resumeFile"
+                                        type="file"
+                                        accept=".pdf,.doc,.docx"
+                                        onChange={
+                                            handleFileChange
+                                        }
+                                        className="hidden"
+                                    />
 
-                                    <div className="border rounded-xl p-6">
+                                </label>
 
-                                        <h3 className="text-lg font-bold">
-                                            💻 Skills Detected
-                                        </h3>
+                                {selectedFile && (
+                                    <div className="mt-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-green-50 border border-green-200 rounded-2xl p-4">
 
-                                        {analysis.skills &&
-                                            analysis.skills.length >
-                                            0 ? (
-                                            <div className="flex flex-wrap gap-2 mt-4">
+                                        <div className="flex items-center gap-3 min-w-0">
 
-                                                {analysis.skills.map(
-                                                    (
-                                                        skill,
-                                                        index
-                                                    ) => (
-                                                        <span
-                                                            key={
-                                                                index
-                                                            }
-                                                            className="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-medium"
-                                                        >
-                                                            {
-                                                                skill
-                                                            }
-                                                        </span>
-                                                    )
-                                                )}
+                                            <div className="w-11 h-11 flex-shrink-0 rounded-xl bg-white flex items-center justify-center">
+                                                📄
+                                            </div>
+
+                                            <div className="min-w-0">
+
+                                                <p className="font-bold text-gray-800 truncate">
+                                                    {
+                                                        selectedFile.name
+                                                    }
+                                                </p>
+
+                                                <p className="text-xs text-gray-500 mt-1">
+                                                    {getFileSize(
+                                                        selectedFile.size
+                                                    )}
+                                                </p>
 
                                             </div>
-                                        ) : (
-                                            <p className="text-gray-500 mt-3">
-                                                No technical skills detected.
-                                            </p>
-                                        )}
+
+                                        </div>
+
+                                        <button
+                                            type="submit"
+                                            disabled={
+                                                uploading
+                                            }
+                                            className="bg-green-600 text-white px-6 py-3 rounded-xl font-bold hover:bg-green-500 transition disabled:opacity-50"
+                                        >
+                                            {uploading
+                                                ? "Uploading..."
+                                                : resume
+                                                    ? "Replace Resume"
+                                                    : "Upload Resume"}
+                                        </button>
 
                                     </div>
+                                )}
 
-                                    {/* STRENGTHS */}
+                            </form>
 
-                                    <div className="border rounded-xl p-6">
+                        </div>
 
-                                        <h3 className="text-lg font-bold">
-                                            ⭐ Resume Strengths
-                                        </h3>
+                    </section>
 
-                                        {analysis.strengths &&
-                                            analysis.strengths.length >
-                                            0 ? (
-                                            <ul className="mt-4 space-y-3">
+                    {/* =================================
+                        CURRENT RESUME
+                    ================================= */}
 
-                                                {analysis.strengths.map(
-                                                    (
-                                                        strength,
-                                                        index
-                                                    ) => (
-                                                        <li
-                                                            key={
-                                                                index
-                                                            }
-                                                            className="text-gray-600 flex gap-2"
-                                                        >
-                                                            <span>
-                                                                ✅
-                                                            </span>
+                    {resume && (
+                        <section className="rounded-[28px] border border-gray-200 bg-white shadow-xl overflow-hidden">
 
-                                                            <span>
-                                                                {
-                                                                    strength
-                                                                }
-                                                            </span>
-                                                        </li>
-                                                    )
-                                                )}
+                            <div className="px-6 md:px-8 py-7 bg-gradient-to-br from-white to-green-50/30 border-b border-gray-200">
 
-                                            </ul>
-                                        ) : (
-                                            <p className="text-gray-500 mt-3">
-                                                No strengths detected.
+                                <p className="text-xs font-black uppercase tracking-[0.18em] text-green-600">
+                                    Active Document
+                                </p>
+
+                                <h2 className="text-2xl md:text-3xl font-black text-slate-950 mt-1">
+                                    Current Resume
+                                </h2>
+
+                                <p className="text-gray-500 mt-1">
+                                    Your currently uploaded
+                                    professional document.
+                                </p>
+
+                            </div>
+
+                            <div className="p-5 md:p-8 bg-slate-50/60">
+
+                                <div className="bg-slate-950 text-white rounded-3xl p-6 md:p-8">
+
+                                    <div className="flex flex-col md:flex-row md:items-center gap-6">
+
+                                        <div className="w-20 h-20 flex-shrink-0 rounded-3xl bg-green-500/10 border border-green-400/20 flex items-center justify-center text-4xl">
+                                            📄
+                                        </div>
+
+                                        <div className="flex-1 min-w-0">
+
+                                            <p className="text-xs uppercase tracking-wider font-bold text-green-400">
+                                                Uploaded Resume
                                             </p>
-                                        )}
 
-                                    </div>
+                                            <h3 className="text-xl md:text-2xl font-black mt-1 break-all">
+                                                {
+                                                    resume.originalName
+                                                }
+                                            </h3>
 
-                                    {/* WEAKNESSES */}
+                                            <div className="flex flex-wrap gap-2 mt-3">
 
-                                    <div className="border rounded-xl p-6">
+                                                <span className="px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 text-sm text-slate-300">
+                                                    📦{" "}
+                                                    {getFileSize(
+                                                        resume.fileSize
+                                                    )}
+                                                </span>
 
-                                        <h3 className="text-lg font-bold">
-                                            ⚠️ Resume Weaknesses
-                                        </h3>
+                                                <span className="px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 text-sm text-slate-300">
+                                                    📄{" "}
+                                                    {resume.mimeType ===
+                                                        "application/pdf"
+                                                        ? "PDF"
+                                                        : "Document"}
+                                                </span>
 
-                                        {analysis.weaknesses &&
-                                            analysis.weaknesses.length >
-                                            0 ? (
-                                            <ul className="mt-4 space-y-3">
-
-                                                {analysis.weaknesses.map(
-                                                    (
-                                                        weakness,
-                                                        index
-                                                    ) => (
-                                                        <li
-                                                            key={
-                                                                index
-                                                            }
-                                                            className="text-gray-600 flex gap-2"
-                                                        >
-                                                            <span>
-                                                                ⚠️
-                                                            </span>
-
-                                                            <span>
-                                                                {
-                                                                    weakness
-                                                                }
-                                                            </span>
-                                                        </li>
-                                                    )
-                                                )}
-
-                                            </ul>
-                                        ) : (
-                                            <p className="text-gray-500 mt-3">
-                                                No major weaknesses detected.
-                                            </p>
-                                        )}
-
-                                    </div>
-
-                                    {/* IMPROVEMENTS */}
-
-                                    <div className="border rounded-xl p-6">
-
-                                        <h3 className="text-lg font-bold">
-                                            🎯 Improvement Suggestions
-                                        </h3>
-
-                                        {analysis.improvements &&
-                                            analysis.improvements.length >
-                                            0 ? (
-                                            <ul className="mt-4 space-y-3">
-
-                                                {analysis.improvements.map(
-                                                    (
-                                                        improvement,
-                                                        index
-                                                    ) => (
-                                                        <li
-                                                            key={
-                                                                index
-                                                            }
-                                                            className="text-gray-600 flex gap-2"
-                                                        >
-                                                            <span>
-                                                                💡
-                                                            </span>
-
-                                                            <span>
-                                                                {
-                                                                    improvement
-                                                                }
-                                                            </span>
-                                                        </li>
-                                                    )
-                                                )}
-
-                                            </ul>
-                                        ) : (
-                                            <p className="text-gray-500 mt-3">
-                                                No improvement suggestions.
-                                            </p>
-                                        )}
-
-                                    </div>
-
-                                    {/* ATS KEYWORDS */}
-
-                                    <div className="border rounded-xl p-6">
-
-                                        <h3 className="text-lg font-bold">
-                                            🎯 ATS Keywords
-                                        </h3>
-
-                                        {analysis.atsKeywords &&
-                                            analysis.atsKeywords.length >
-                                            0 ? (
-                                            <div className="flex flex-wrap gap-2 mt-4">
-
-                                                {analysis.atsKeywords.map(
-                                                    (
-                                                        keyword,
-                                                        index
-                                                    ) => (
-                                                        <span
-                                                            key={
-                                                                index
-                                                            }
-                                                            className="bg-purple-100 text-purple-700 px-3 py-1 rounded-full text-sm font-medium"
-                                                        >
-                                                            {
-                                                                keyword
-                                                            }
-                                                        </span>
-                                                    )
-                                                )}
+                                                <span className="px-3 py-1.5 rounded-lg bg-green-500/10 border border-green-400/20 text-sm text-green-300">
+                                                    ✓ Active
+                                                </span>
 
                                             </div>
-                                        ) : (
-                                            <p className="text-gray-500 mt-3">
-                                                No ATS keywords detected.
-                                            </p>
-                                        )}
+
+                                        </div>
+
+                                    </div>
+
+                                    <div className="flex flex-wrap gap-3 mt-7 pt-6 border-t border-white/10">
+
+                                        <a
+                                            href={`http://localhost:5000/uploads/${resume.fileName}`}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="inline-flex items-center gap-2 bg-green-600 text-white px-5 py-3 rounded-xl font-bold hover:bg-green-500 transition"
+                                        >
+                                            👁️ View Resume
+                                        </a>
+
+                                        <button
+                                            onClick={
+                                                handleDownload
+                                            }
+                                            className="inline-flex items-center gap-2 bg-white/10 border border-white/10 text-white px-5 py-3 rounded-xl font-bold hover:bg-white/15 transition"
+                                        >
+                                            📥 Download
+                                        </button>
+
+                                        <button
+                                            onClick={
+                                                handleDelete
+                                            }
+                                            className="inline-flex items-center gap-2 bg-red-500/10 border border-red-400/20 text-red-300 px-5 py-3 rounded-xl font-bold hover:bg-red-500 hover:text-white transition"
+                                        >
+                                            🗑️ Delete
+                                        </button>
 
                                     </div>
 
                                 </div>
 
                             </div>
-                        )}
+
+                        </section>
+                    )}
+
+                    {/* =================================
+                        AI ANALYZER
+                    ================================= */}
+
+                    {resume && (
+                        <section className="rounded-[28px] border border-gray-200 bg-white shadow-xl overflow-hidden">
+
+                            <div className="h-1.5 bg-gradient-to-r from-purple-600 via-green-500 to-purple-600" />
+
+                            <div className="p-6 md:p-8">
+
+                                <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5">
+
+                                    <div>
+
+                                        <p className="text-xs font-black uppercase tracking-[0.18em] text-purple-600">
+                                            Artificial Intelligence
+                                        </p>
+
+                                        <h2 className="text-2xl md:text-3xl font-black text-slate-950 mt-1">
+                                            AI Resume Analyzer
+                                            <span className="text-purple-600">
+                                                .
+                                            </span>
+                                        </h2>
+
+                                        <p className="text-gray-500 mt-2 max-w-2xl">
+                                            Get AI-powered feedback
+                                            on your resume,
+                                            including strengths,
+                                            weaknesses, skills and
+                                            ATS keywords.
+                                        </p>
+
+                                    </div>
+
+                                    <button
+                                        onClick={
+                                            handleAnalyzeResume
+                                        }
+                                        disabled={
+                                            analyzing
+                                        }
+                                        className="bg-purple-600 text-white px-6 py-3.5 rounded-xl font-bold hover:bg-purple-500 transition shadow-lg shadow-purple-600/20 disabled:opacity-50"
+                                    >
+                                        {analyzing
+                                            ? "🤖 Analyzing..."
+                                            : "Analyze Resume 🤖"}
+                                    </button>
+
+                                </div>
+
+                                {/* =================================
+                                    ANALYZER FEATURES
+                                ================================= */}
+
+                                {!analysisStarted &&
+                                    !analyzing && (
+                                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-7">
+
+                                            <div className="group border border-gray-200 rounded-2xl p-5 bg-slate-50 hover:bg-blue-50 hover:-translate-y-1 transition">
+
+                                                <div className="w-12 h-12 rounded-xl bg-blue-100 flex items-center justify-center text-2xl">
+                                                    📄
+                                                </div>
+
+                                                <h3 className="font-black text-slate-950 mt-4">
+                                                    Resume Summary
+                                                </h3>
+
+                                                <p className="text-sm text-gray-500 mt-1">
+                                                    AI-generated
+                                                    overview of your
+                                                    resume.
+                                                </p>
+
+                                            </div>
+
+                                            <div className="group border border-gray-200 rounded-2xl p-5 bg-slate-50 hover:bg-green-50 hover:-translate-y-1 transition">
+
+                                                <div className="w-12 h-12 rounded-xl bg-green-100 flex items-center justify-center text-2xl">
+                                                    💻
+                                                </div>
+
+                                                <h3 className="font-black text-slate-950 mt-4">
+                                                    Skills Detection
+                                                </h3>
+
+                                                <p className="text-sm text-gray-500 mt-1">
+                                                    Identify skills
+                                                    mentioned in your
+                                                    resume.
+                                                </p>
+
+                                            </div>
+
+                                            <div className="group border border-gray-200 rounded-2xl p-5 bg-slate-50 hover:bg-yellow-50 hover:-translate-y-1 transition">
+
+                                                <div className="w-12 h-12 rounded-xl bg-yellow-100 flex items-center justify-center text-2xl">
+                                                    ⭐
+                                                </div>
+
+                                                <h3 className="font-black text-slate-950 mt-4">
+                                                    Strengths
+                                                </h3>
+
+                                                <p className="text-sm text-gray-500 mt-1">
+                                                    Discover your
+                                                    resume strengths.
+                                                </p>
+
+                                            </div>
+
+                                            <div className="group border border-gray-200 rounded-2xl p-5 bg-slate-50 hover:bg-purple-50 hover:-translate-y-1 transition">
+
+                                                <div className="w-12 h-12 rounded-xl bg-purple-100 flex items-center justify-center text-2xl">
+                                                    🎯
+                                                </div>
+
+                                                <h3 className="font-black text-slate-950 mt-4">
+                                                    ATS & Improvements
+                                                </h3>
+
+                                                <p className="text-sm text-gray-500 mt-1">
+                                                    Improve your resume
+                                                    for job applications.
+                                                </p>
+
+                                            </div>
+
+                                        </div>
+                                    )}
+
+                                {/* =================================
+                                    ANALYZING
+                                ================================= */}
+
+                                {analyzing && (
+                                    <div className="mt-8 bg-slate-950 text-white rounded-3xl p-8 text-center">
+
+                                        <div className="w-20 h-20 mx-auto rounded-3xl bg-purple-500/10 border border-purple-400/20 flex items-center justify-center text-4xl animate-pulse">
+                                            🤖
+                                        </div>
+
+                                        <h3 className="text-xl md:text-2xl font-black mt-5">
+                                            AI is analyzing your
+                                            resume...
+                                        </h3>
+
+                                        <p className="text-slate-400 mt-2">
+                                            Reviewing your resume
+                                            and preparing career
+                                            insights.
+                                        </p>
+
+                                        <div className="mt-6 max-w-xl mx-auto h-2 bg-white/10 rounded-full overflow-hidden">
+
+                                            <div className="h-full w-2/3 bg-purple-500 rounded-full animate-pulse" />
+
+                                        </div>
+
+                                    </div>
+                                )}
+
+                                {/* =================================
+                                    AI RESULT
+                                ================================= */}
+
+                                {analysisStarted &&
+                                    !analyzing &&
+                                    analysis && (
+                                        <div className="mt-8">
+
+                                            {/* SCORE */}
+
+                                            <div className="rounded-3xl bg-slate-950 text-white p-6 md:p-8">
+
+                                                <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+
+                                                    <div>
+
+                                                        <p className="text-xs uppercase tracking-wider font-bold text-purple-400">
+                                                            AI Evaluation
+                                                        </p>
+
+                                                        <h3 className="text-2xl md:text-3xl font-black mt-1">
+                                                            Resume
+                                                            Performance
+                                                        </h3>
+
+                                                        <p className="text-slate-400 mt-2">
+                                                            Your resume
+                                                            has been
+                                                            analyzed
+                                                            successfully.
+                                                        </p>
+
+                                                    </div>
+
+                                                    <div className="text-center">
+
+                                                        <div className="w-28 h-28 rounded-full border-8 border-purple-500/20 flex items-center justify-center">
+
+                                                            <div>
+
+                                                                <p className="text-3xl font-black text-purple-400">
+                                                                    {
+                                                                        analysis.score
+                                                                    }
+                                                                </p>
+
+                                                                <p className="text-xs text-slate-400">
+                                                                    /100
+                                                                </p>
+
+                                                            </div>
+
+                                                        </div>
+
+                                                        <p className="text-sm text-slate-400 mt-2">
+                                                            Resume Score
+                                                        </p>
+
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+
+                                            {/* RESULT GRID */}
+
+                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-6">
+
+                                                {/* SUMMARY */}
+
+                                                <div className="rounded-2xl border border-gray-200 bg-slate-50 p-6">
+
+                                                    <div className="w-11 h-11 rounded-xl bg-blue-100 flex items-center justify-center text-xl">
+                                                        📄
+                                                    </div>
+
+                                                    <h3 className="text-lg font-black text-slate-950 mt-4">
+                                                        Resume Summary
+                                                    </h3>
+
+                                                    <p className="text-gray-600 mt-3 leading-6">
+                                                        {
+                                                            analysis.summary
+                                                        }
+                                                    </p>
+
+                                                </div>
+
+                                                {/* SKILLS */}
+
+                                                <div className="rounded-2xl border border-gray-200 bg-slate-50 p-6">
+
+                                                    <div className="w-11 h-11 rounded-xl bg-green-100 flex items-center justify-center text-xl">
+                                                        💻
+                                                    </div>
+
+                                                    <h3 className="text-lg font-black text-slate-950 mt-4">
+                                                        Skills Detected
+                                                    </h3>
+
+                                                    {analysis.skills &&
+                                                        analysis.skills.length >
+                                                        0 ? (
+                                                        <div className="flex flex-wrap gap-2 mt-4">
+
+                                                            {analysis.skills.map(
+                                                                (
+                                                                    skill,
+                                                                    index
+                                                                ) => (
+                                                                    <span
+                                                                        key={
+                                                                            index
+                                                                        }
+                                                                        className="bg-green-100 text-green-700 px-3 py-1.5 rounded-full text-sm font-bold"
+                                                                    >
+                                                                        {
+                                                                            skill
+                                                                        }
+                                                                    </span>
+                                                                )
+                                                            )}
+
+                                                        </div>
+                                                    ) : (
+                                                        <p className="text-gray-500 mt-3">
+                                                            No technical
+                                                            skills
+                                                            detected.
+                                                        </p>
+                                                    )}
+
+                                                </div>
+
+                                                {/* STRENGTHS */}
+
+                                                <div className="rounded-2xl border border-gray-200 bg-slate-50 p-6">
+
+                                                    <div className="w-11 h-11 rounded-xl bg-yellow-100 flex items-center justify-center text-xl">
+                                                        ⭐
+                                                    </div>
+
+                                                    <h3 className="text-lg font-black text-slate-950 mt-4">
+                                                        Resume Strengths
+                                                    </h3>
+
+                                                    {analysis.strengths &&
+                                                        analysis.strengths.length >
+                                                        0 ? (
+                                                        <ul className="mt-4 space-y-3">
+
+                                                            {analysis.strengths.map(
+                                                                (
+                                                                    strength,
+                                                                    index
+                                                                ) => (
+                                                                    <li
+                                                                        key={
+                                                                            index
+                                                                        }
+                                                                        className="flex gap-2 text-gray-600"
+                                                                    >
+                                                                        <span className="text-green-600">
+                                                                            ✓
+                                                                        </span>
+
+                                                                        <span>
+                                                                            {
+                                                                                strength
+                                                                            }
+                                                                        </span>
+                                                                    </li>
+                                                                )
+                                                            )}
+
+                                                        </ul>
+                                                    ) : (
+                                                        <p className="text-gray-500 mt-3">
+                                                            No strengths
+                                                            detected.
+                                                        </p>
+                                                    )}
+
+                                                </div>
+
+                                                {/* WEAKNESSES */}
+
+                                                <div className="rounded-2xl border border-gray-200 bg-slate-50 p-6">
+
+                                                    <div className="w-11 h-11 rounded-xl bg-red-100 flex items-center justify-center text-xl">
+                                                        ⚠️
+                                                    </div>
+
+                                                    <h3 className="text-lg font-black text-slate-950 mt-4">
+                                                        Resume Weaknesses
+                                                    </h3>
+
+                                                    {analysis.weaknesses &&
+                                                        analysis.weaknesses.length >
+                                                        0 ? (
+                                                        <ul className="mt-4 space-y-3">
+
+                                                            {analysis.weaknesses.map(
+                                                                (
+                                                                    weakness,
+                                                                    index
+                                                                ) => (
+                                                                    <li
+                                                                        key={
+                                                                            index
+                                                                        }
+                                                                        className="flex gap-2 text-gray-600"
+                                                                    >
+                                                                        <span>
+                                                                            ⚠️
+                                                                        </span>
+
+                                                                        <span>
+                                                                            {
+                                                                                weakness
+                                                                            }
+                                                                        </span>
+                                                                    </li>
+                                                                )
+                                                            )}
+
+                                                        </ul>
+                                                    ) : (
+                                                        <p className="text-gray-500 mt-3">
+                                                            No major
+                                                            weaknesses
+                                                            detected.
+                                                        </p>
+                                                    )}
+
+                                                </div>
+
+                                                {/* IMPROVEMENTS */}
+
+                                                <div className="rounded-2xl border border-gray-200 bg-slate-50 p-6">
+
+                                                    <div className="w-11 h-11 rounded-xl bg-purple-100 flex items-center justify-center text-xl">
+                                                        💡
+                                                    </div>
+
+                                                    <h3 className="text-lg font-black text-slate-950 mt-4">
+                                                        Improvement
+                                                        Suggestions
+                                                    </h3>
+
+                                                    {analysis.improvements &&
+                                                        analysis.improvements.length >
+                                                        0 ? (
+                                                        <ul className="mt-4 space-y-3">
+
+                                                            {analysis.improvements.map(
+                                                                (
+                                                                    improvement,
+                                                                    index
+                                                                ) => (
+                                                                    <li
+                                                                        key={
+                                                                            index
+                                                                        }
+                                                                        className="flex gap-2 text-gray-600"
+                                                                    >
+                                                                        <span className="text-purple-600">
+                                                                            →
+                                                                        </span>
+
+                                                                        <span>
+                                                                            {
+                                                                                improvement
+                                                                            }
+                                                                        </span>
+                                                                    </li>
+                                                                )
+                                                            )}
+
+                                                        </ul>
+                                                    ) : (
+                                                        <p className="text-gray-500 mt-3">
+                                                            No improvement
+                                                            suggestions.
+                                                        </p>
+                                                    )}
+
+                                                </div>
+
+                                                {/* ATS */}
+
+                                                <div className="rounded-2xl border border-gray-200 bg-slate-50 p-6">
+
+                                                    <div className="w-11 h-11 rounded-xl bg-purple-100 flex items-center justify-center text-xl">
+                                                        🎯
+                                                    </div>
+
+                                                    <h3 className="text-lg font-black text-slate-950 mt-4">
+                                                        ATS Keywords
+                                                    </h3>
+
+                                                    {analysis.atsKeywords &&
+                                                        analysis.atsKeywords.length >
+                                                        0 ? (
+                                                        <div className="flex flex-wrap gap-2 mt-4">
+
+                                                            {analysis.atsKeywords.map(
+                                                                (
+                                                                    keyword,
+                                                                    index
+                                                                ) => (
+                                                                    <span
+                                                                        key={
+                                                                            index
+                                                                        }
+                                                                        className="bg-purple-100 text-purple-700 px-3 py-1.5 rounded-full text-sm font-bold"
+                                                                    >
+                                                                        {
+                                                                            keyword
+                                                                        }
+                                                                    </span>
+                                                                )
+                                                            )}
+
+                                                        </div>
+                                                    ) : (
+                                                        <p className="text-gray-500 mt-3">
+                                                            No ATS
+                                                            keywords
+                                                            detected.
+                                                        </p>
+                                                    )}
+
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                    )}
+
+                            </div>
+
+                        </section>
+                    )}
+
+                    {/* =================================
+                        CAREER TIP
+                    ================================= */}
+
+                    <section className="relative overflow-hidden rounded-[28px] bg-slate-950 text-white p-6 md:p-8 shadow-xl">
+
+                        <div className="absolute right-0 top-0 w-72 h-72 bg-green-500/10 rounded-full blur-3xl" />
+
+                        <div className="relative flex flex-col md:flex-row md:items-center gap-5">
+
+                            <div className="w-14 h-14 flex-shrink-0 rounded-2xl bg-green-500/10 border border-green-400/20 flex items-center justify-center text-2xl">
+                                💡
+                            </div>
+
+                            <div>
+
+                                <h3 className="text-xl font-black">
+                                    Resume Tip
+                                </h3>
+
+                                <p className="text-slate-400 mt-1 leading-6">
+                                    Keep your resume updated
+                                    with your latest skills,
+                                    projects and achievements.
+                                    Use the AI Analyzer regularly
+                                    to improve your profile.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </section>
 
                 </div>
-            )}
+
+            </div>
 
         </div>
     );

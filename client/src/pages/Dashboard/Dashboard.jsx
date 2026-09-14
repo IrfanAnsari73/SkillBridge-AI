@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 const Dashboard = () => {
     const [projectCount, setProjectCount] = useState(0);
@@ -11,9 +12,8 @@ const Dashboard = () => {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
 
-
     // =========================
-    // GET USER FROM LOCAL STORAGE
+    // GET USER
     // =========================
 
     const getUser = () => {
@@ -28,7 +28,6 @@ const Dashboard = () => {
         }
     };
 
-
     // =========================
     // FETCH DASHBOARD DATA
     // =========================
@@ -41,9 +40,8 @@ const Dashboard = () => {
                 return;
             }
 
-
             // =========================
-            // FETCH PROJECTS
+            // PROJECTS
             // =========================
 
             const projectResponse = await fetch(
@@ -61,13 +59,11 @@ const Dashboard = () => {
 
             if (projectResponse.ok) {
                 projects = projectData.projects || [];
-
                 setProjectCount(projects.length);
             }
 
-
             // =========================
-            // FETCH SKILLS
+            // SKILLS
             // =========================
 
             const skillResponse = await fetch(
@@ -85,13 +81,11 @@ const Dashboard = () => {
 
             if (skillResponse.ok) {
                 skills = skillData.skills || [];
-
                 setSkillCount(skills.length);
             }
 
-
             // =========================
-            // FETCH CERTIFICATES
+            // CERTIFICATES
             // =========================
 
             const certificateResponse = await fetch(
@@ -115,9 +109,8 @@ const Dashboard = () => {
                 setCertificateCount(certificates.length);
             }
 
-
             // =========================
-            // FETCH RESUME
+            // RESUME
             // =========================
 
             const resumeResponse = await fetch(
@@ -139,9 +132,8 @@ const Dashboard = () => {
                 setResumeUploaded(false);
             }
 
-
             // =========================
-            // CREATE RECENT ACTIVITIES
+            // RECENT ACTIVITIES
             // =========================
 
             const activities = [];
@@ -149,7 +141,8 @@ const Dashboard = () => {
             if (resumeExists) {
                 activities.push({
                     icon: "📄",
-                    text: "Resume uploaded successfully.",
+                    title: "Resume uploaded",
+                    text: "Your resume is ready for career analysis.",
                 });
             }
 
@@ -159,8 +152,8 @@ const Dashboard = () => {
 
                 activities.push({
                     icon: "🚀",
-                    text: `Project added: ${latestProject.title || "New Project"
-                        }`,
+                    title: "Project added",
+                    text: latestProject.title || "New Project",
                 });
             }
 
@@ -170,8 +163,8 @@ const Dashboard = () => {
 
                 activities.push({
                     icon: "💻",
-                    text: `Skill added: ${latestSkill.name || "New Skill"
-                        }`,
+                    title: "Skill added",
+                    text: latestSkill.name || "New Skill",
                 });
             }
 
@@ -180,22 +173,23 @@ const Dashboard = () => {
                     certificates[certificates.length - 1];
 
                 activities.push({
-                    icon: "📜",
-                    text: `Certificate added: ${latestCertificate.title ||
-                        "New Certificate"
-                        }`,
+                    icon: "🏆",
+                    title: "Certificate added",
+                    text:
+                        latestCertificate.title ||
+                        "New Certificate",
                 });
             }
 
             if (activities.length === 0) {
                 activities.push({
-                    icon: "ℹ️",
-                    text: "No recent activity yet.",
+                    icon: "✨",
+                    title: "Start your journey",
+                    text: "Add your first skill, project or certificate.",
                 });
             }
 
             setRecentActivities(activities);
-
         } catch (error) {
             console.error(
                 "Dashboard Data Error:",
@@ -206,7 +200,6 @@ const Dashboard = () => {
         }
     };
 
-
     // =========================
     // INITIAL LOAD
     // =========================
@@ -216,9 +209,8 @@ const Dashboard = () => {
         fetchDashboardData();
     }, []);
 
-
     // =========================
-    // PROGRESS CALCULATION
+    // PROGRESS
     // =========================
 
     const skillsProgress = Math.min(
@@ -247,21 +239,18 @@ const Dashboard = () => {
         ) / 4
     );
 
-
     // =========================
-    // PUBLIC PORTFOLIO URL
+    // PORTFOLIO URL
     // =========================
 
     const userId = user?._id || user?.id;
 
-    const publicPortfolioUrl =
-        userId
-            ? `http://localhost:5173/portfolio/public/${userId}`
-            : "";
-
+    const publicPortfolioUrl = userId
+        ? `http://localhost:5173/portfolio/public/${userId}`
+        : "";
 
     // =========================
-    // COPY PORTFOLIO LINK
+    // COPY PORTFOLIO
     // =========================
 
     const copyPortfolioLink = async () => {
@@ -275,7 +264,6 @@ const Dashboard = () => {
             );
 
             alert("Portfolio link copied!");
-
         } catch (error) {
             console.error(
                 "Copy Link Error:",
@@ -288,9 +276,8 @@ const Dashboard = () => {
         }
     };
 
-
     // =========================
-    // PROGRESS BAR COMPONENT
+    // PROGRESS BAR
     // =========================
 
     const ProgressBar = ({
@@ -299,355 +286,640 @@ const Dashboard = () => {
         percentage,
     }) => {
         return (
-            <div className="mb-6">
-
-                <div className="flex justify-between items-center mb-2">
-
-                    <div className="flex items-center gap-2">
-
-                        <span className="text-xl">
+            <div className="mb-7">
+                <div className="flex justify-between items-center mb-3">
+                    <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-xl bg-green-50 flex items-center justify-center text-xl">
                             {icon}
-                        </span>
+                        </div>
 
-                        <span className="font-semibold text-gray-700">
-                            {title}
-                        </span>
+                        <div>
+                            <p className="font-semibold text-gray-800">
+                                {title}
+                            </p>
 
+                            <p className="text-xs text-gray-500">
+                                Career profile
+                            </p>
+                        </div>
                     </div>
 
                     <span className="font-bold text-green-600">
                         {percentage}%
                     </span>
-
                 </div>
 
-
-                <div className="w-full bg-gray-200 rounded-full h-3">
-
+                <div className="w-full h-3 bg-gray-100 rounded-full overflow-hidden">
                     <div
-                        className="bg-green-600 h-3 rounded-full transition-all duration-700"
+                        className="h-full bg-gradient-to-r from-green-500 to-emerald-400 rounded-full transition-all duration-700"
                         style={{
                             width: `${percentage}%`,
                         }}
                     ></div>
-
                 </div>
-
             </div>
         );
     };
 
+    // =========================
+    // STAT CARD
+    // =========================
+
+    const StatCard = ({
+        title,
+        value,
+        icon,
+        description,
+        link,
+    }) => {
+        return (
+            <Link
+                to={link}
+                className="group bg-white border border-gray-100 rounded-2xl p-5 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
+            >
+                <div className="flex items-start justify-between">
+                    <div>
+                        <p className="text-sm font-medium text-gray-500">
+                            {title}
+                        </p>
+
+                        <p className="text-4xl font-extrabold text-gray-900 mt-3">
+                            {loading ? "..." : value}
+                        </p>
+
+                        <p className="text-xs text-gray-500 mt-2">
+                            {description}
+                        </p>
+                    </div>
+
+                    <div className="w-12 h-12 rounded-2xl bg-green-50 flex items-center justify-center text-2xl group-hover:scale-110 transition">
+                        {icon}
+                    </div>
+                </div>
+
+                <div className="mt-5 flex items-center text-sm font-semibold text-green-600">
+                    View details
+                    <span className="ml-2 group-hover:translate-x-1 transition">
+                        →
+                    </span>
+                </div>
+            </Link>
+        );
+    };
 
     return (
-        <div className="w-full max-w-7xl mx-auto min-w-0 space-y-6">
+        <div className="w-full max-w-7xl mx-auto space-y-7">
 
-            {/* =========================
-                PAGE HEADER
-            ========================= */}
+            {/* =====================================
+                WELCOME HERO
+            ===================================== */}
 
-            <div>
+            <section className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#07111f] via-[#0b1725] to-[#063c2b] p-7 md:p-9 text-white shadow-xl">
 
-                <h1 className="text-4xl font-bold text-green-600">
-                    Welcome, {user?.name || "User"} 👋
-                </h1>
+                <div className="absolute -top-20 -right-20 w-64 h-64 bg-green-500/20 rounded-full blur-3xl"></div>
 
-                <p className="text-gray-600 mt-2">
-                    Here's an overview of your career progress.
-                </p>
+                <div className="absolute -bottom-24 -left-20 w-64 h-64 bg-emerald-400/10 rounded-full blur-3xl"></div>
 
-            </div>
+                <div className="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-7">
 
+                    <div className="max-w-2xl">
 
-            {/* =========================
-                DASHBOARD CARDS
-            ========================= */}
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-
-                {/* PROJECTS */}
-
-                <div className="bg-white rounded-xl shadow-lg p-6 min-w-0">
-
-                    <h2 className="text-lg font-semibold">
-                        Projects
-                    </h2>
-
-                    <p className="text-4xl font-bold text-green-600 mt-3">
-                        {loading
-                            ? "..."
-                            : projectCount}
-                    </p>
-
-                </div>
-
-
-                {/* SKILLS */}
-
-                <div className="bg-white rounded-xl shadow-lg p-6 min-w-0">
-
-                    <h2 className="text-lg font-semibold">
-                        Skills
-                    </h2>
-
-                    <p className="text-4xl font-bold text-green-600 mt-3">
-                        {loading
-                            ? "..."
-                            : skillCount}
-                    </p>
-
-                </div>
-
-
-                {/* CERTIFICATES */}
-
-                <div className="bg-white rounded-xl shadow-lg p-6 min-w-0">
-
-                    <h2 className="text-lg font-semibold">
-                        Certificates
-                    </h2>
-
-                    <p className="text-4xl font-bold text-green-600 mt-3">
-                        {loading
-                            ? "..."
-                            : certificateCount}
-                    </p>
-
-                </div>
-
-
-                {/* RESUME */}
-
-                <div className="bg-white rounded-xl shadow-lg p-6 min-w-0">
-
-                    <h2 className="text-lg font-semibold">
-                        Resume
-                    </h2>
-
-                    <p
-                        className={`text-xl font-bold mt-3 ${resumeUploaded
-                                ? "text-green-600"
-                                : "text-red-500"
-                            }`}
-                    >
-                        {loading
-                            ? "..."
-                            : resumeUploaded
-                                ? "Uploaded ✅"
-                                : "Not Uploaded"}
-                    </p>
-
-                </div>
-
-            </div>
-
-
-            {/* =========================
-                CAREER PROGRESS
-            ========================= */}
-
-            <div className="bg-white rounded-xl shadow-lg p-6">
-
-                <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-8">
-
-                    <div>
-
-                        <h2 className="text-2xl font-bold text-green-600">
-                            Career Progress 📊
-                        </h2>
-
-                        <p className="text-gray-600 mt-2">
-                            Track your career profile completion.
-                        </p>
-
-                    </div>
-
-
-                    <div className="mt-5 md:mt-0 text-center">
-
-                        <div className="text-4xl font-bold text-green-600">
-                            {loading
-                                ? "..."
-                                : `${overallProgress}%`}
+                        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-green-500/10 border border-green-400/20 text-green-300 text-sm font-semibold">
+                            <span>🤖</span>
+                            AI-Powered Career Platform
                         </div>
 
-                        <p className="text-sm text-gray-500">
-                            Overall Progress
+                        <h1 className="text-3xl md:text-5xl font-extrabold mt-5 leading-tight">
+                            Welcome back,{" "}
+                            <span className="text-green-400">
+                                {user?.name?.split(" ")[0] || "User"}
+                            </span>
+                            ! 👋
+                        </h1>
+
+                        <p className="text-gray-300 mt-4 text-base md:text-lg leading-7">
+                            Build your skills, strengthen your resume,
+                            prepare for opportunities and move closer
+                            to your career goals.
+                        </p>
+
+                        <div className="flex flex-wrap gap-3 mt-6">
+
+                            <Link
+                                to="/career-advisor"
+                                className="px-5 py-3 rounded-xl bg-green-500 hover:bg-green-400 text-white font-bold transition shadow-lg shadow-green-900/30"
+                            >
+                                🤖 Ask AI Career Advisor
+                            </Link>
+
+                            <Link
+                                to="/career-goals"
+                                className="px-5 py-3 rounded-xl border border-white/20 hover:bg-white/10 text-white font-semibold transition"
+                            >
+                                🎯 View Career Goals
+                            </Link>
+
+                        </div>
+                    </div>
+
+                    {/* Progress Mini Card */}
+
+                    <div className="w-full lg:w-72 bg-white/10 backdrop-blur-md border border-white/10 rounded-2xl p-5">
+
+                        <div className="flex items-center justify-between">
+                            <div>
+                                <p className="text-sm text-gray-300">
+                                    Career Profile
+                                </p>
+
+                                <p className="text-3xl font-extrabold mt-1">
+                                    {loading
+                                        ? "..."
+                                        : `${overallProgress}%`}
+                                </p>
+                            </div>
+
+                            <div className="w-16 h-16 rounded-full border-4 border-green-400/30 flex items-center justify-center">
+                                <span className="text-sm font-bold text-green-300">
+                                    {loading
+                                        ? "..."
+                                        : `${overallProgress}%`}
+                                </span>
+                            </div>
+                        </div>
+
+                        <div className="mt-5 h-2 bg-white/10 rounded-full overflow-hidden">
+                            <div
+                                className="h-full bg-green-400 rounded-full transition-all duration-700"
+                                style={{
+                                    width: `${overallProgress}%`,
+                                }}
+                            ></div>
+                        </div>
+
+                        <p className="text-xs text-gray-400 mt-3">
+                            Keep building your profile to improve your
+                            career readiness.
                         </p>
 
                     </div>
 
                 </div>
+            </section>
 
+            {/* =====================================
+                STAT CARDS
+            ===================================== */}
 
-                {!loading && (
-                    <div>
+            <section className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5">
 
-                        <ProgressBar
-                            title="Skills"
-                            icon="💻"
-                            percentage={skillsProgress}
-                        />
+                <StatCard
+                    title="Projects"
+                    value={projectCount}
+                    icon="🚀"
+                    description="Projects in your portfolio"
+                    link="/projects"
+                />
 
-                        <ProgressBar
-                            title="Projects"
-                            icon="🚀"
-                            percentage={projectsProgress}
-                        />
+                <StatCard
+                    title="Skills"
+                    value={skillCount}
+                    icon="💻"
+                    description="Skills added to profile"
+                    link="/skills"
+                />
 
-                        <ProgressBar
-                            title="Certificates"
-                            icon="📜"
-                            percentage={certificatesProgress}
-                        />
+                <StatCard
+                    title="Certificates"
+                    value={certificateCount}
+                    icon="🏆"
+                    description="Achievements added"
+                    link="/certificates"
+                />
 
-                        <ProgressBar
-                            title="Resume"
-                            icon="📄"
-                            percentage={resumeProgress}
-                        />
+                <StatCard
+                    title="Resume"
+                    value={
+                        resumeUploaded
+                            ? "Ready"
+                            : "Missing"
+                    }
+                    icon="📄"
+                    description={
+                        resumeUploaded
+                            ? "Resume uploaded"
+                            : "Upload your resume"
+                    }
+                    link="/resume"
+                />
+
+            </section>
+
+            {/* =====================================
+                MAIN GRID
+            ===================================== */}
+
+            <section className="grid grid-cols-1 xl:grid-cols-3 gap-6">
+
+                {/* =================================
+                    CAREER PROGRESS
+                ================================= */}
+
+                <div className="xl:col-span-2 bg-white border border-gray-100 rounded-3xl shadow-sm p-6 md:p-7">
+
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-7">
+
+                        <div>
+                            <div className="flex items-center gap-2">
+                                <h2 className="text-2xl font-extrabold text-gray-900">
+                                    Career Progress
+                                </h2>
+
+                                <span>📊</span>
+                            </div>
+
+                            <p className="text-gray-500 mt-1">
+                                Track your career profile completion.
+                            </p>
+                        </div>
+
+                        <div className="text-left sm:text-right">
+
+                            <p className="text-4xl font-extrabold text-green-600">
+                                {loading
+                                    ? "..."
+                                    : `${overallProgress}%`}
+                            </p>
+
+                            <p className="text-xs text-gray-500">
+                                Overall Progress
+                            </p>
+
+                        </div>
 
                     </div>
-                )}
 
-            </div>
+                    {!loading && (
+                        <div>
 
+                            <ProgressBar
+                                title="Skills"
+                                icon="💻"
+                                percentage={skillsProgress}
+                            />
 
-            {/* =========================
-                PUBLIC PORTFOLIO
-            ========================= */}
+                            <ProgressBar
+                                title="Projects"
+                                icon="🚀"
+                                percentage={projectsProgress}
+                            />
 
-            <div className="bg-white rounded-xl shadow-lg p-6">
+                            <ProgressBar
+                                title="Certificates"
+                                icon="🏆"
+                                percentage={certificatesProgress}
+                            />
 
-                <h2 className="text-2xl font-bold text-green-600">
-                    Your Public Portfolio 🌐
-                </h2>
+                            <ProgressBar
+                                title="Resume"
+                                icon="📄"
+                                percentage={resumeProgress}
+                            />
 
-                <p className="text-gray-600 mt-2">
-                    Share your portfolio with
-                    recruiters and employers.
-                </p>
-
-
-                <div className="flex flex-wrap gap-4 mt-5">
-
-                    {publicPortfolioUrl && (
-                        <a
-                            href={publicPortfolioUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700"
-                        >
-                            View Public Portfolio
-                        </a>
+                        </div>
                     )}
 
+                </div>
 
-                    <button
-                        onClick={copyPortfolioLink}
-                        disabled={!publicPortfolioUrl}
-                        className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 disabled:opacity-50"
-                    >
-                        Copy Portfolio Link
-                    </button>
+                {/* =================================
+                    RECENT ACTIVITY
+                ================================= */}
+
+                <div className="bg-white border border-gray-100 rounded-3xl shadow-sm p-6 md:p-7">
+
+                    <div className="flex items-center justify-between mb-6">
+
+                        <div>
+                            <h2 className="text-2xl font-extrabold text-gray-900">
+                                Recent Activity
+                            </h2>
+
+                            <p className="text-gray-500 text-sm mt-1">
+                                Your latest updates
+                            </p>
+                        </div>
+
+                        <div className="w-11 h-11 rounded-xl bg-green-50 flex items-center justify-center text-xl">
+                            🕐
+                        </div>
+
+                    </div>
+
+                    {loading ? (
+                        <p className="text-gray-500">
+                            Loading activities...
+                        </p>
+                    ) : (
+                        <div className="space-y-5">
+
+                            {recentActivities.map(
+                                (activity, index) => (
+                                    <div
+                                        key={index}
+                                        className="flex gap-4"
+                                    >
+
+                                        <div className="flex flex-col items-center">
+
+                                            <div className="w-10 h-10 rounded-xl bg-green-50 flex items-center justify-center text-lg flex-shrink-0">
+                                                {activity.icon}
+                                            </div>
+
+                                            {index !==
+                                                recentActivities.length - 1 && (
+                                                    <div className="w-px h-full bg-gray-200 mt-2"></div>
+                                                )}
+
+                                        </div>
+
+                                        <div className="pb-2">
+
+                                            <p className="font-semibold text-gray-800">
+                                                {activity.title}
+                                            </p>
+
+                                            <p className="text-sm text-gray-500 mt-1 leading-5">
+                                                {activity.text}
+                                            </p>
+
+                                        </div>
+
+                                    </div>
+                                )
+                            )}
+
+                        </div>
+                    )}
 
                 </div>
 
-            </div>
+            </section>
 
+            {/* =====================================
+                PORTFOLIO
+            ===================================== */}
 
-            {/* =========================
-                QUICK ACTIONS
-            ========================= */}
+            <section className="relative overflow-hidden bg-gradient-to-r from-green-600 to-emerald-500 rounded-3xl p-6 md:p-8 text-white shadow-lg">
 
-            <div className="bg-white rounded-xl shadow-lg p-6">
+                <div className="absolute right-0 top-0 w-64 h-64 bg-white/10 rounded-full blur-3xl"></div>
 
-                <h2 className="text-2xl font-bold text-green-600">
-                    Quick Actions ⚡
-                </h2>
+                <div className="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
 
-                <p className="text-gray-600 mt-2">
-                    Quickly manage your career profile.
-                </p>
+                    <div>
 
+                        <div className="flex items-center gap-3">
+                            <div className="w-12 h-12 rounded-2xl bg-white/15 flex items-center justify-center text-2xl">
+                                🌐
+                            </div>
 
-                <div className="flex flex-wrap gap-4 mt-5">
+                            <div>
+                                <h2 className="text-2xl font-extrabold">
+                                    Your Public Portfolio
+                                </h2>
 
-                    <a
-                        href="/profile"
-                        className="bg-green-600 text-white px-5 py-3 rounded-lg hover:bg-green-700"
-                    >
-                        Edit Profile
-                    </a>
+                                <p className="text-green-100 text-sm">
+                                    Your professional profile, ready to share.
+                                </p>
+                            </div>
+                        </div>
 
-                    <a
-                        href="/skills"
-                        className="bg-blue-600 text-white px-5 py-3 rounded-lg hover:bg-blue-700"
-                    >
-                        Add Skills
-                    </a>
+                        <p className="text-green-50 mt-4 max-w-2xl">
+                            Share your projects, skills, certificates and
+                            career profile with recruiters and employers.
+                        </p>
 
-                    <a
-                        href="/projects"
-                        className="bg-purple-600 text-white px-5 py-3 rounded-lg hover:bg-purple-700"
-                    >
-                        Add Project
-                    </a>
+                    </div>
 
-                    <a
-                        href="/resume"
-                        className="bg-orange-500 text-white px-5 py-3 rounded-lg hover:bg-orange-600"
-                    >
-                        Manage Resume
-                    </a>
+                    <div className="flex flex-wrap gap-3">
 
-                </div>
-
-            </div>
-
-
-            {/* =========================
-                RECENT ACTIVITY
-            ========================= */}
-
-            <div className="bg-white rounded-xl shadow-lg p-6">
-
-                <h2 className="text-2xl font-bold text-green-600 mb-5">
-                    Recent Activity
-                </h2>
-
-
-                {loading ? (
-                    <p className="text-gray-500">
-                        Loading activities...
-                    </p>
-                ) : (
-                    <ul className="space-y-4">
-
-                        {recentActivities.map(
-                            (activity, index) => (
-                                <li
-                                    key={index}
-                                    className="border-b pb-3 text-gray-700"
-                                >
-
-                                    <span className="mr-2">
-                                        {activity.icon}
-                                    </span>
-
-                                    {activity.text}
-
-                                </li>
-                            )
+                        {publicPortfolioUrl && (
+                            <a
+                                href={publicPortfolioUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="px-5 py-3 bg-white text-green-700 rounded-xl font-bold hover:bg-green-50 transition"
+                            >
+                                View Portfolio ↗
+                            </a>
                         )}
 
-                    </ul>
-                )}
+                        <button
+                            onClick={copyPortfolioLink}
+                            disabled={!publicPortfolioUrl}
+                            className="px-5 py-3 border border-white/30 rounded-xl font-semibold hover:bg-white/10 transition disabled:opacity-50"
+                        >
+                            Copy Link
+                        </button>
 
-            </div>
+                    </div>
+
+                </div>
+            </section>
+
+            {/* =====================================
+                QUICK ACTIONS
+            ===================================== */}
+
+            <section>
+
+                <div className="mb-5">
+
+                    <h2 className="text-2xl font-extrabold text-gray-900">
+                        Quick Actions ⚡
+                    </h2>
+
+                    <p className="text-gray-500 mt-1">
+                        Continue building your career profile.
+                    </p>
+
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+
+                    <Link
+                        to="/profile"
+                        className="group bg-white border border-gray-100 rounded-2xl p-5 shadow-sm hover:shadow-xl hover:-translate-y-1 transition"
+                    >
+                        <div className="w-12 h-12 rounded-xl bg-blue-50 flex items-center justify-center text-2xl">
+                            👤
+                        </div>
+
+                        <h3 className="font-bold text-gray-900 mt-4">
+                            Edit Profile
+                        </h3>
+
+                        <p className="text-sm text-gray-500 mt-1">
+                            Update your career information.
+                        </p>
+
+                        <span className="block text-green-600 font-semibold text-sm mt-4">
+                            Open →
+                        </span>
+                    </Link>
+
+                    <Link
+                        to="/skills"
+                        className="group bg-white border border-gray-100 rounded-2xl p-5 shadow-sm hover:shadow-xl hover:-translate-y-1 transition"
+                    >
+                        <div className="w-12 h-12 rounded-xl bg-purple-50 flex items-center justify-center text-2xl">
+                            💻
+                        </div>
+
+                        <h3 className="font-bold text-gray-900 mt-4">
+                            Add Skills
+                        </h3>
+
+                        <p className="text-sm text-gray-500 mt-1">
+                            Showcase your technical skills.
+                        </p>
+
+                        <span className="block text-green-600 font-semibold text-sm mt-4">
+                            Open →
+                        </span>
+                    </Link>
+
+                    <Link
+                        to="/projects"
+                        className="group bg-white border border-gray-100 rounded-2xl p-5 shadow-sm hover:shadow-xl hover:-translate-y-1 transition"
+                    >
+                        <div className="w-12 h-12 rounded-xl bg-orange-50 flex items-center justify-center text-2xl">
+                            🚀
+                        </div>
+
+                        <h3 className="font-bold text-gray-900 mt-4">
+                            Add Project
+                        </h3>
+
+                        <p className="text-sm text-gray-500 mt-1">
+                            Build a stronger portfolio.
+                        </p>
+
+                        <span className="block text-green-600 font-semibold text-sm mt-4">
+                            Open →
+                        </span>
+                    </Link>
+
+                    <Link
+                        to="/resume"
+                        className="group bg-white border border-gray-100 rounded-2xl p-5 shadow-sm hover:shadow-xl hover:-translate-y-1 transition"
+                    >
+                        <div className="w-12 h-12 rounded-xl bg-red-50 flex items-center justify-center text-2xl">
+                            📄
+                        </div>
+
+                        <h3 className="font-bold text-gray-900 mt-4">
+                            Manage Resume
+                        </h3>
+
+                        <p className="text-sm text-gray-500 mt-1">
+                            Upload and analyze your resume.
+                        </p>
+
+                        <span className="block text-green-600 font-semibold text-sm mt-4">
+                            Open →
+                        </span>
+                    </Link>
+
+                </div>
+
+            </section>
+
+            {/* =====================================
+                AI TOOLS
+            ===================================== */}
+
+            <section className="bg-[#07111f] rounded-3xl p-6 md:p-8 text-white">
+
+                <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-7">
+
+                    <div>
+
+                        <div className="inline-flex items-center gap-2 text-green-400 font-semibold text-sm">
+                            🤖 AI CAREER TOOLS
+                        </div>
+
+                        <h2 className="text-2xl md:text-3xl font-extrabold mt-2">
+                            Get smarter about your career.
+                        </h2>
+
+                        <p className="text-gray-400 mt-2">
+                            Use AI-powered tools to improve your career readiness.
+                        </p>
+
+                    </div>
+
+                    <Link
+                        to="/career-advisor"
+                        className="px-5 py-3 bg-green-500 hover:bg-green-400 rounded-xl font-bold transition"
+                    >
+                        Explore AI Tools →
+                    </Link>
+
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+
+                    <Link
+                        to="/career-advisor"
+                        className="bg-white/5 border border-white/10 rounded-2xl p-5 hover:bg-white/10 transition"
+                    >
+                        <div className="text-2xl">🤖</div>
+
+                        <h3 className="font-bold mt-3">
+                            AI Career Advisor
+                        </h3>
+
+                        <p className="text-gray-400 text-sm mt-1">
+                            Get personalized career guidance.
+                        </p>
+                    </Link>
+
+                    <Link
+                        to="/job-matcher"
+                        className="bg-white/5 border border-white/10 rounded-2xl p-5 hover:bg-white/10 transition"
+                    >
+                        <div className="text-2xl">🎯</div>
+
+                        <h3 className="font-bold mt-3">
+                            AI Job Matcher
+                        </h3>
+
+                        <p className="text-gray-400 text-sm mt-1">
+                            Find roles matching your skills.
+                        </p>
+                    </Link>
+
+                    <Link
+                        to="/mock-interview"
+                        className="bg-white/5 border border-white/10 rounded-2xl p-5 hover:bg-white/10 transition"
+                    >
+                        <div className="text-2xl">🎤</div>
+
+                        <h3 className="font-bold mt-3">
+                            Mock Interview
+                        </h3>
+
+                        <p className="text-gray-400 text-sm mt-1">
+                            Practice interviews with AI.
+                        </p>
+                    </Link>
+
+                </div>
+
+            </section>
 
         </div>
     );
 };
-
 
 export default Dashboard;
