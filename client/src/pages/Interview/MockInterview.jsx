@@ -33,7 +33,7 @@ const MockInterview = () => {
             const token = localStorage.getItem("token");
 
             const response = await fetch(
-                "http://localhost:5000/api/interview/start",
+                "https://skillbridge-ai-backend-v6uk.onrender.com/api/interview/start",
                 {
                     method: "POST",
                     headers: {
@@ -91,7 +91,7 @@ const MockInterview = () => {
             const token = localStorage.getItem("token");
 
             const response = await fetch(
-                "http://localhost:5000/api/interview/evaluate",
+                "https://skillbridge-ai-backend-v6uk.onrender.com/api/interview/evaluate",
                 {
                     method: "POST",
                     headers: {
@@ -518,7 +518,7 @@ const MockInterview = () => {
                                         className="h-full rounded-full bg-green-600 transition-all duration-500"
                                         style={{
                                             width: `${(questionNumber /
-                                                    totalQuestions) *
+                                                totalQuestions) *
                                                 100
                                                 }%`,
                                         }}

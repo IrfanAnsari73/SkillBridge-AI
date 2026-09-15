@@ -17,7 +17,7 @@ const ApplicationInsights = () => {
             const token = localStorage.getItem("token");
 
             const response = await fetch(
-                "http://localhost:5000/api/application-insights",
+                "https://skillbridge-ai-backend-v6uk.onrender.com/api/application-insights",
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,

@@ -17,7 +17,7 @@ const CareerAnalytics = () => {
             const token = localStorage.getItem("token");
 
             const response = await fetch(
-                "http://localhost:5000/api/analytics",
+                "https://skillbridge-ai-backend-v6uk.onrender.com/api/analytics",
                 {
                     method: "GET",
                     headers: {

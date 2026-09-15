@@ -23,7 +23,7 @@ const JobMatcher = () => {
             }
 
             const response = await fetch(
-                "http://localhost:5000/api/job-matcher",
+                "https://skillbridge-ai-backend-v6uk.onrender.com/api/job-matcher",
                 {
                     method: "GET",
                     headers: {

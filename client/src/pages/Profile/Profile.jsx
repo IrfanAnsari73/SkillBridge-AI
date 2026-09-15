@@ -38,7 +38,7 @@ const Profile = () => {
             }
 
             const response = await fetch(
-                "http://localhost:5000/api/profile",
+                "https://skillbridge-ai-backend-v6uk.onrender.com/api/profile",
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -172,7 +172,7 @@ const Profile = () => {
             }
 
             const response = await fetch(
-                "http://localhost:5000/api/profile",
+                "https://skillbridge-ai-backend-v6uk.onrender.com/api/profile",
                 {
                     method: "PUT",
                     headers: {

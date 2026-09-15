@@ -39,7 +39,7 @@ const Login = () => {
             setError("");
 
             const response = await fetch(
-                "http://localhost:5000/api/auth/login",
+                "https://skillbridge-ai-backend-v6uk.onrender.com/api/auth/login",
                 {
                     method: "POST",
                     headers: {

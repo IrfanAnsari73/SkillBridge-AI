@@ -29,7 +29,7 @@ const Resume = () => {
             }
 
             const response = await fetch(
-                "http://localhost:5000/api/resume",
+                "https://skillbridge-ai-backend-v6uk.onrender.com/api/resume",
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -134,7 +134,7 @@ const Resume = () => {
             );
 
             const response = await fetch(
-                "http://localhost:5000/api/resume",
+                "https://skillbridge-ai-backend-v6uk.onrender.com/api/resume",
                 {
                     method: "POST",
                     headers: {
@@ -198,7 +198,7 @@ const Resume = () => {
                 localStorage.getItem("token");
 
             const response = await fetch(
-                "http://localhost:5000/api/resume/download",
+                "https://skillbridge-ai-backend-v6uk.onrender.com/api/resume/download",
                 {
                     method: "GET",
                     headers: {
@@ -287,7 +287,7 @@ const Resume = () => {
                 localStorage.getItem("token");
 
             const response = await fetch(
-                "http://localhost:5000/api/resume",
+                "https://skillbridge-ai-backend-v6uk.onrender.com/api/resume",
                 {
                     method: "DELETE",
                     headers: {
@@ -348,7 +348,7 @@ const Resume = () => {
                 localStorage.getItem("token");
 
             const response = await fetch(
-                "http://localhost:5000/api/resume/analyze",
+                "https://skillbridge-ai-backend-v6uk.onrender.com/api/resume/analyze",
                 {
                     method: "POST",
                     headers: {
@@ -552,8 +552,8 @@ const Resume = () => {
 
                                             <div
                                                 className={`h-full rounded-full ${resume
-                                                        ? "w-full bg-green-500"
-                                                        : "w-0"
+                                                    ? "w-full bg-green-500"
+                                                    : "w-0"
                                                     }`}
                                             />
 
@@ -820,7 +820,7 @@ const Resume = () => {
                                     <div className="flex flex-wrap gap-3 mt-7 pt-6 border-t border-white/10">
 
                                         <a
-                                            href={`http://localhost:5000/uploads/${resume.fileName}`}
+                                            href={`https://skillbridge-ai-backend-v6uk.onrender.com/uploads/${resume.fileName}`}
                                             target="_blank"
                                             rel="noopener noreferrer"
                                             className="inline-flex items-center gap-2 bg-green-600 text-white px-5 py-3 rounded-xl font-bold hover:bg-green-500 transition"

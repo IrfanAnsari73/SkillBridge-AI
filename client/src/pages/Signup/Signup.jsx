@@ -55,7 +55,7 @@ const Signup = () => {
             setError("");
 
             const response = await fetch(
-                "http://localhost:5000/api/auth/register",
+                "https://skillbridge-ai-backend-v6uk.onrender.com/api/auth/register",
                 {
                     method: "POST",
                     headers: {

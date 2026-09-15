@@ -25,7 +25,7 @@ const CareerAdvisor = () => {
             }
 
             const response = await fetch(
-                "http://localhost:5000/api/career/recommendations",
+                "https://skillbridge-ai-backend-v6uk.onrender.com/api/career/recommendations",
                 {
                     method: "GET",
                     headers: {

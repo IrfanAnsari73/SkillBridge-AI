@@ -26,7 +26,7 @@ const CareerActionCenter = () => {
             }
 
             const response = await fetch(
-                "http://localhost:5000/api/career-actions",
+                "https://skillbridge-ai-backend-v6uk.onrender.com/api/career-actions",
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -686,10 +686,10 @@ const ActionCard = ({
 
                 <span
                     className={`shrink-0 px-3 py-1.5 rounded-full text-xs font-bold ${action.priority === "High"
-                            ? "bg-red-50 text-red-700 border border-red-200"
-                            : action.priority === "Medium"
-                                ? "bg-yellow-50 text-yellow-700 border border-yellow-200"
-                                : "bg-green-50 text-green-700 border border-green-200"
+                        ? "bg-red-50 text-red-700 border border-red-200"
+                        : action.priority === "Medium"
+                            ? "bg-yellow-50 text-yellow-700 border border-yellow-200"
+                            : "bg-green-50 text-green-700 border border-green-200"
                         }`}
                 >
                     {action.priority} Priority

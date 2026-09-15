@@ -27,7 +27,7 @@ const Portfolio = () => {
             }
 
             const response = await fetch(
-                "http://localhost:5000/api/portfolio",
+                "https://skillbridge-ai-backend-v6uk.onrender.com/api/portfolio",
                 {
                     headers: {
                         Authorization:
@@ -119,7 +119,7 @@ const Portfolio = () => {
             }
 
             const response = await fetch(
-                "http://localhost:5000/api/portfolio",
+                "https://skillbridge-ai-backend-v6uk.onrender.com/api/portfolio",
                 {
                     method: "POST",
                     headers: {
@@ -348,13 +348,13 @@ const Portfolio = () => {
 
                                                 <div
                                                     className={`h-full rounded-full bg-green-500 ${portfolio.title &&
-                                                            portfolio.about &&
-                                                            portfolio.portfolioUrl
-                                                            ? "w-full"
-                                                            : portfolio.title ||
-                                                                portfolio.about
-                                                                ? "w-2/3"
-                                                                : "w-1/3"
+                                                        portfolio.about &&
+                                                        portfolio.portfolioUrl
+                                                        ? "w-full"
+                                                        : portfolio.title ||
+                                                            portfolio.about
+                                                            ? "w-2/3"
+                                                            : "w-1/3"
                                                         }`}
                                                 />
 

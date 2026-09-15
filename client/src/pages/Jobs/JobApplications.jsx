@@ -32,7 +32,7 @@ const JobApplications = () => {
             setError("");
 
             const response = await fetch(
-                "http://localhost:5000/api/job-applications",
+                "https://skillbridge-ai-backend-v6uk.onrender.com/api/job-applications",
                 {
                     method: "GET",
                     headers: {
@@ -96,8 +96,8 @@ const JobApplications = () => {
             setError("");
 
             const url = editingId
-                ? `http://localhost:5000/api/job-applications/${editingId}`
-                : "http://localhost:5000/api/job-applications";
+                ? `https://skillbridge-ai-backend-v6uk.onrender.com/api/job-applications/${editingId}`
+                : "https://skillbridge-ai-backend-v6uk.onrender.com/api/job-applications";
 
             const method = editingId ? "PUT" : "POST";
 
@@ -187,7 +187,7 @@ const JobApplications = () => {
             setError("");
 
             const response = await fetch(
-                `http://localhost:5000/api/job-applications/${id}`,
+                `https://skillbridge-ai-backend-v6uk.onrender.com/api/job-applications/${id}`,
                 {
                     method: "DELETE",
                     headers: {

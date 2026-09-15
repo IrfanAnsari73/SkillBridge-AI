@@ -26,7 +26,7 @@ const CareerGoals = () => {
             setLoading(true);
 
             const response = await fetch(
-                "http://localhost:5000/api/career-goals",
+                "https://skillbridge-ai-backend-v6uk.onrender.com/api/career-goals",
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -112,8 +112,8 @@ const CareerGoals = () => {
 
         try {
             const url = editingGoal
-                ? `http://localhost:5000/api/career-goals/${editingGoal._id}`
-                : "http://localhost:5000/api/career-goals";
+                ? `https://skillbridge-ai-backend-v6uk.onrender.com/api/career-goals/${editingGoal._id}`
+                : "https://skillbridge-ai-backend-v6uk.onrender.com/api/career-goals";
 
             const method = editingGoal ? "PUT" : "POST";
 
@@ -208,7 +208,7 @@ const CareerGoals = () => {
 
         try {
             const response = await fetch(
-                `http://localhost:5000/api/career-goals/${id}`,
+                `https://skillbridge-ai-backend-v6uk.onrender.com/api/career-goals/${id}`,
                 {
                     method: "DELETE",
                     headers: {

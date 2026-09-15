@@ -45,7 +45,7 @@ const Dashboard = () => {
             // =========================
 
             const projectResponse = await fetch(
-                "http://localhost:5000/api/projects",
+                "https://skillbridge-ai-backend-v6uk.onrender.com/api/projects",
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -67,7 +67,7 @@ const Dashboard = () => {
             // =========================
 
             const skillResponse = await fetch(
-                "http://localhost:5000/api/skills",
+                "https://skillbridge-ai-backend-v6uk.onrender.com/api/skills",
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -89,7 +89,7 @@ const Dashboard = () => {
             // =========================
 
             const certificateResponse = await fetch(
-                "http://localhost:5000/api/certificates",
+                "https://skillbridge-ai-backend-v6uk.onrender.com/api/certificates",
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -114,7 +114,7 @@ const Dashboard = () => {
             // =========================
 
             const resumeResponse = await fetch(
-                "http://localhost:5000/api/resume",
+                "https://skillbridge-ai-backend-v6uk.onrender.com/api/resume",
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,

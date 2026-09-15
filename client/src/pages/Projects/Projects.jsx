@@ -31,7 +31,7 @@ const Projects = () => {
             }
 
             const response = await fetch(
-                "http://localhost:5000/api/projects",
+                "https://skillbridge-ai-backend-v6uk.onrender.com/api/projects",
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -151,8 +151,8 @@ const Projects = () => {
                     );
 
             const url = editingProjectId
-                ? `http://localhost:5000/api/projects/${editingProjectId}`
-                : "http://localhost:5000/api/projects";
+                ? `https://skillbridge-ai-backend-v6uk.onrender.com/api/projects/${editingProjectId}`
+                : "https://skillbridge-ai-backend-v6uk.onrender.com/api/projects";
 
             const method = editingProjectId
                 ? "PUT"
@@ -239,7 +239,7 @@ const Projects = () => {
                 localStorage.getItem("token");
 
             const response = await fetch(
-                `http://localhost:5000/api/projects/${projectId}`,
+                `https://skillbridge-ai-backend-v6uk.onrender.com/api/projects/${projectId}`,
                 {
                     method: "DELETE",
                     headers: {

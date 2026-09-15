@@ -30,7 +30,7 @@ const Contact = () => {
 
         try {
             const response = await fetch(
-                "http://localhost:5000/api/contact",
+                "https://skillbridge-ai-backend-v6uk.onrender.com/api/contact",
                 {
                     method: "POST",
                     headers: {

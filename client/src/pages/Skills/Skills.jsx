@@ -28,7 +28,7 @@ const Skills = () => {
             }
 
             const response = await fetch(
-                "http://localhost:5000/api/skills",
+                "https://skillbridge-ai-backend-v6uk.onrender.com/api/skills",
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -133,8 +133,8 @@ const Skills = () => {
             }
 
             const url = editingSkillId
-                ? `http://localhost:5000/api/skills/${editingSkillId}`
-                : "http://localhost:5000/api/skills";
+                ? `https://skillbridge-ai-backend-v6uk.onrender.com/api/skills/${editingSkillId}`
+                : "https://skillbridge-ai-backend-v6uk.onrender.com/api/skills";
 
             const method = editingSkillId
                 ? "PUT"
@@ -219,7 +219,7 @@ const Skills = () => {
                 localStorage.getItem("token");
 
             const response = await fetch(
-                `http://localhost:5000/api/skills/${skillId}`,
+                `https://skillbridge-ai-backend-v6uk.onrender.com/api/skills/${skillId}`,
                 {
                     method: "DELETE",
                     headers: {

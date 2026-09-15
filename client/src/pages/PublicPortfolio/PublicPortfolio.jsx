@@ -14,7 +14,7 @@ const PublicPortfolio = () => {
     const fetchPortfolio = async () => {
         try {
             const response = await fetch(
-                `http://localhost:5000/api/portfolio/public/${userId}`
+                `https://skillbridge-ai-backend-v6uk.onrender.com/api/portfolio/public/${userId}`
             );
 
             const data = await response.json();
@@ -33,7 +33,7 @@ const PublicPortfolio = () => {
             // =========================
             try {
                 const resumeResponse = await fetch(
-                    `http://localhost:5000/api/resume/public/${userId}`
+                    `https://skillbridge-ai-backend-v6uk.onrender.com/api/resume/public/${userId}`
                 );
 
                 if (resumeResponse.ok) {
@@ -475,7 +475,7 @@ const PublicPortfolio = () => {
                             <div className="flex flex-wrap gap-4 mt-5">
 
                                 <a
-                                    href={`http://localhost:5000/uploads/${resume.fileName}`}
+                                    href={`https://skillbridge-ai-backend-v6uk.onrender.com/uploads/${resume.fileName}`}
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="bg-green-600 text-white px-5 py-3 rounded-lg hover:bg-green-700"
@@ -484,7 +484,7 @@ const PublicPortfolio = () => {
                                 </a>
 
                                 <a
-                                    href={`http://localhost:5000/api/resume/public/${userId}/download`}
+                                    href={`https://skillbridge-ai-backend-v6uk.onrender.com/api/resume/public/${userId}/download`}
                                     className="bg-blue-600 text-white px-5 py-3 rounded-lg hover:bg-blue-700"
                                 >
                                     Download Resume

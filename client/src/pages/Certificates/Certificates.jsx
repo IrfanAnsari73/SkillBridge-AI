@@ -31,7 +31,7 @@ const Certificates = () => {
             }
 
             const response = await fetch(
-                "http://localhost:5000/api/certificates",
+                "https://skillbridge-ai-backend-v6uk.onrender.com/api/certificates",
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -44,7 +44,7 @@ const Certificates = () => {
             if (!response.ok) {
                 setError(
                     data.message ||
-                        "Failed to load certificates."
+                    "Failed to load certificates."
                 );
                 return;
             }
@@ -147,8 +147,8 @@ const Certificates = () => {
             }
 
             const url = editingCertificateId
-                ? `http://localhost:5000/api/certificates/${editingCertificateId}`
-                : "http://localhost:5000/api/certificates";
+                ? `https://skillbridge-ai-backend-v6uk.onrender.com/api/certificates/${editingCertificateId}`
+                : "https://skillbridge-ai-backend-v6uk.onrender.com/api/certificates";
 
             const method = editingCertificateId
                 ? "PUT"
@@ -180,11 +180,10 @@ const Certificates = () => {
             if (!response.ok) {
                 setError(
                     data.message ||
-                        `Failed to ${
-                            editingCertificateId
-                                ? "update"
-                                : "create"
-                        } certificate.`
+                    `Failed to ${editingCertificateId
+                        ? "update"
+                        : "create"
+                    } certificate.`
                 );
                 return;
             }
@@ -194,7 +193,7 @@ const Certificates = () => {
                     certificates.map(
                         (certificate) =>
                             certificate._id ===
-                            editingCertificateId
+                                editingCertificateId
                                 ? data.certificate
                                 : certificate
                     )
@@ -238,7 +237,7 @@ const Certificates = () => {
                 localStorage.getItem("token");
 
             const response = await fetch(
-                `http://localhost:5000/api/certificates/${certificateId}`,
+                `https://skillbridge-ai-backend-v6uk.onrender.com/api/certificates/${certificateId}`,
                 {
                     method: "DELETE",
                     headers: {
@@ -254,7 +253,7 @@ const Certificates = () => {
             if (!response.ok) {
                 setError(
                     data.message ||
-                        "Failed to delete certificate."
+                    "Failed to delete certificate."
                 );
                 return;
             }
@@ -799,7 +798,7 @@ const Certificates = () => {
 
                                 </div>
                             ) : certificates.length ===
-                              0 ? (
+                                0 ? (
                                 <div className="text-center py-16">
 
                                     <div className="w-20 h-20 mx-auto rounded-3xl bg-green-50 flex items-center justify-center text-4xl">
