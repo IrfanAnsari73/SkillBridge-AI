@@ -2,153 +2,166 @@ import { Link } from "react-router-dom";
 import Navbar from "../../components/common/Navbar";
 import Footer from "../../components/common/Footer";
 
+const sections = [
+    ["01", "Introduction"],
+    ["02", "Information We Collect"],
+    ["03", "Account Information"],
+    ["04", "Resume & Career Data"],
+    ["05", "AI-Powered Features"],
+    ["06", "How We Use Information"],
+    ["07", "Third-Party Services"],
+    ["08", "Cookies"],
+    ["09", "Advertising & AdSense"],
+    ["10", "Data Security"],
+    ["11", "Data Retention"],
+    ["12", "Your Rights"],
+    ["13", "Children's Privacy"],
+    ["14", "Changes"],
+    ["15", "Contact Us"],
+];
+
+const SectionHeading = ({ number, title, dark = false }) => (
+    <div className="flex items-start gap-4">
+        <div
+            className={`w-12 h-12 shrink-0 rounded-2xl flex items-center justify-center font-black ${dark
+                    ? "bg-green-500/10 border border-green-400/20 text-green-400"
+                    : "bg-green-50 border border-green-100 text-green-600"
+                }`}
+        >
+            {number}
+        </div>
+
+        <div>
+            <p
+                className={`text-[10px] uppercase tracking-[0.2em] font-black ${dark ? "text-green-400" : "text-green-600"
+                    }`}
+            >
+                SkillBridge AI
+            </p>
+
+            <h2
+                className={`text-2xl md:text-3xl font-black mt-1 ${dark ? "text-white" : "text-slate-950"
+                    }`}
+            >
+                {title}
+            </h2>
+        </div>
+    </div>
+);
+
+const InfoList = ({ items }) => (
+    <div className="mt-6 grid md:grid-cols-2 gap-3">
+        {items.map((item, index) => (
+            <div
+                key={index}
+                className="flex items-start gap-3 rounded-2xl bg-gray-50 border border-gray-100 p-4 hover:border-green-200 hover:bg-green-50/40 transition"
+            >
+                <span className="w-7 h-7 shrink-0 rounded-lg bg-green-100 text-green-700 flex items-center justify-center font-black text-sm">
+                    ✓
+                </span>
+
+                <span className="text-gray-600 leading-6 text-sm md:text-base">
+                    {item}
+                </span>
+            </div>
+        ))}
+    </div>
+);
+
 const PrivacyPolicy = () => {
-    const sections = [
-        ["01", "Introduction"],
-        ["02", "Information We Collect"],
-        ["03", "Account Information"],
-        ["04", "Resume & Career Data"],
-        ["05", "AI-Powered Features"],
-        ["06", "How We Use Information"],
-        ["07", "Third-Party Services"],
-        ["08", "Cookies"],
-        ["09", "Advertising & AdSense"],
-        ["10", "Data Security"],
-        ["11", "Data Retention"],
-        ["12", "Your Rights"],
-        ["13", "Children's Privacy"],
-        ["14", "Changes"],
-        ["15", "Contact Us"],
-    ];
-
     return (
-        <div className="min-h-screen bg-[#f4f7f6] text-gray-800">
-
+        <div className="min-h-screen bg-[#f5f7f6] text-gray-800">
             <Navbar />
 
-            {/* =========================================
-                HERO
-            ========================================= */}
+            {/* ================= HERO ================= */}
+            <section className="relative overflow-hidden bg-[#07130f] text-white">
+                <div className="absolute -top-32 -right-32 w-96 h-96 bg-green-500/15 rounded-full blur-3xl" />
+                <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-green-500/10 rounded-full blur-3xl" />
 
-            <section className="relative overflow-hidden bg-slate-950 text-white">
-
-                <div className="absolute -top-32 -right-32 w-96 h-96 rounded-full bg-green-500/10 blur-3xl" />
-
-                <div className="absolute -bottom-40 -left-40 w-96 h-96 rounded-full bg-green-500/5 blur-3xl" />
-
-                <div className="relative max-w-7xl mx-auto px-5 sm:px-6 lg:px-8 py-16 md:py-20">
-
+                <div className="relative max-w-7xl mx-auto px-6 py-20 lg:py-24">
                     <div className="max-w-4xl">
-
-                        <div className="inline-flex items-center gap-2 rounded-full border border-green-400/20 bg-green-500/10 px-4 py-2 text-sm font-bold text-green-300">
-                            🔐 Privacy & Trust
+                        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-green-500/10 border border-green-400/20 text-green-300 text-sm font-bold">
+                            <span>🔐</span>
+                            Privacy & Trust
                         </div>
 
-                        <h1 className="mt-6 text-4xl sm:text-5xl md:text-6xl font-black tracking-tight">
+                        <h1 className="mt-7 text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight">
                             Privacy Policy
-                            <span className="text-green-500">.</span>
+                            <span className="text-green-400">.</span>
                         </h1>
 
-                        <p className="mt-5 max-w-3xl text-gray-400 text-base md:text-lg leading-8">
+                        <p className="mt-6 max-w-3xl text-gray-300 text-base md:text-lg leading-8">
                             Transparency matters. Learn how SkillBridge AI
                             collects, uses, protects, and manages information
                             while you use our career platform.
                         </p>
 
-                        <div className="mt-7 flex flex-wrap items-center gap-3">
-
-                            <div className="inline-flex items-center gap-2 rounded-xl bg-white/5 border border-white/10 px-4 py-2.5 text-sm text-gray-300">
+                        <div className="mt-8 flex flex-wrap gap-3">
+                            <div className="px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-sm text-gray-300">
                                 🛡️ Your Privacy Matters
                             </div>
 
-                            <div className="inline-flex items-center gap-2 rounded-xl bg-white/5 border border-white/10 px-4 py-2.5 text-sm text-gray-300">
+                            <div className="px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-sm text-gray-300">
                                 🔒 Secure Platform
                             </div>
 
-                            <div className="inline-flex items-center gap-2 rounded-xl bg-white/5 border border-white/10 px-4 py-2.5 text-sm text-gray-300">
+                            <div className="px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-sm text-gray-300">
                                 📅 Updated Sep 14, 2026
                             </div>
-
                         </div>
-
                     </div>
-
                 </div>
             </section>
 
-            {/* =========================================
-                MAIN
-            ========================================= */}
+            {/* ================= CONTENT ================= */}
+            <main className="max-w-7xl mx-auto px-6 py-12 lg:py-16">
+                <div className="grid lg:grid-cols-[270px_minmax(0,1fr)] gap-8">
 
-            <main className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8 py-10 md:py-14">
-
-                <div className="grid grid-cols-1 lg:grid-cols-[260px_minmax(0,1fr)] gap-7">
-
-                    {/* =========================================
-                        TABLE OF CONTENTS
-                    ========================================= */}
-
+                    {/* TOC */}
                     <aside className="lg:sticky lg:top-6 lg:self-start">
-
-                        <div className="bg-white rounded-3xl border border-gray-200 shadow-lg overflow-hidden">
-
-                            <div className="bg-slate-950 text-white p-5">
-
-                                <p className="text-xs uppercase tracking-[0.18em] font-black text-green-400">
-                                    On this page
+                        <div className="bg-white rounded-3xl border border-gray-100 shadow-xl overflow-hidden">
+                            <div className="bg-[#07130f] p-6 text-white">
+                                <p className="text-[10px] uppercase tracking-[0.2em] font-black text-green-400">
+                                    On This Page
                                 </p>
 
-                                <h2 className="text-lg font-black mt-1">
+                                <h2 className="text-xl font-black mt-2">
                                     Privacy Guide
                                 </h2>
 
+                                <p className="text-xs text-gray-500 mt-2">
+                                    15 sections
+                                </p>
                             </div>
 
-                            <div className="p-3">
-
+                            <div className="p-3 max-h-[65vh] overflow-y-auto">
                                 {sections.map(([number, title]) => (
                                     <a
                                         key={number}
                                         href={`#section-${number}`}
-                                        className="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-green-50 group transition"
+                                        className="flex items-center gap-3 px-3 py-3 rounded-xl hover:bg-green-50 group transition"
                                     >
-
                                         <span className="text-[11px] font-black text-green-600 w-6">
                                             {number}
                                         </span>
 
-                                        <span className="text-sm text-gray-600 group-hover:text-green-700 font-medium leading-5">
+                                        <span className="text-sm text-gray-600 group-hover:text-green-700 font-semibold">
                                             {title}
                                         </span>
-
                                     </a>
                                 ))}
-
                             </div>
-
                         </div>
-
                     </aside>
 
-                    {/* =========================================
-                        CONTENT
-                    ========================================= */}
+                    {/* DOCUMENT */}
+                    <div className="space-y-6">
 
-                    <div className="space-y-5">
+                        {/* 01 */}
+                        <section id="section-01" className="legal-card">
+                            <SectionHeading number="01" title="Introduction" />
 
-                        {/* INTRO */}
-
-                        <section
-                            id="section-01"
-                            className="bg-white rounded-3xl border border-gray-200 shadow-lg p-6 md:p-8 scroll-mt-8"
-                        >
-
-                            <SectionHeading
-                                number="01"
-                                title="Introduction"
-                            />
-
-                            <p className="mt-5 text-gray-600 leading-8">
+                            <p className="legal-text">
                                 SkillBridge AI is an AI-powered career and
                                 portfolio management platform designed to help
                                 students and job seekers organize their career
@@ -157,26 +170,17 @@ const PrivacyPolicy = () => {
                                 tools.
                             </p>
 
-                            <p className="mt-4 text-gray-600 leading-8">
+                            <p className="legal-text">
                                 By using SkillBridge AI, you agree to the
                                 practices described in this Privacy Policy.
                             </p>
-
                         </section>
 
-                        {/* INFORMATION */}
+                        {/* 02 */}
+                        <section id="section-02" className="legal-card">
+                            <SectionHeading number="02" title="Information We Collect" />
 
-                        <section
-                            id="section-02"
-                            className="bg-white rounded-3xl border border-gray-200 shadow-lg p-6 md:p-8 scroll-mt-8"
-                        >
-
-                            <SectionHeading
-                                number="02"
-                                title="Information We Collect"
-                            />
-
-                            <p className="mt-5 text-gray-600 leading-8">
+                            <p className="legal-text">
                                 Depending on how you use SkillBridge AI, we may
                                 collect information such as:
                             </p>
@@ -194,48 +198,30 @@ const PrivacyPolicy = () => {
                                     "Information submitted through contact forms",
                                 ]}
                             />
-
                         </section>
 
-                        {/* ACCOUNT */}
+                        {/* 03 */}
+                        <section id="section-03" className="legal-card">
+                            <SectionHeading number="03" title="Account Information" />
 
-                        <section
-                            id="section-03"
-                            className="bg-white rounded-3xl border border-gray-200 shadow-lg p-6 md:p-8 scroll-mt-8"
-                        >
-
-                            <SectionHeading
-                                number="03"
-                                title="Account Information"
-                            />
-
-                            <p className="mt-5 text-gray-600 leading-8">
+                            <p className="legal-text">
                                 When you create an account, we may collect
                                 information such as your name, email address,
                                 and authentication-related information.
                             </p>
 
-                            <p className="mt-4 text-gray-600 leading-8">
+                            <p className="legal-text">
                                 This information is used to create and maintain
                                 your account and provide the services available
                                 through SkillBridge AI.
                             </p>
-
                         </section>
 
-                        {/* RESUME */}
+                        {/* 04 */}
+                        <section id="section-04" className="legal-card">
+                            <SectionHeading number="04" title="Resume and Career Data" />
 
-                        <section
-                            id="section-04"
-                            className="bg-white rounded-3xl border border-gray-200 shadow-lg p-6 md:p-8 scroll-mt-8"
-                        >
-
-                            <SectionHeading
-                                number="04"
-                                title="Resume and Career Data"
-                            />
-
-                            <p className="mt-5 text-gray-600 leading-8">
+                            <p className="legal-text">
                                 If you upload a resume or provide career-related
                                 information, that information may be processed
                                 to provide features such as resume analysis,
@@ -243,31 +229,27 @@ const PrivacyPolicy = () => {
                                 other career-related functionality.
                             </p>
 
-                            <p className="mt-4 text-gray-600 leading-8">
+                            <p className="legal-text">
                                 You should only upload information that you have
                                 the right to provide and process.
                             </p>
-
                         </section>
 
-                        {/* AI */}
-
+                        {/* 05 */}
                         <section
                             id="section-05"
-                            className="relative overflow-hidden bg-slate-950 text-white rounded-3xl shadow-xl p-6 md:p-8 scroll-mt-8"
+                            className="relative overflow-hidden bg-[#07130f] text-white rounded-3xl shadow-xl p-7 md:p-9"
                         >
-
-                            <div className="absolute -right-20 -top-20 w-64 h-64 bg-green-500/10 rounded-full blur-3xl" />
+                            <div className="absolute -right-20 -top-20 w-72 h-72 bg-green-500/10 rounded-full blur-3xl" />
 
                             <div className="relative">
-
                                 <SectionHeading
                                     number="05"
                                     title="AI-Powered Features"
                                     dark
                                 />
 
-                                <p className="mt-5 text-gray-400 leading-8">
+                                <p className="mt-6 text-gray-400 leading-8">
                                     SkillBridge AI provides features that use
                                     artificial intelligence to generate career
                                     suggestions, resume insights, interview
@@ -282,24 +264,14 @@ const PrivacyPolicy = () => {
                                     employment, interviews, selection, or any
                                     specific career outcome.
                                 </p>
-
                             </div>
-
                         </section>
 
-                        {/* HOW WE USE */}
+                        {/* 06 */}
+                        <section id="section-06" className="legal-card">
+                            <SectionHeading number="06" title="How We Use Information" />
 
-                        <section
-                            id="section-06"
-                            className="bg-white rounded-3xl border border-gray-200 shadow-lg p-6 md:p-8 scroll-mt-8"
-                        >
-
-                            <SectionHeading
-                                number="06"
-                                title="How We Use Information"
-                            />
-
-                            <p className="mt-5 text-gray-600 leading-8">
+                            <p className="legal-text">
                                 Information may be used to:
                             </p>
 
@@ -316,48 +288,30 @@ const PrivacyPolicy = () => {
                                     "Detect and prevent misuse of the service",
                                 ]}
                             />
-
                         </section>
 
-                        {/* THIRD PARTY */}
+                        {/* 07 */}
+                        <section id="section-07" className="legal-card">
+                            <SectionHeading number="07" title="Third-Party Services" />
 
-                        <section
-                            id="section-07"
-                            className="bg-white rounded-3xl border border-gray-200 shadow-lg p-6 md:p-8 scroll-mt-8"
-                        >
-
-                            <SectionHeading
-                                number="07"
-                                title="Third-Party Services"
-                            />
-
-                            <p className="mt-5 text-gray-600 leading-8">
+                            <p className="legal-text">
                                 SkillBridge AI may use third-party services to
                                 provide infrastructure, authentication,
                                 analytics, AI processing, email delivery,
                                 hosting, or other functionality.
                             </p>
 
-                            <p className="mt-4 text-gray-600 leading-8">
+                            <p className="legal-text">
                                 These services may process information according
                                 to their own privacy policies and terms.
                             </p>
-
                         </section>
 
-                        {/* COOKIES */}
+                        {/* 08 */}
+                        <section id="section-08" className="legal-card">
+                            <SectionHeading number="08" title="Cookies and Similar Technologies" />
 
-                        <section
-                            id="section-08"
-                            className="bg-white rounded-3xl border border-gray-200 shadow-lg p-6 md:p-8 scroll-mt-8"
-                        >
-
-                            <SectionHeading
-                                number="08"
-                                title="Cookies and Similar Technologies"
-                            />
-
-                            <p className="mt-5 text-gray-600 leading-8">
+                            <p className="legal-text">
                                 SkillBridge AI may use cookies, local storage,
                                 analytics technologies, and similar mechanisms
                                 to maintain sessions, remember preferences,
@@ -365,38 +319,34 @@ const PrivacyPolicy = () => {
                                 user experience.
                             </p>
 
-                            <p className="mt-4 text-gray-600 leading-8">
+                            <p className="legal-text">
                                 Additional information about cookies and
                                 advertising technologies will be provided in
                                 our Cookie Policy.
                             </p>
-
                         </section>
 
-                        {/* ADSENSE */}
-
+                        {/* 09 */}
                         <section
                             id="section-09"
-                            className="relative overflow-hidden bg-green-50 rounded-3xl border border-green-100 shadow-lg p-6 md:p-8 scroll-mt-8"
+                            className="relative overflow-hidden bg-green-50 rounded-3xl border border-green-100 shadow-xl p-7 md:p-9"
                         >
-
-                            <div className="absolute right-0 top-0 w-40 h-40 bg-green-200/30 rounded-full blur-3xl" />
+                            <div className="absolute -right-20 -top-20 w-64 h-64 bg-green-200/40 rounded-full blur-3xl" />
 
                             <div className="relative">
-
                                 <SectionHeading
                                     number="09"
                                     title="Advertising and Google AdSense"
                                 />
 
-                                <p className="mt-5 text-gray-600 leading-8">
+                                <p className="legal-text">
                                     SkillBridge AI may use third-party
                                     advertising services, including Google
                                     AdSense, to display advertisements on
                                     eligible public pages.
                                 </p>
 
-                                <p className="mt-4 text-gray-600 leading-8">
+                                <p className="legal-text">
                                     Advertising providers may use cookies or
                                     similar technologies to provide, measure,
                                     and improve advertising and may use
@@ -404,7 +354,7 @@ const PrivacyPolicy = () => {
                                     policies and laws.
                                 </p>
 
-                                <p className="mt-4 text-gray-600 leading-8">
+                                <p className="legal-text">
                                     Users may have choices regarding
                                     personalized advertising depending on
                                     their location, applicable laws, and the
@@ -412,337 +362,180 @@ const PrivacyPolicy = () => {
                                     provider.
                                 </p>
 
-                                <p className="mt-4 text-gray-600 leading-8">
+                                <p className="legal-text">
                                     SkillBridge AI will follow applicable Google
                                     publisher policies and applicable privacy
                                     requirements when advertising services are
                                     enabled.
                                 </p>
-
                             </div>
-
                         </section>
 
-                        {/* SECURITY */}
+                        {/* 10 */}
+                        <section id="section-10" className="legal-card">
+                            <SectionHeading number="10" title="Data Security" />
 
-                        <section
-                            id="section-10"
-                            className="bg-white rounded-3xl border border-gray-200 shadow-lg p-6 md:p-8 scroll-mt-8"
-                        >
-
-                            <SectionHeading
-                                number="10"
-                                title="Data Security"
-                            />
-
-                            <p className="mt-5 text-gray-600 leading-8">
+                            <p className="legal-text">
                                 We take reasonable technical and organizational
                                 measures to protect information from unauthorized
                                 access, misuse, alteration, disclosure, or
                                 destruction.
                             </p>
 
-                            <p className="mt-4 text-gray-600 leading-8">
+                            <p className="legal-text">
                                 However, no online service can guarantee absolute
                                 security.
                             </p>
-
                         </section>
 
-                        {/* RETENTION */}
+                        {/* 11 */}
+                        <section id="section-11" className="legal-card">
+                            <SectionHeading number="11" title="Data Retention" />
 
-                        <section
-                            id="section-11"
-                            className="bg-white rounded-3xl border border-gray-200 shadow-lg p-6 md:p-8 scroll-mt-8"
-                        >
-
-                            <SectionHeading
-                                number="11"
-                                title="Data Retention"
-                            />
-
-                            <p className="mt-5 text-gray-600 leading-8">
+                            <p className="legal-text">
                                 Information may be retained for as long as
                                 reasonably necessary to provide the service,
                                 maintain accounts, comply with legal obligations,
                                 resolve disputes, enforce agreements, and
                                 maintain legitimate business records.
                             </p>
-
                         </section>
 
-                        {/* RIGHTS */}
+                        {/* 12 */}
+                        <section id="section-12" className="legal-card">
+                            <SectionHeading number="12" title="Your Choices and Rights" />
 
-                        <section
-                            id="section-12"
-                            className="bg-white rounded-3xl border border-gray-200 shadow-lg p-6 md:p-8 scroll-mt-8"
-                        >
-
-                            <SectionHeading
-                                number="12"
-                                title="Your Choices and Rights"
-                            />
-
-                            <p className="mt-5 text-gray-600 leading-8">
+                            <p className="legal-text">
                                 Depending on applicable law, you may have rights
                                 relating to your personal information, including
                                 requesting access, correction, deletion, or
                                 other available privacy choices.
                             </p>
 
-                            <p className="mt-4 text-gray-600 leading-8">
+                            <p className="legal-text">
                                 You can contact SkillBridge AI regarding privacy
                                 questions or requests using the contact
                                 information provided below.
                             </p>
-
                         </section>
 
-                        {/* CHILDREN */}
+                        {/* 13 */}
+                        <section id="section-13" className="legal-card">
+                            <SectionHeading number="13" title="Children's Privacy" />
 
-                        <section
-                            id="section-13"
-                            className="bg-white rounded-3xl border border-gray-200 shadow-lg p-6 md:p-8 scroll-mt-8"
-                        >
-
-                            <SectionHeading
-                                number="13"
-                                title="Children's Privacy"
-                            />
-
-                            <p className="mt-5 text-gray-600 leading-8">
+                            <p className="legal-text">
                                 SkillBridge AI is intended for users who can
                                 legally use the service under applicable laws.
                                 We do not knowingly collect personal information
                                 from children in violation of applicable privacy
                                 laws.
                             </p>
-
                         </section>
 
-                        {/* CHANGES */}
+                        {/* 14 */}
+                        <section id="section-14" className="legal-card">
+                            <SectionHeading number="14" title="Changes to This Policy" />
 
-                        <section
-                            id="section-14"
-                            className="bg-white rounded-3xl border border-gray-200 shadow-lg p-6 md:p-8 scroll-mt-8"
-                        >
-
-                            <SectionHeading
-                                number="14"
-                                title="Changes to This Policy"
-                            />
-
-                            <p className="mt-5 text-gray-600 leading-8">
+                            <p className="legal-text">
                                 We may update this Privacy Policy from time to
                                 time as SkillBridge AI develops, new features
                                 are introduced, or legal and regulatory
                                 requirements change.
                             </p>
 
-                            <p className="mt-4 text-gray-600 leading-8">
+                            <p className="legal-text">
                                 Any updated version will be posted on this page
                                 with an updated revision date.
                             </p>
-
                         </section>
 
-                        {/* CONTACT */}
-
+                        {/* 15 */}
                         <section
                             id="section-15"
-                            className="relative overflow-hidden rounded-3xl bg-slate-950 text-white shadow-xl p-6 md:p-8 scroll-mt-8"
+                            className="relative overflow-hidden rounded-3xl bg-[#07130f] text-white shadow-xl p-7 md:p-9"
                         >
+                            <SectionHeading
+                                number="15"
+                                title="Contact Us"
+                                dark
+                            />
 
-                            <div className="absolute -right-20 -bottom-20 w-64 h-64 bg-green-500/10 rounded-full blur-3xl" />
+                            <p className="mt-6 text-gray-400 leading-8">
+                                If you have questions about this Privacy Policy
+                                or how SkillBridge AI handles information,
+                                please contact us.
+                            </p>
 
-                            <div className="relative">
+                            <div className="grid sm:grid-cols-2 gap-4 mt-7">
+                                <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
+                                    <p className="text-xs uppercase tracking-widest font-black text-green-400">
+                                        Email
+                                    </p>
 
-                                <SectionHeading
-                                    number="15"
-                                    title="Contact Us"
-                                    dark
-                                />
-
-                                <p className="mt-5 text-gray-400 leading-8">
-                                    If you have questions about this Privacy
-                                    Policy or how SkillBridge AI handles
-                                    information, please contact us.
-                                </p>
-
-                                <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
-
-                                    <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
-
-                                        <p className="text-xs uppercase tracking-widest font-black text-green-400">
-                                            Email
-                                        </p>
-
-                                        <p className="mt-2 text-white font-semibold break-all">
-                                            support@skillbridgeai.com
-                                        </p>
-
-                                    </div>
-
-                                    <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
-
-                                        <p className="text-xs uppercase tracking-widest font-black text-green-400">
-                                            Location
-                                        </p>
-
-                                        <p className="mt-2 text-white font-semibold">
-                                            Lucknow, Uttar Pradesh, India
-                                        </p>
-
-                                    </div>
-
+                                    <p className="mt-2 font-semibold break-all">
+                                        support@skillbridgeai.com
+                                    </p>
                                 </div>
 
-                            </div>
+                                <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
+                                    <p className="text-xs uppercase tracking-widest font-black text-green-400">
+                                        Location
+                                    </p>
 
+                                    <p className="mt-2 font-semibold">
+                                        Lucknow, Uttar Pradesh, India
+                                    </p>
+                                </div>
+                            </div>
                         </section>
 
-                        {/* =========================================
-                            CTA
-                        ========================================= */}
-
-                        <section className="rounded-3xl bg-green-600 text-white p-6 md:p-8 shadow-xl">
-
+                        {/* CTA */}
+                        <section className="rounded-3xl bg-green-500 p-7 md:p-9 shadow-xl">
                             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
-
                                 <div>
-
-                                    <p className="text-xs uppercase tracking-[0.18em] font-black text-green-100">
+                                    <p className="text-xs uppercase tracking-[0.2em] font-black text-green-950">
                                         SkillBridge AI
                                     </p>
 
-                                    <h2 className="text-2xl md:text-3xl font-black mt-1">
+                                    <h2 className="text-2xl md:text-3xl font-black text-black mt-2">
                                         Have a privacy question?
                                     </h2>
 
-                                    <p className="text-green-50 mt-2 leading-6">
-                                        We're here to help you understand
-                                        how your information is handled.
+                                    <p className="text-green-950/70 mt-2">
+                                        We're here to help you understand how
+                                        your information is handled.
                                     </p>
-
                                 </div>
 
                                 <Link
                                     to="/contact"
-                                    className="inline-flex items-center justify-center rounded-xl bg-white text-green-700 px-6 py-3 font-black hover:bg-gray-100 transition shrink-0"
+                                    className="inline-flex justify-center bg-black text-white px-7 py-3.5 rounded-xl font-bold hover:bg-gray-900 transition"
                                 >
                                     Contact Us →
                                 </Link>
-
                             </div>
-
                         </section>
 
-                        {/* =========================================
-                            NAVIGATION
-                        ========================================= */}
-
-                        <div className="flex flex-wrap items-center justify-between gap-4 px-2 pt-2">
-
+                        <div className="flex flex-wrap justify-between gap-4 px-2">
                             <Link
                                 to="/"
-                                className="font-bold text-gray-600 hover:text-green-600 transition"
+                                className="font-bold text-gray-500 hover:text-green-600 transition"
                             >
                                 ← Back to Home
                             </Link>
 
                             <Link
-                                to="/contact"
+                                to="/terms"
                                 className="font-bold text-green-600 hover:text-green-700 transition"
                             >
-                                Contact SkillBridge AI →
+                                Terms & Conditions →
                             </Link>
-
                         </div>
-
                     </div>
-
                 </div>
-
             </main>
 
             <Footer />
-
-        </div>
-    );
-};
-
-/* =========================================
-   SECTION HEADING
-========================================= */
-
-const SectionHeading = ({
-    number,
-    title,
-    dark = false,
-}) => {
-    return (
-        <div className="flex items-start gap-4">
-
-            <div
-                className={`w-11 h-11 shrink-0 rounded-xl flex items-center justify-center font-black text-sm ${dark
-                        ? "bg-green-500/10 border border-green-400/20 text-green-300"
-                        : "bg-green-50 border border-green-100 text-green-600"
-                    }`}
-            >
-                {number}
-            </div>
-
-            <div className="min-w-0">
-
-                <p
-                    className={`text-[11px] uppercase tracking-[0.18em] font-black ${dark
-                            ? "text-green-400"
-                            : "text-green-600"
-                        }`}
-                >
-                    SkillBridge AI
-                </p>
-
-                <h2
-                    className={`text-2xl md:text-3xl font-black mt-1 ${dark
-                            ? "text-white"
-                            : "text-slate-950"
-                        }`}
-                >
-                    {title}
-                </h2>
-
-            </div>
-
-        </div>
-    );
-};
-
-/* =========================================
-   INFO LIST
-========================================= */
-
-const InfoList = ({ items }) => {
-    return (
-        <div className="mt-5 grid grid-cols-1 md:grid-cols-2 gap-3">
-
-            {items.map((item, index) => (
-                <div
-                    key={index}
-                    className="flex items-start gap-3 rounded-xl bg-gray-50 border border-gray-200 p-4"
-                >
-
-                    <span className="mt-0.5 w-6 h-6 shrink-0 rounded-lg bg-green-50 border border-green-100 flex items-center justify-center text-green-600 text-sm font-black">
-                        ✓
-                    </span>
-
-                    <span className="text-gray-600 leading-6">
-                        {item}
-                    </span>
-
-                </div>
-            ))}
-
         </div>
     );
 };

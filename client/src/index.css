@@ -23,3 +23,35 @@ body {
     width: 100%;
     min-height: 100vh;
 }
+
+.legal-card {
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 1.5rem;
+    padding: 1.75rem;
+    box-shadow: 0 8px 30px rgba(15, 23, 42, 0.06);
+    scroll-margin-top: 2rem;
+    transition: all 0.25s ease;
+}
+
+.legal-card:hover {
+    border-color: #bbf7d0;
+    box-shadow: 0 14px 35px rgba(15, 23, 42, 0.09);
+}
+
+.legal-text {
+    margin-top: 1.25rem;
+    color: #4b5563;
+    line-height: 2rem;
+}
+
+@media (max-width: 640px) {
+    .legal-card {
+        padding: 1.25rem;
+        border-radius: 1.25rem;
+    }
+
+    .legal-text {
+        line-height: 1.75rem;
+    }
+}

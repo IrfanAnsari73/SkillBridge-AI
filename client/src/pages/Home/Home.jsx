@@ -1,290 +1,191 @@
 import { Link } from "react-router-dom";
+import Navbar from "../../components/common/Navbar";
 import Footer from "../../components/common/Footer";
 
 const Home = () => {
-    const features = [
-        {
-            icon: "🤖",
-            title: "AI Career Advisor",
-            text: "Get personalized career guidance based on your skills, profile and goals.",
-        },
-        {
-            icon: "🗺️",
-            title: "Career Roadmap",
-            text: "Follow a structured roadmap to build the right skills for your target career.",
-        },
-        {
-            icon: "📄",
-            title: "AI Resume Analyzer",
-            text: "Analyze your resume and discover practical improvements for better opportunities.",
-        },
-        {
-            icon: "💼",
-            title: "AI Job Matcher",
-            text: "Compare your skills with job roles and identify important skill gaps.",
-        },
-        {
-            icon: "🎤",
-            title: "Mock Interview",
-            text: "Practice interview questions and improve your confidence before real interviews.",
-        },
-        {
-            icon: "📊",
-            title: "Career Analytics",
-            text: "Track your career progress and understand where you need to improve.",
-        },
-        {
-            icon: "🎯",
-            title: "Career Goals",
-            text: "Set meaningful career goals and track your progress toward achieving them.",
-        },
-        {
-            icon: "📋",
-            title: "Job Application Tracker",
-            text: "Manage your applications, statuses and job search progress in one place.",
-        },
-    ];
-
-    const resources = [
-        {
-            icon: "💻",
-            title: "Coding Roadmaps",
-            text: "Java, SQL, MERN, DSA and Full Stack development learning paths.",
-        },
-        {
-            icon: "📄",
-            title: "Resume Guides",
-            text: "Learn how to create better resumes and prepare for ATS-based hiring.",
-        },
-        {
-            icon: "🎤",
-            title: "Interview Preparation",
-            text: "Prepare for technical, HR and placement interviews with practical resources.",
-        },
-        {
-            icon: "🚀",
-            title: "Career Preparation",
-            text: "Useful guides for internships, placements, skills and career growth.",
-        },
-    ];
-
     return (
-        <div className="min-h-screen bg-white text-slate-900">
-
-            {/* ================= NAVBAR ================= */}
-            <nav className="sticky top-0 z-50 bg-white/95 backdrop-blur border-b border-gray-100">
-                <div className="max-w-7xl mx-auto px-6">
-                    <div className="h-20 flex items-center justify-between">
-
-                        <Link
-                            to="/"
-                            className="text-2xl md:text-3xl font-extrabold tracking-tight"
-                        >
-                            Skill<span className="text-green-600">Bridge AI</span>
-                        </Link>
-
-                        <div className="hidden md:flex items-center gap-8">
-                            <Link
-                                to="/"
-                                className="font-medium text-green-600"
-                            >
-                                Home
-                            </Link>
-
-                            <Link
-                                to="/about"
-                                className="font-medium text-gray-600 hover:text-green-600 transition"
-                            >
-                                About
-                            </Link>
-
-                            <Link
-                                to="/contact"
-                                className="font-medium text-gray-600 hover:text-green-600 transition"
-                            >
-                                Contact
-                            </Link>
-
-                            <Link
-                                to="/login"
-                                className="font-medium text-gray-700 hover:text-green-600 transition"
-                            >
-                                Login
-                            </Link>
-
-                            <Link
-                                to="/signup"
-                                className="bg-green-600 hover:bg-green-700 text-white font-semibold px-6 py-3 rounded-xl transition shadow-lg shadow-green-100"
-                            >
-                                Get Started
-                            </Link>
-                        </div>
-
-                        <Link
-                            to="/signup"
-                            className="md:hidden bg-green-600 text-white font-semibold px-4 py-2 rounded-lg"
-                        >
-                            Start
-                        </Link>
-                    </div>
-                </div>
-            </nav>
-
+        <div className="min-h-screen bg-gray-50 text-gray-900">
+            <Navbar />
 
             {/* ================= HERO ================= */}
-            <section className="relative overflow-hidden bg-[#0b0f19] text-white">
+            <section className="relative overflow-hidden bg-[#07130f] text-white">
+                <div className="absolute inset-0">
+                    <div className="absolute -top-32 -left-32 w-96 h-96 bg-green-500/20 rounded-full blur-3xl"></div>
+                    <div className="absolute top-20 right-0 w-96 h-96 bg-emerald-400/10 rounded-full blur-3xl"></div>
+                </div>
 
-                <div className="absolute -top-40 -right-40 w-96 h-96 bg-green-500/20 rounded-full blur-3xl"></div>
-                <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-green-400/10 rounded-full blur-3xl"></div>
+                <div className="relative max-w-7xl mx-auto px-6 py-20 lg:py-28">
+                    <div className="grid lg:grid-cols-2 gap-14 items-center">
 
-                <div className="relative max-w-7xl mx-auto px-6 py-20 md:py-28">
-
-                    <div className="grid lg:grid-cols-2 gap-16 items-center">
-
-                        {/* Hero Text */}
+                        {/* LEFT */}
                         <div>
-
-                            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-green-500/10 border border-green-400/20 text-green-300 text-sm font-semibold">
-                                🤖 AI-Powered Career Platform
+                            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-green-500/10 border border-green-400/20 text-green-300 text-sm font-medium mb-7">
+                                <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
+                                AI-Powered Career Platform
                             </div>
 
-                            <h1 className="mt-7 text-5xl md:text-6xl lg:text-7xl font-extrabold leading-tight tracking-tight">
-                                Build Your Career
-                                <span className="block text-green-400">
-                                    Smarter.
-                                </span>
+                            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight tracking-tight">
+                                Build Your
+                                <span className="text-green-400"> Career </span>
+                                Smarter.
                             </h1>
 
-                            <p className="mt-7 text-lg md:text-xl text-gray-300 leading-8 max-w-xl">
-                                SkillBridge AI helps students build their
-                                profiles, improve resumes, discover career
-                                paths, prepare for interviews and track their
-                                career journey — all in one platform.
+                            <p className="mt-6 text-lg text-gray-300 leading-relaxed max-w-xl">
+                                SkillBridge AI helps students manage their resumes,
+                                skills, projects and certificates while using AI to
+                                discover better career opportunities.
                             </p>
 
-                            <div className="mt-9 flex flex-col sm:flex-row gap-4">
-
+                            <div className="flex flex-col sm:flex-row gap-4 mt-9">
                                 <Link
                                     to="/signup"
-                                    className="inline-flex justify-center items-center bg-green-500 hover:bg-green-400 text-white font-bold px-7 py-4 rounded-xl transition shadow-xl shadow-green-900/30"
+                                    className="inline-flex justify-center items-center px-7 py-3.5 bg-green-500 hover:bg-green-400 text-black font-bold rounded-xl transition shadow-lg shadow-green-500/20"
                                 >
-                                    Start Your Career Journey 🚀
+                                    Get Started Free →
                                 </Link>
 
-                                <a
-                                    href="#features"
-                                    className="inline-flex justify-center items-center border border-gray-600 hover:border-green-400 hover:text-green-400 text-white font-semibold px-7 py-4 rounded-xl transition"
+                                <Link
+                                    to="/about"
+                                    className="inline-flex justify-center items-center px-7 py-3.5 border border-gray-600 hover:border-green-400 hover:text-green-300 font-semibold rounded-xl transition"
                                 >
-                                    Explore Platform
-                                </a>
-
+                                    Explore SkillBridge
+                                </Link>
                             </div>
 
-                            <div className="mt-9 flex flex-wrap gap-x-7 gap-y-3 text-sm text-gray-400">
-                                <span>✓ AI Career Guidance</span>
-                                <span>✓ Resume Analysis</span>
-                                <span>✓ Job Matching</span>
+                            <div className="flex flex-wrap gap-6 mt-9 text-sm text-gray-400">
+                                <span>✓ Student-focused</span>
+                                <span>✓ AI-powered</span>
+                                <span>✓ Career-ready</span>
                             </div>
                         </div>
 
-
-                        {/* Product Preview */}
+                        {/* RIGHT - PRODUCT PREVIEW */}
                         <div className="relative">
+                            <div className="absolute -inset-5 bg-green-500/10 blur-3xl rounded-full"></div>
 
-                            <div className="absolute inset-0 bg-green-500/10 blur-3xl rounded-full"></div>
+                            <div className="relative bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-700">
+                                {/* Fake browser bar */}
+                                <div className="bg-gray-100 px-5 py-3 flex items-center gap-2 border-b">
+                                    <span className="w-3 h-3 rounded-full bg-red-400"></span>
+                                    <span className="w-3 h-3 rounded-full bg-yellow-400"></span>
+                                    <span className="w-3 h-3 rounded-full bg-green-400"></span>
 
-                            <div className="relative bg-white rounded-3xl p-3 shadow-2xl shadow-black/40">
-
-                                <div className="bg-gray-50 rounded-2xl border border-gray-200 overflow-hidden">
-
-                                    {/* Fake Browser Header */}
-                                    <div className="h-12 bg-white border-b border-gray-200 flex items-center gap-2 px-5">
-                                        <span className="w-3 h-3 rounded-full bg-red-400"></span>
-                                        <span className="w-3 h-3 rounded-full bg-yellow-400"></span>
-                                        <span className="w-3 h-3 rounded-full bg-green-400"></span>
-
-                                        <div className="ml-4 flex-1 h-7 bg-gray-100 rounded-lg"></div>
+                                    <div className="ml-4 flex-1 bg-white rounded-md px-4 py-1.5 text-xs text-gray-400">
+                                        skillbridge.ai/dashboard
                                     </div>
+                                </div>
 
-                                    <div className="p-6 md:p-8">
-
-                                        <div className="flex items-center justify-between">
-                                            <div>
-                                                <p className="text-sm text-gray-500">
-                                                    Career Dashboard
-                                                </p>
-
-                                                <h3 className="text-xl md:text-2xl font-bold text-slate-900">
-                                                    Welcome to SkillBridge AI
-                                                </h3>
+                                {/* Dashboard mock */}
+                                <div className="p-5 bg-gray-50">
+                                    <div className="flex gap-4">
+                                        <div className="hidden sm:block w-28 bg-[#07130f] rounded-xl p-3">
+                                            <div className="text-green-400 font-bold text-xs mb-5">
+                                                SkillBridge
                                             </div>
 
-                                            <div className="w-12 h-12 rounded-full bg-green-600 text-white flex items-center justify-center font-bold">
-                                                AI
-                                            </div>
+                                            {[
+                                                "Dashboard",
+                                                "Profile",
+                                                "Skills",
+                                                "Projects",
+                                                "Resume",
+                                            ].map((item, index) => (
+                                                <div
+                                                    key={item}
+                                                    className={`text-[10px] px-2 py-2 rounded-lg mb-1 ${index === 0
+                                                            ? "bg-green-500 text-black font-bold"
+                                                            : "text-gray-400"
+                                                        }`}
+                                                >
+                                                    {item}
+                                                </div>
+                                            ))}
                                         </div>
 
-                                        <div className="mt-6 grid grid-cols-2 gap-4">
+                                        <div className="flex-1">
+                                            <div className="flex justify-between items-center mb-4">
+                                                <div>
+                                                    <p className="text-[10px] text-gray-400">
+                                                        Welcome back
+                                                    </p>
+                                                    <h3 className="text-lg font-bold">
+                                                        Career Dashboard
+                                                    </h3>
+                                                </div>
 
-                                            <div className="bg-green-50 rounded-2xl p-5">
-                                                <p className="text-sm text-gray-500">
-                                                    Skills
-                                                </p>
-                                                <p className="mt-2 text-3xl font-bold text-green-600">
-                                                    AI
-                                                </p>
+                                                <div className="w-8 h-8 rounded-full bg-green-500 flex items-center justify-center text-xs font-bold">
+                                                    IA
+                                                </div>
                                             </div>
 
-                                            <div className="bg-blue-50 rounded-2xl p-5">
-                                                <p className="text-sm text-gray-500">
-                                                    Resume
-                                                </p>
-                                                <p className="mt-2 text-3xl font-bold text-blue-600">
-                                                    ✓
-                                                </p>
+                                            <div className="grid grid-cols-2 gap-3">
+                                                <div className="bg-white rounded-xl p-4 shadow-sm">
+                                                    <p className="text-[10px] text-gray-400">
+                                                        Career Score
+                                                    </p>
+                                                    <p className="text-2xl font-bold text-green-600 mt-1">
+                                                        78
+                                                    </p>
+                                                    <div className="mt-2 h-1.5 bg-gray-100 rounded-full">
+                                                        <div className="w-[78%] h-full bg-green-500 rounded-full"></div>
+                                                    </div>
+                                                </div>
+
+                                                <div className="bg-white rounded-xl p-4 shadow-sm">
+                                                    <p className="text-[10px] text-gray-400">
+                                                        Projects
+                                                    </p>
+                                                    <p className="text-2xl font-bold mt-1">
+                                                        08
+                                                    </p>
+                                                    <p className="text-[9px] text-green-600 mt-1">
+                                                        +2 this month
+                                                    </p>
+                                                </div>
+
+                                                <div className="bg-white rounded-xl p-4 shadow-sm">
+                                                    <p className="text-[10px] text-gray-400">
+                                                        AI Insights
+                                                    </p>
+                                                    <p className="text-sm font-bold mt-2">
+                                                        Resume Match
+                                                    </p>
+                                                    <p className="text-[9px] text-gray-400 mt-1">
+                                                        Strong profile detected
+                                                    </p>
+                                                </div>
+
+                                                <div className="bg-[#07130f] text-white rounded-xl p-4 shadow-sm">
+                                                    <p className="text-[10px] text-gray-400">
+                                                        Job Match
+                                                    </p>
+                                                    <p className="text-2xl font-bold text-green-400 mt-1">
+                                                        82%
+                                                    </p>
+                                                    <p className="text-[9px] text-gray-400 mt-1">
+                                                        MERN Developer
+                                                    </p>
+                                                </div>
                                             </div>
 
-                                            <div className="bg-purple-50 rounded-2xl p-5">
-                                                <p className="text-sm text-gray-500">
-                                                    Jobs
-                                                </p>
-                                                <p className="mt-2 text-3xl">
-                                                    💼
-                                                </p>
+                                            <div className="bg-white rounded-xl p-4 shadow-sm mt-3">
+                                                <div className="flex justify-between">
+                                                    <p className="text-xs font-bold">
+                                                        Career Progress
+                                                    </p>
+                                                    <span className="text-[10px] text-green-600">
+                                                        72%
+                                                    </span>
+                                                </div>
+
+                                                <div className="flex gap-2 mt-4">
+                                                    <div className="h-16 flex-1 bg-green-50 rounded-lg"></div>
+                                                    <div className="h-12 flex-1 bg-green-100 rounded-lg mt-4"></div>
+                                                    <div className="h-20 flex-1 bg-green-200 rounded-lg"></div>
+                                                    <div className="h-14 flex-1 bg-green-300 rounded-lg mt-2"></div>
+                                                    <div className="h-24 flex-1 bg-green-500 rounded-lg"></div>
+                                                </div>
                                             </div>
-
-                                            <div className="bg-orange-50 rounded-2xl p-5">
-                                                <p className="text-sm text-gray-500">
-                                                    Goals
-                                                </p>
-                                                <p className="mt-2 text-3xl">
-                                                    🎯
-                                                </p>
-                                            </div>
-
-                                        </div>
-
-                                        <div className="mt-5 bg-white border border-gray-200 rounded-2xl p-5">
-
-                                            <div className="flex justify-between items-center">
-                                                <span className="font-semibold text-slate-900">
-                                                    Career Progress
-                                                </span>
-
-                                                <span className="text-green-600 font-semibold">
-                                                    Track
-                                                </span>
-                                            </div>
-
-                                            <div className="mt-4 h-3 bg-gray-200 rounded-full overflow-hidden">
-                                                <div className="h-full w-4/5 bg-green-500 rounded-full"></div>
-                                            </div>
-
-                                            <p className="mt-3 text-sm text-gray-500">
-                                                Build your profile and move
-                                                closer to your career goals.
-                                            </p>
-
                                         </div>
                                     </div>
                                 </div>
@@ -295,328 +196,211 @@ const Home = () => {
                 </div>
             </section>
 
-
-            {/* ================= TRUST STRIP ================= */}
-            <section className="border-b border-gray-100 bg-white">
-                <div className="max-w-6xl mx-auto px-6 py-8">
-
+            {/* ================= TRUST BAR ================= */}
+            <section className="bg-white border-b">
+                <div className="max-w-7xl mx-auto px-6 py-7">
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-
                         <div>
-                            <p className="text-2xl font-bold text-slate-900">
-                                AI
-                            </p>
+                            <p className="text-2xl font-extrabold">AI</p>
                             <p className="text-sm text-gray-500 mt-1">
-                                Powered Career Tools
+                                Career Assistance
                             </p>
                         </div>
 
                         <div>
-                            <p className="text-2xl font-bold text-slate-900">
-                                8+
-                            </p>
+                            <p className="text-2xl font-extrabold">10+</p>
                             <p className="text-sm text-gray-500 mt-1">
-                                Career Features
+                                Career Tools
                             </p>
                         </div>
 
                         <div>
-                            <p className="text-2xl font-bold text-slate-900">
-                                1
-                            </p>
+                            <p className="text-2xl font-extrabold">100%</p>
                             <p className="text-sm text-gray-500 mt-1">
-                                Complete Platform
+                                Student Focused
                             </p>
                         </div>
 
                         <div>
-                            <p className="text-2xl font-bold text-green-600">
+                            <p className="text-2xl font-extrabold text-green-600">
                                 Free
                             </p>
                             <p className="text-sm text-gray-500 mt-1">
                                 To Get Started
                             </p>
                         </div>
-
                     </div>
                 </div>
             </section>
-
 
             {/* ================= PROBLEM ================= */}
-            <section className="bg-gray-50 px-6 py-24">
-
-                <div className="max-w-6xl mx-auto">
-
-                    <div className="max-w-3xl">
-                        <p className="text-green-600 font-bold uppercase tracking-wider text-sm">
-                            The Problem
-                        </p>
-
-                        <h2 className="mt-4 text-4xl md:text-5xl font-extrabold text-slate-900">
-                            Your career journey shouldn't feel scattered.
-                        </h2>
-
-                        <p className="mt-6 text-lg text-gray-600 leading-8">
-                            Students often manage their resumes, projects,
-                            certificates, skills, applications and career
-                            planning across different platforms.
-                        </p>
-                    </div>
-
-                    <div className="mt-12 grid md:grid-cols-3 gap-6">
-
-                        <div className="bg-white p-7 rounded-2xl border border-gray-200">
-                            <div className="text-3xl">📄</div>
-                            <h3 className="mt-5 text-xl font-bold">
-                                Resume Problems
-                            </h3>
-                            <p className="mt-3 text-gray-600 leading-7">
-                                Creating and improving a strong resume can
-                                be confusing for students.
-                            </p>
-                        </div>
-
-                        <div className="bg-white p-7 rounded-2xl border border-gray-200">
-                            <div className="text-3xl">🧩</div>
-                            <h3 className="mt-5 text-xl font-bold">
-                                Skill Gaps
-                            </h3>
-                            <p className="mt-3 text-gray-600 leading-7">
-                                Students often don't know which skills are
-                                required for their target career.
-                            </p>
-                        </div>
-
-                        <div className="bg-white p-7 rounded-2xl border border-gray-200">
-                            <div className="text-3xl">💼</div>
-                            <h3 className="mt-5 text-xl font-bold">
-                                Job Preparation
-                            </h3>
-                            <p className="mt-3 text-gray-600 leading-7">
-                                Applications, interviews and career planning
-                                can become difficult to manage.
-                            </p>
-                        </div>
-
-                    </div>
-                </div>
-            </section>
-
-
-            {/* ================= FEATURES ================= */}
-            <section
-                id="features"
-                className="bg-[#0b0f19] text-white px-6 py-24"
-            >
-
-                <div className="max-w-7xl mx-auto">
-
-                    <div className="text-center max-w-3xl mx-auto">
-
-                        <p className="text-green-400 font-bold uppercase tracking-wider text-sm">
-                            Everything You Need
-                        </p>
-
-                        <h2 className="mt-4 text-4xl md:text-5xl font-extrabold">
-                            One Platform for Your
-                            <span className="text-green-400">
-                                {" "}Complete Career Journey
-                            </span>
-                        </h2>
-
-                        <p className="mt-6 text-gray-400 text-lg leading-8">
-                            From building your profile to preparing for
-                            interviews, SkillBridge AI brings your career
-                            journey together.
-                        </p>
-
-                    </div>
-
-
-                    <div className="mt-14 grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
-
-                        {features.map((feature, index) => (
-                            <div
-                                key={index}
-                                className="group bg-white/5 border border-white/10 hover:border-green-400/40 rounded-2xl p-6 transition hover:-translate-y-1"
-                            >
-
-                                <div className="text-4xl">
-                                    {feature.icon}
-                                </div>
-
-                                <h3 className="mt-5 text-xl font-bold">
-                                    {feature.title}
-                                </h3>
-
-                                <p className="mt-3 text-gray-400 leading-7">
-                                    {feature.text}
-                                </p>
-
-                            </div>
-                        ))}
-
-                    </div>
-
-                </div>
-            </section>
-
-
-            {/* ================= HOW IT WORKS ================= */}
-            <section className="bg-white px-6 py-24">
-
-                <div className="max-w-6xl mx-auto">
-
-                    <div className="text-center">
-
-                        <p className="text-green-600 font-bold uppercase tracking-wider text-sm">
-                            How It Works
-                        </p>
-
-                        <h2 className="mt-4 text-4xl md:text-5xl font-extrabold text-slate-900">
-                            Start Building Your Career in 4 Steps
-                        </h2>
-
-                    </div>
-
-
-                    <div className="mt-16 grid md:grid-cols-4 gap-8">
-
-                        {[
-                            {
-                                number: "01",
-                                title: "Create Profile",
-                                text: "Add your education, skills and professional information.",
-                            },
-                            {
-                                number: "02",
-                                title: "Build Portfolio",
-                                text: "Add projects, certificates and your resume.",
-                            },
-                            {
-                                number: "03",
-                                title: "Get AI Guidance",
-                                text: "Use AI tools to analyze, improve and plan your career.",
-                            },
-                            {
-                                number: "04",
-                                title: "Track Progress",
-                                text: "Track goals, applications and overall career progress.",
-                            },
-                        ].map((step, index) => (
-                            <div
-                                key={index}
-                                className="text-center"
-                            >
-
-                                <div className="mx-auto w-16 h-16 rounded-full bg-green-600 text-white flex items-center justify-center text-lg font-bold shadow-lg shadow-green-100">
-                                    {step.number}
-                                </div>
-
-                                <h3 className="mt-6 text-xl font-bold text-slate-900">
-                                    {step.title}
-                                </h3>
-
-                                <p className="mt-3 text-gray-600 leading-7">
-                                    {step.text}
-                                </p>
-
-                            </div>
-                        ))}
-
-                    </div>
-                </div>
-            </section>
-
-
-            {/* ================= RESOURCES ================= */}
-            <section className="bg-gray-50 px-6 py-24">
-
-                <div className="max-w-7xl mx-auto">
-
-                    <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
-
-                        <div>
-                            <p className="text-green-600 font-bold uppercase tracking-wider text-sm">
-                                Career Resources
-                            </p>
-
-                            <h2 className="mt-4 text-4xl md:text-5xl font-extrabold text-slate-900">
-                                Learn. Prepare. Grow.
-                            </h2>
-
-                            <p className="mt-5 max-w-2xl text-gray-600 text-lg leading-8">
-                                Practical resources to help students improve
-                                their technical skills, resumes and career
-                                preparation.
-                            </p>
-                        </div>
-
-                    </div>
-
-
-                    <div className="mt-12 grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-
-                        {resources.map((resource, index) => (
-                            <div
-                                key={index}
-                                className="bg-white border border-gray-200 rounded-2xl p-7 hover:border-green-300 hover:shadow-lg transition"
-                            >
-
-                                <div className="text-4xl">
-                                    {resource.icon}
-                                </div>
-
-                                <h3 className="mt-5 text-xl font-bold">
-                                    {resource.title}
-                                </h3>
-
-                                <p className="mt-3 text-gray-600 leading-7">
-                                    {resource.text}
-                                </p>
-
-                                <span className="inline-block mt-5 text-green-600 font-semibold text-sm">
-                                    Coming Soon →
-                                </span>
-
-                            </div>
-                        ))}
-
-                    </div>
-
-                </div>
-            </section>
-
-
-            {/* ================= FINAL CTA ================= */}
-            <section className="bg-[#0b0f19] text-white px-6 py-24">
-
-                <div className="max-w-4xl mx-auto text-center">
-
-                    <div className="text-5xl">
-                        🚀
-                    </div>
-
-                    <h2 className="mt-6 text-4xl md:text-6xl font-extrabold">
-                        Ready to Build Your Career?
+            <section className="max-w-7xl mx-auto px-6 py-20">
+                <div className="max-w-3xl">
+                    <span className="text-green-600 font-bold text-sm uppercase tracking-wider">
+                        The Problem
+                    </span>
+
+                    <h2 className="text-3xl sm:text-4xl font-extrabold mt-3">
+                        Your career journey shouldn't feel scattered.
                     </h2>
 
-                    <p className="mt-6 text-gray-400 text-lg md:text-xl leading-8">
-                        Create your SkillBridge AI profile and start building
-                        a smarter career journey today.
+                    <p className="text-gray-600 mt-5 leading-relaxed">
+                        Students often keep resumes, certificates, projects,
+                        skills and job applications across different platforms.
+                        Finding the right opportunities and preparing for them
+                        becomes difficult.
                     </p>
+                </div>
 
-                    <Link
-                        to="/signup"
-                        className="inline-flex mt-9 bg-green-500 hover:bg-green-400 text-white font-bold px-8 py-4 rounded-xl transition shadow-xl shadow-green-900/30"
-                    >
-                        Create Your Free Profile 🚀
-                    </Link>
+                <div className="grid md:grid-cols-3 gap-6 mt-12">
+                    {[
+                        {
+                            icon: "📄",
+                            title: "Scattered Profiles",
+                            text: "Your resume, projects and certificates live in different places.",
+                        },
+                        {
+                            icon: "🎯",
+                            title: "Unclear Direction",
+                            text: "It is difficult to know which skills and career path to focus on.",
+                        },
+                        {
+                            icon: "💼",
+                            title: "Job Preparation",
+                            text: "Matching your profile with jobs and preparing for interviews takes time.",
+                        },
+                    ].map((item) => (
+                        <div
+                            key={item.title}
+                            className="bg-white border border-gray-100 rounded-2xl p-7 shadow-sm hover:shadow-xl hover:-translate-y-1 transition"
+                        >
+                            <div className="w-12 h-12 rounded-xl bg-green-50 flex items-center justify-center text-2xl">
+                                {item.icon}
+                            </div>
 
+                            <h3 className="text-xl font-bold mt-5">
+                                {item.title}
+                            </h3>
+
+                            <p className="text-gray-500 mt-3 leading-relaxed">
+                                {item.text}
+                            </p>
+                        </div>
+                    ))}
                 </div>
             </section>
 
+            {/* ================= SOLUTION ================= */}
+            <section className="bg-[#07130f] text-white">
+                <div className="max-w-7xl mx-auto px-6 py-20">
+                    <div className="text-center max-w-3xl mx-auto">
+                        <span className="text-green-400 font-bold text-sm uppercase tracking-wider">
+                            The Solution
+                        </span>
+
+                        <h2 className="text-3xl sm:text-4xl font-extrabold mt-3">
+                            One platform for your entire career journey.
+                        </h2>
+
+                        <p className="text-gray-400 mt-5 leading-relaxed">
+                            SkillBridge AI brings your career information,
+                            preparation tools and AI-powered guidance together
+                            in one place.
+                        </p>
+                    </div>
+
+                    <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 mt-14">
+                        {[
+                            ["🤖", "AI Career Advisor", "Get personalized career guidance."],
+                            ["📊", "Career Analytics", "Understand your career progress."],
+                            ["🎯", "Job Matcher", "Find roles matching your skills."],
+                            ["🎤", "Mock Interview", "Practice interviews with AI."],
+                            ["📄", "Resume Analyzer", "Improve your resume with AI insights."],
+                            ["🗺️", "Career Roadmap", "Follow a structured career path."],
+                            ["💼", "Job Applications", "Track your applications easily."],
+                            ["🏆", "Career Goals", "Set goals and monitor progress."],
+                        ].map(([icon, title, text]) => (
+                            <div
+                                key={title}
+                                className="border border-gray-800 bg-white/5 rounded-2xl p-6 hover:bg-white/10 hover:border-green-500/40 transition"
+                            >
+                                <div className="text-3xl">{icon}</div>
+
+                                <h3 className="font-bold text-lg mt-4">
+                                    {title}
+                                </h3>
+
+                                <p className="text-gray-400 text-sm mt-2 leading-relaxed">
+                                    {text}
+                                </p>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </section>
+
+            {/* ================= HOW IT WORKS ================= */}
+            <section className="max-w-7xl mx-auto px-6 py-20">
+                <div className="text-center">
+                    <span className="text-green-600 font-bold text-sm uppercase tracking-wider">
+                        How It Works
+                    </span>
+
+                    <h2 className="text-3xl sm:text-4xl font-extrabold mt-3">
+                        Start building your career in minutes.
+                    </h2>
+                </div>
+
+                <div className="grid md:grid-cols-4 gap-6 mt-14">
+                    {[
+                        ["01", "Create Your Profile", "Add your education, skills and career details."],
+                        ["02", "Build Your Portfolio", "Organize your projects, certificates and resume."],
+                        ["03", "Use AI Tools", "Analyze your profile, match jobs and practice interviews."],
+                        ["04", "Track Your Growth", "Set goals and continuously improve your career profile."],
+                    ].map(([number, title, text]) => (
+                        <div key={number} className="relative">
+                            <div className="text-5xl font-black text-green-100">
+                                {number}
+                            </div>
+
+                            <h3 className="text-xl font-bold mt-4">
+                                {title}
+                            </h3>
+
+                            <p className="text-gray-500 mt-3 leading-relaxed">
+                                {text}
+                            </p>
+                        </div>
+                    ))}
+                </div>
+            </section>
+
+            {/* ================= CTA ================= */}
+            <section className="px-6 pb-20">
+                <div className="max-w-7xl mx-auto relative overflow-hidden rounded-3xl bg-green-500">
+                    <div className="absolute -right-20 -top-20 w-72 h-72 bg-white/10 rounded-full blur-2xl"></div>
+
+                    <div className="relative px-8 py-14 sm:px-14 sm:py-16 flex flex-col lg:flex-row justify-between items-center gap-8">
+                        <div>
+                            <h2 className="text-3xl sm:text-4xl font-extrabold text-black">
+                                Ready to build your career smarter?
+                            </h2>
+
+                            <p className="text-black/70 mt-3 max-w-2xl">
+                                Create your SkillBridge AI profile and start
+                                turning your skills into career opportunities.
+                            </p>
+                        </div>
+
+                        <Link
+                            to="/signup"
+                            className="shrink-0 bg-black text-white px-8 py-4 rounded-xl font-bold hover:bg-gray-900 transition shadow-lg"
+                        >
+                            Create Free Account →
+                        </Link>
+                    </div>
+                </div>
+            </section>
 
             <Footer />
         </div>

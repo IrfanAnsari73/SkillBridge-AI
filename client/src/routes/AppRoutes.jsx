@@ -9,6 +9,7 @@ import About from "../pages/About/About";
 import Contact from "../pages/Contact/Contact";
 import PrivacyPolicy from "../pages/PrivacyPolicy/PrivacyPolicy";
 import Terms from "../pages/Terms/Terms";
+import CookiePolicy from "../pages/CookiePolicy/CookiePolicy";
 
 // ===============================
 // AUTH
@@ -138,6 +139,12 @@ const AppRoutes = () => {
             <Route
                 path="/terms"
                 element={<Terms />}
+            />
+
+            {/* CookiePolicy */}
+            <Route
+                path="/cookie-policy"
+                element={<CookiePolicy />}
             />
 
             {/* Login */}
