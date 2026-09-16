@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Navbar from "../../components/common/Navbar";
 import Footer from "../../components/common/Footer";
+import SEO from "../../components/common/SEO";
 
 const Contact = () => {
     const [formData, setFormData] = useState({
@@ -68,6 +69,14 @@ const Contact = () => {
 
     return (
         <div className="min-h-screen bg-gray-50 text-gray-900">
+
+            {/* ================= SEO ================= */}
+            <SEO
+                title="Contact SkillBridge AI — Get in Touch"
+                description="Contact SkillBridge AI for questions, feedback, suggestions, collaborations, or support. Send us a message and our team will get back to you."
+                canonical="https://skill-bridge-ai-sage.vercel.app/contact"
+            />
+
             <Navbar />
 
             {/* ================= HERO ================= */}
@@ -78,6 +87,7 @@ const Contact = () => {
                 </div>
 
                 <div className="relative max-w-7xl mx-auto px-6 py-20 lg:py-24 text-center">
+
                     <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-green-500/10 border border-green-400/20 text-green-300 text-sm font-medium mb-7">
                         <span className="w-2 h-2 bg-green-400 rounded-full"></span>
                         We'd Love To Hear From You
@@ -85,7 +95,9 @@ const Contact = () => {
 
                     <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold">
                         Let's Build Better
-                        <span className="text-green-400"> Careers Together.</span>
+                        <span className="text-green-400">
+                            {" "}Careers Together.
+                        </span>
                     </h1>
 
                     <p className="mt-6 text-lg text-gray-300 max-w-2xl mx-auto leading-relaxed">
@@ -93,6 +105,7 @@ const Contact = () => {
                         SkillBridge AI? Send us a message and we'll be happy
                         to hear from you.
                     </p>
+
                 </div>
             </section>
 
@@ -102,13 +115,16 @@ const Contact = () => {
 
                     {/* LEFT */}
                     <div className="lg:col-span-2">
+
                         <span className="text-green-600 font-bold text-sm uppercase tracking-wider">
                             Get In Touch
                         </span>
 
                         <h2 className="text-3xl sm:text-4xl font-extrabold mt-3">
                             Have something
-                            <span className="text-green-600"> to say?</span>
+                            <span className="text-green-600">
+                                {" "}to say?
+                            </span>
                         </h2>
 
                         <p className="text-gray-600 mt-5 leading-relaxed">
@@ -121,6 +137,7 @@ const Contact = () => {
 
                             <div className="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm">
                                 <div className="flex items-center gap-4">
+
                                     <div className="w-11 h-11 rounded-xl bg-green-50 flex items-center justify-center text-xl">
                                         ✉️
                                     </div>
@@ -134,11 +151,13 @@ const Contact = () => {
                                             support@skillbridge.ai
                                         </p>
                                     </div>
+
                                 </div>
                             </div>
 
                             <div className="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm">
                                 <div className="flex items-center gap-4">
+
                                     <div className="w-11 h-11 rounded-xl bg-green-50 flex items-center justify-center text-xl">
                                         📍
                                     </div>
@@ -152,6 +171,7 @@ const Contact = () => {
                                             India
                                         </p>
                                     </div>
+
                                 </div>
                             </div>
 
@@ -171,6 +191,7 @@ const Contact = () => {
 
                     {/* RIGHT FORM */}
                     <div className="lg:col-span-3">
+
                         <div className="bg-white border border-gray-100 rounded-3xl shadow-xl p-7 sm:p-9">
 
                             <div className="mb-7">
@@ -196,9 +217,13 @@ const Contact = () => {
                                 </div>
                             )}
 
-                            <form onSubmit={handleSubmit} className="space-y-5">
+                            <form
+                                onSubmit={handleSubmit}
+                                className="space-y-5"
+                            >
 
                                 <div className="grid sm:grid-cols-2 gap-5">
+
                                     <div>
                                         <label className="block text-sm font-semibold mb-2">
                                             Your Name
@@ -230,6 +255,7 @@ const Contact = () => {
                                             className="w-full px-4 py-3.5 rounded-xl border border-gray-200 outline-none focus:border-green-500 focus:ring-4 focus:ring-green-500/10 transition"
                                         />
                                     </div>
+
                                 </div>
 
                                 <div>
@@ -277,12 +303,14 @@ const Contact = () => {
                             </form>
                         </div>
                     </div>
+
                 </div>
             </section>
 
             {/* ================= BOTTOM CTA ================= */}
             <section className="px-6 pb-20">
                 <div className="max-w-7xl mx-auto bg-[#07130f] text-white rounded-3xl px-8 py-12 sm:px-14 text-center">
+
                     <h2 className="text-2xl sm:text-3xl font-extrabold">
                         Ready to take the next step?
                     </h2>
@@ -297,6 +325,7 @@ const Contact = () => {
                     >
                         Get Started Free →
                     </a>
+
                 </div>
             </section>
 

@@ -1,10 +1,19 @@
 import { Link } from "react-router-dom";
 import Navbar from "../../components/common/Navbar";
 import Footer from "../../components/common/Footer";
+import SEO from "../../components/common/SEO";
 
 const Home = () => {
     return (
         <div className="min-h-screen bg-gray-50 text-gray-900">
+
+            {/* ================= SEO ================= */}
+            <SEO
+                title="SkillBridge AI — Build Your Career Smarter"
+                description="SkillBridge AI is an AI-powered career platform that helps students build resumes, manage skills and projects, prepare for interviews, discover career opportunities, and track career growth."
+                canonical="https://skill-bridge-ai-sage.vercel.app/"
+            />
+
             <Navbar />
 
             {/* ================= HERO ================= */}
@@ -64,6 +73,7 @@ const Home = () => {
                             <div className="absolute -inset-5 bg-green-500/10 blur-3xl rounded-full"></div>
 
                             <div className="relative bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-700">
+
                                 {/* Fake browser bar */}
                                 <div className="bg-gray-100 px-5 py-3 flex items-center gap-2 border-b">
                                     <span className="w-3 h-3 rounded-full bg-red-400"></span>
@@ -78,6 +88,7 @@ const Home = () => {
                                 {/* Dashboard mock */}
                                 <div className="p-5 bg-gray-50">
                                     <div className="flex gap-4">
+
                                         <div className="hidden sm:block w-28 bg-[#07130f] rounded-xl p-3">
                                             <div className="text-green-400 font-bold text-xs mb-5">
                                                 SkillBridge
@@ -93,8 +104,8 @@ const Home = () => {
                                                 <div
                                                     key={item}
                                                     className={`text-[10px] px-2 py-2 rounded-lg mb-1 ${index === 0
-                                                            ? "bg-green-500 text-black font-bold"
-                                                            : "text-gray-400"
+                                                        ? "bg-green-500 text-black font-bold"
+                                                        : "text-gray-400"
                                                         }`}
                                                 >
                                                     {item}
@@ -108,6 +119,7 @@ const Home = () => {
                                                     <p className="text-[10px] text-gray-400">
                                                         Welcome back
                                                     </p>
+
                                                     <h3 className="text-lg font-bold">
                                                         Career Dashboard
                                                     </h3>
@@ -119,13 +131,16 @@ const Home = () => {
                                             </div>
 
                                             <div className="grid grid-cols-2 gap-3">
+
                                                 <div className="bg-white rounded-xl p-4 shadow-sm">
                                                     <p className="text-[10px] text-gray-400">
                                                         Career Score
                                                     </p>
+
                                                     <p className="text-2xl font-bold text-green-600 mt-1">
                                                         78
                                                     </p>
+
                                                     <div className="mt-2 h-1.5 bg-gray-100 rounded-full">
                                                         <div className="w-[78%] h-full bg-green-500 rounded-full"></div>
                                                     </div>
@@ -135,9 +150,11 @@ const Home = () => {
                                                     <p className="text-[10px] text-gray-400">
                                                         Projects
                                                     </p>
+
                                                     <p className="text-2xl font-bold mt-1">
                                                         08
                                                     </p>
+
                                                     <p className="text-[9px] text-green-600 mt-1">
                                                         +2 this month
                                                     </p>
@@ -147,9 +164,11 @@ const Home = () => {
                                                     <p className="text-[10px] text-gray-400">
                                                         AI Insights
                                                     </p>
+
                                                     <p className="text-sm font-bold mt-2">
                                                         Resume Match
                                                     </p>
+
                                                     <p className="text-[9px] text-gray-400 mt-1">
                                                         Strong profile detected
                                                     </p>
@@ -159,13 +178,16 @@ const Home = () => {
                                                     <p className="text-[10px] text-gray-400">
                                                         Job Match
                                                     </p>
+
                                                     <p className="text-2xl font-bold text-green-400 mt-1">
                                                         82%
                                                     </p>
+
                                                     <p className="text-[9px] text-gray-400 mt-1">
                                                         MERN Developer
                                                     </p>
                                                 </div>
+
                                             </div>
 
                                             <div className="bg-white rounded-xl p-4 shadow-sm mt-3">
@@ -173,6 +195,7 @@ const Home = () => {
                                                     <p className="text-xs font-bold">
                                                         Career Progress
                                                     </p>
+
                                                     <span className="text-[10px] text-green-600">
                                                         72%
                                                     </span>
@@ -186,6 +209,7 @@ const Home = () => {
                                                     <div className="h-24 flex-1 bg-green-500 rounded-lg"></div>
                                                 </div>
                                             </div>
+
                                         </div>
                                     </div>
                                 </div>
@@ -200,6 +224,7 @@ const Home = () => {
             <section className="bg-white border-b">
                 <div className="max-w-7xl mx-auto px-6 py-7">
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+
                         <div>
                             <p className="text-2xl font-extrabold">AI</p>
                             <p className="text-sm text-gray-500 mt-1">
@@ -229,6 +254,7 @@ const Home = () => {
                                 To Get Started
                             </p>
                         </div>
+
                     </div>
                 </div>
             </section>
@@ -293,6 +319,7 @@ const Home = () => {
             {/* ================= SOLUTION ================= */}
             <section className="bg-[#07130f] text-white">
                 <div className="max-w-7xl mx-auto px-6 py-20">
+
                     <div className="text-center max-w-3xl mx-auto">
                         <span className="text-green-400 font-bold text-sm uppercase tracking-wider">
                             The Solution
@@ -324,7 +351,9 @@ const Home = () => {
                                 key={title}
                                 className="border border-gray-800 bg-white/5 rounded-2xl p-6 hover:bg-white/10 hover:border-green-500/40 transition"
                             >
-                                <div className="text-3xl">{icon}</div>
+                                <div className="text-3xl">
+                                    {icon}
+                                </div>
 
                                 <h3 className="font-bold text-lg mt-4">
                                     {title}
@@ -341,6 +370,7 @@ const Home = () => {
 
             {/* ================= HOW IT WORKS ================= */}
             <section className="max-w-7xl mx-auto px-6 py-20">
+
                 <div className="text-center">
                     <span className="text-green-600 font-bold text-sm uppercase tracking-wider">
                         How It Works
@@ -359,6 +389,7 @@ const Home = () => {
                         ["04", "Track Your Growth", "Set goals and continuously improve your career profile."],
                     ].map(([number, title, text]) => (
                         <div key={number} className="relative">
+
                             <div className="text-5xl font-black text-green-100">
                                 {number}
                             </div>
@@ -378,9 +409,11 @@ const Home = () => {
             {/* ================= CTA ================= */}
             <section className="px-6 pb-20">
                 <div className="max-w-7xl mx-auto relative overflow-hidden rounded-3xl bg-green-500">
+
                     <div className="absolute -right-20 -top-20 w-72 h-72 bg-white/10 rounded-full blur-2xl"></div>
 
                     <div className="relative px-8 py-14 sm:px-14 sm:py-16 flex flex-col lg:flex-row justify-between items-center gap-8">
+
                         <div>
                             <h2 className="text-3xl sm:text-4xl font-extrabold text-black">
                                 Ready to build your career smarter?
@@ -398,6 +431,7 @@ const Home = () => {
                         >
                             Create Free Account →
                         </Link>
+
                     </div>
                 </div>
             </section>

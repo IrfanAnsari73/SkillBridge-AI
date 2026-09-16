@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import Navbar from "../../components/common/Navbar";
 import Footer from "../../components/common/Footer";
+import SEO from "../../components/common/SEO";
 
 const sections = [
     ["01", "Acceptance of Terms"],
@@ -71,6 +72,14 @@ const InfoList = ({ items }) => (
 const Terms = () => {
     return (
         <div className="min-h-screen bg-[#f5f7f6] text-gray-800">
+
+            {/* ================= SEO ================= */}
+            <SEO
+                title="Terms & Conditions — SkillBridge AI"
+                description="Read the SkillBridge AI Terms & Conditions to understand the rules, responsibilities, limitations, and conditions that apply when using our AI-powered career platform."
+                canonical="https://skill-bridge-ai-sage.vercel.app/terms"
+            />
+
             <Navbar />
 
             {/* ================= HERO ================= */}
@@ -80,6 +89,7 @@ const Terms = () => {
 
                 <div className="relative max-w-7xl mx-auto px-6 py-20 lg:py-24">
                     <div className="max-w-4xl">
+
                         <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-green-500/10 border border-green-400/20 text-green-300 text-sm font-bold">
                             📋 Terms & Trust
                         </div>
@@ -95,6 +105,7 @@ const Terms = () => {
                         </p>
 
                         <div className="mt-8 flex flex-wrap gap-3">
+
                             <div className="px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-sm text-gray-300">
                                 🤝 Fair Use
                             </div>
@@ -106,6 +117,7 @@ const Terms = () => {
                             <div className="px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-sm text-gray-300">
                                 📅 Updated Sep 14, 2026
                             </div>
+
                         </div>
                     </div>
                 </div>
@@ -118,7 +130,9 @@ const Terms = () => {
                     {/* TOC */}
                     <aside className="lg:sticky lg:top-6 lg:self-start">
                         <div className="bg-white rounded-3xl border border-gray-100 shadow-xl overflow-hidden">
+
                             <div className="bg-[#07130f] p-6 text-white">
+
                                 <p className="text-[10px] uppercase tracking-[0.2em] font-black text-green-400">
                                     On This Page
                                 </p>
@@ -130,9 +144,11 @@ const Terms = () => {
                                 <p className="text-xs text-gray-500 mt-2">
                                     15 sections
                                 </p>
+
                             </div>
 
                             <div className="p-3 max-h-[65vh] overflow-y-auto">
+
                                 {sections.map(([number, title]) => (
                                     <a
                                         key={number}
@@ -148,6 +164,7 @@ const Terms = () => {
                                         </span>
                                     </a>
                                 ))}
+
                             </div>
                         </div>
                     </aside>
@@ -156,8 +173,14 @@ const Terms = () => {
                     <div className="space-y-6">
 
                         {/* 01 */}
-                        <section id="section-01" className="legal-card">
-                            <SectionHeading number="01" title="Acceptance of Terms" />
+                        <section
+                            id="section-01"
+                            className="legal-card"
+                        >
+                            <SectionHeading
+                                number="01"
+                                title="Acceptance of Terms"
+                            />
 
                             <p className="legal-text">
                                 By accessing or using SkillBridge AI, you
@@ -173,8 +196,14 @@ const Terms = () => {
                         </section>
 
                         {/* 02 */}
-                        <section id="section-02" className="legal-card">
-                            <SectionHeading number="02" title="About SkillBridge AI" />
+                        <section
+                            id="section-02"
+                            className="legal-card"
+                        >
+                            <SectionHeading
+                                number="02"
+                                title="About SkillBridge AI"
+                            />
 
                             <p className="legal-text">
                                 SkillBridge AI is an AI-powered career and
@@ -194,8 +223,14 @@ const Terms = () => {
                         </section>
 
                         {/* 03 */}
-                        <section id="section-03" className="legal-card">
-                            <SectionHeading number="03" title="User Accounts" />
+                        <section
+                            id="section-03"
+                            className="legal-card"
+                        >
+                            <SectionHeading
+                                number="03"
+                                title="User Accounts"
+                            />
 
                             <p className="legal-text">
                                 Some features of SkillBridge AI may require
@@ -214,8 +249,14 @@ const Terms = () => {
                         </section>
 
                         {/* 04 */}
-                        <section id="section-04" className="legal-card">
-                            <SectionHeading number="04" title="User Responsibilities" />
+                        <section
+                            id="section-04"
+                            className="legal-card"
+                        >
+                            <SectionHeading
+                                number="04"
+                                title="User Responsibilities"
+                            />
 
                             <p className="legal-text">
                                 You are responsible for the information and
@@ -234,7 +275,10 @@ const Terms = () => {
                         </section>
 
                         {/* 05 */}
-                        <section id="section-05" className="legal-card">
+                        <section
+                            id="section-05"
+                            className="legal-card"
+                        >
                             <SectionHeading
                                 number="05"
                                 title="Career Information & Resumes"
@@ -274,6 +318,7 @@ const Terms = () => {
                             </p>
 
                             <div className="mt-6 rounded-2xl border border-green-400/10 bg-green-500/5 p-5">
+
                                 <p className="text-green-300 font-bold">
                                     Important
                                 </p>
@@ -286,12 +331,19 @@ const Terms = () => {
                                     selection, salary, or any specific
                                     career outcome.
                                 </p>
+
                             </div>
                         </section>
 
                         {/* 07 */}
-                        <section id="section-07" className="legal-card">
-                            <SectionHeading number="07" title="Job Applications" />
+                        <section
+                            id="section-07"
+                            className="legal-card"
+                        >
+                            <SectionHeading
+                                number="07"
+                                title="Job Applications"
+                            />
 
                             <p className="legal-text">
                                 SkillBridge AI may provide tools for tracking
@@ -306,8 +358,14 @@ const Terms = () => {
                         </section>
 
                         {/* 08 */}
-                        <section id="section-08" className="legal-card">
-                            <SectionHeading number="08" title="Third-Party Services" />
+                        <section
+                            id="section-08"
+                            className="legal-card"
+                        >
+                            <SectionHeading
+                                number="08"
+                                title="Third-Party Services"
+                            />
 
                             <p className="legal-text">
                                 SkillBridge AI may integrate or rely on
@@ -325,8 +383,14 @@ const Terms = () => {
                         </section>
 
                         {/* 09 */}
-                        <section id="section-09" className="legal-card">
-                            <SectionHeading number="09" title="Intellectual Property" />
+                        <section
+                            id="section-09"
+                            className="legal-card"
+                        >
+                            <SectionHeading
+                                number="09"
+                                title="Intellectual Property"
+                            />
 
                             <p className="legal-text">
                                 The SkillBridge AI platform, including its
@@ -345,8 +409,14 @@ const Terms = () => {
                         </section>
 
                         {/* 10 */}
-                        <section id="section-10" className="legal-card">
-                            <SectionHeading number="10" title="Prohibited Use" />
+                        <section
+                            id="section-10"
+                            className="legal-card"
+                        >
+                            <SectionHeading
+                                number="10"
+                                title="Prohibited Use"
+                            />
 
                             <p className="legal-text">
                                 You may not use SkillBridge AI to:
@@ -370,7 +440,10 @@ const Terms = () => {
                             id="section-11"
                             className="bg-green-50 rounded-3xl border border-green-100 shadow-xl p-7 md:p-9"
                         >
-                            <SectionHeading number="11" title="Disclaimer" />
+                            <SectionHeading
+                                number="11"
+                                title="Disclaimer"
+                            />
 
                             <p className="legal-text">
                                 SkillBridge AI provides career tools and
@@ -388,8 +461,14 @@ const Terms = () => {
                         </section>
 
                         {/* 12 */}
-                        <section id="section-12" className="legal-card">
-                            <SectionHeading number="12" title="Limitation of Liability" />
+                        <section
+                            id="section-12"
+                            className="legal-card"
+                        >
+                            <SectionHeading
+                                number="12"
+                                title="Limitation of Liability"
+                            />
 
                             <p className="legal-text">
                                 To the extent permitted by applicable law,
@@ -408,7 +487,10 @@ const Terms = () => {
                         </section>
 
                         {/* 13 */}
-                        <section id="section-13" className="legal-card">
+                        <section
+                            id="section-13"
+                            className="legal-card"
+                        >
                             <SectionHeading
                                 number="13"
                                 title="Account Suspension or Termination"
@@ -428,8 +510,14 @@ const Terms = () => {
                         </section>
 
                         {/* 14 */}
-                        <section id="section-14" className="legal-card">
-                            <SectionHeading number="14" title="Changes to These Terms" />
+                        <section
+                            id="section-14"
+                            className="legal-card"
+                        >
+                            <SectionHeading
+                                number="14"
+                                title="Changes to These Terms"
+                            />
 
                             <p className="legal-text">
                                 SkillBridge AI may update these Terms &
@@ -461,6 +549,7 @@ const Terms = () => {
                             </p>
 
                             <div className="grid sm:grid-cols-2 gap-4 mt-7">
+
                                 <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
                                     <p className="text-xs uppercase tracking-widest font-black text-green-400">
                                         Email
@@ -480,12 +569,14 @@ const Terms = () => {
                                         Lucknow, Uttar Pradesh, India
                                     </p>
                                 </div>
+
                             </div>
                         </section>
 
                         {/* CTA */}
                         <section className="rounded-3xl bg-green-500 p-7 md:p-9 shadow-xl">
                             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+
                                 <div>
                                     <p className="text-xs uppercase tracking-[0.2em] font-black text-green-950">
                                         SkillBridge AI
@@ -507,10 +598,13 @@ const Terms = () => {
                                 >
                                     Contact Us →
                                 </Link>
+
                             </div>
                         </section>
 
+                        {/* BOTTOM LINKS */}
                         <div className="flex flex-wrap justify-between gap-4 px-2">
+
                             <Link
                                 to="/privacy-policy"
                                 className="font-bold text-gray-500 hover:text-green-600 transition"
@@ -524,7 +618,9 @@ const Terms = () => {
                             >
                                 Contact SkillBridge AI →
                             </Link>
+
                         </div>
+
                     </div>
                 </div>
             </main>

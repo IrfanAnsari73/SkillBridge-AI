@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import Navbar from "../../components/common/Navbar";
 import Footer from "../../components/common/Footer";
+import SEO from "../../components/common/SEO";
 
 const sections = [
     ["01", "Introduction"],
@@ -20,25 +21,28 @@ const sections = [
 const SectionHeading = ({ number, title, dark = false }) => (
     <div className="flex items-start gap-4">
         <div
-            className={`w-12 h-12 shrink-0 rounded-2xl flex items-center justify-center font-black ${dark
+            className={`w-12 h-12 shrink-0 rounded-2xl flex items-center justify-center font-black ${
+                dark
                     ? "bg-green-500/10 border border-green-400/20 text-green-400"
                     : "bg-green-50 border border-green-100 text-green-600"
-                }`}
+            }`}
         >
             {number}
         </div>
 
         <div>
             <p
-                className={`text-[10px] uppercase tracking-[0.2em] font-black ${dark ? "text-green-400" : "text-green-600"
-                    }`}
+                className={`text-[10px] uppercase tracking-[0.2em] font-black ${
+                    dark ? "text-green-400" : "text-green-600"
+                }`}
             >
                 SkillBridge AI
             </p>
 
             <h2
-                className={`text-2xl md:text-3xl font-black mt-1 ${dark ? "text-white" : "text-slate-950"
-                    }`}
+                className={`text-2xl md:text-3xl font-black mt-1 ${
+                    dark ? "text-white" : "text-slate-950"
+                }`}
             >
                 {title}
             </h2>
@@ -68,6 +72,14 @@ const InfoList = ({ items }) => (
 const CookiePolicy = () => {
     return (
         <div className="min-h-screen bg-[#f5f7f6] text-gray-800">
+
+            {/* ================= SEO ================= */}
+            <SEO
+                title="Cookie Policy — SkillBridge AI"
+                description="Learn how SkillBridge AI uses cookies, local storage, analytics technologies, and advertising technologies to improve your experience."
+                canonical="https://skill-bridge-ai-sage.vercel.app/cookie-policy"
+            />
+
             <Navbar />
 
             {/* ================= HERO ================= */}

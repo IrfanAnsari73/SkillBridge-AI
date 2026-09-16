@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import Navbar from "../../components/common/Navbar";
 import Footer from "../../components/common/Footer";
+import SEO from "../../components/common/SEO";
 
 const About = () => {
     const features = [
@@ -70,11 +71,17 @@ const About = () => {
 
     return (
         <div className="min-h-screen bg-gray-50 text-gray-900">
+
+            {/* ================= SEO ================= */}
+            <SEO
+                title="About SkillBridge AI — AI-Powered Career Platform"
+                description="Learn about SkillBridge AI, an AI-powered career platform designed to help students organize their professional journey, build stronger profiles, prepare for opportunities, and plan their careers."
+                canonical="https://skill-bridge-ai-sage.vercel.app/about"
+            />
+
             <Navbar />
 
-            {/* =========================================================
-                HERO
-            ========================================================== */}
+            {/* ================= HERO ================= */}
             <section className="relative overflow-hidden bg-[#07130f] text-white">
                 <div className="absolute inset-0">
                     <div className="absolute -top-32 -left-32 w-96 h-96 bg-green-500/20 rounded-full blur-3xl" />
@@ -122,9 +129,7 @@ const About = () => {
                 </div>
             </section>
 
-            {/* =========================================================
-                ABOUT INTRO
-            ========================================================== */}
+            {/* ================= ABOUT INTRO ================= */}
             <section className="max-w-7xl mx-auto px-6 py-20">
                 <div className="grid lg:grid-cols-2 gap-14 items-center">
 
@@ -173,8 +178,8 @@ const About = () => {
                         <div className="absolute -inset-4 bg-green-500/10 blur-3xl rounded-full" />
 
                         <div className="relative bg-[#07130f] rounded-3xl p-8 shadow-2xl">
-
                             <div className="flex items-center justify-between">
+
                                 <div>
                                     <p className="text-gray-400 text-sm">
                                         Your Career Journey
@@ -227,9 +232,7 @@ const About = () => {
                 </div>
             </section>
 
-            {/* =========================================================
-                THE PROBLEM
-            ========================================================== */}
+            {/* ================= THE PROBLEM ================= */}
             <section className="bg-white border-y border-gray-100">
                 <div className="max-w-7xl mx-auto px-6 py-20">
 
@@ -303,9 +306,7 @@ const About = () => {
                 </div>
             </section>
 
-            {/* =========================================================
-                MISSION + VISION
-            ========================================================== */}
+            {/* ================= MISSION + VISION ================= */}
             <section className="bg-gray-50">
                 <div className="max-w-7xl mx-auto px-6 py-20">
 
@@ -348,9 +349,7 @@ const About = () => {
                 </div>
             </section>
 
-            {/* =========================================================
-                WHAT WE OFFER
-            ========================================================== */}
+            {/* ================= WHAT WE OFFER ================= */}
             <section className="bg-white">
                 <div className="max-w-7xl mx-auto px-6 py-20">
 
@@ -397,14 +396,11 @@ const About = () => {
                 </div>
             </section>
 
-            {/* =========================================================
-                FOUNDER
-            ========================================================== */}
+            {/* ================= FOUNDER ================= */}
             <section className="bg-gray-50 border-y border-gray-100">
                 <div className="max-w-7xl mx-auto px-6 py-20">
 
                     <div className="text-center max-w-3xl mx-auto">
-
                         <span className="text-green-600 font-bold text-sm uppercase tracking-wider">
                             Meet the Founder
                         </span>
@@ -421,7 +417,6 @@ const About = () => {
                             easier for students to organize their career journey
                             and take meaningful steps toward their goals.
                         </p>
-
                     </div>
 
                     <div className="mt-14 bg-white rounded-[2rem] border border-gray-100 shadow-xl overflow-hidden">
@@ -436,7 +431,6 @@ const About = () => {
                                 <div className="absolute -bottom-24 -right-24 w-72 h-72 bg-green-500/10 rounded-full blur-3xl" />
 
                                 <div className="relative">
-
                                     <div className="absolute -inset-3 rounded-[2rem] bg-green-500/20 blur-xl" />
 
                                     <div className="relative rounded-[2rem] overflow-hidden border-4 border-green-400/30 shadow-2xl">
@@ -446,8 +440,8 @@ const About = () => {
                                             className="w-full max-w-md h-[460px] object-cover"
                                         />
                                     </div>
-
                                 </div>
+
                             </div>
 
                             {/* Founder Details */}
@@ -479,9 +473,7 @@ const About = () => {
                                     accessible.
                                 </p>
 
-                                {/* Highlights */}
                                 <div className="grid sm:grid-cols-2 gap-4 mt-8">
-
                                     {founderHighlights.map((item) => (
                                         <div
                                             key={item.title}
@@ -500,12 +492,9 @@ const About = () => {
                                             </p>
                                         </div>
                                     ))}
-
                                 </div>
 
-                                {/* Social Buttons */}
                                 <div className="flex flex-wrap gap-3 mt-8">
-
                                     <a
                                         href="https://www.linkedin.com/"
                                         target="_blank"
@@ -523,27 +512,22 @@ const About = () => {
                                     >
                                         GitHub →
                                     </a>
-
                                 </div>
 
                             </div>
-
                         </div>
                     </div>
 
                 </div>
             </section>
 
-            {/* =========================================================
-                WHY SKILLBRIDGE
-            ========================================================== */}
+            {/* ================= WHY SKILLBRIDGE ================= */}
             <section className="bg-white">
                 <div className="max-w-7xl mx-auto px-6 py-20">
 
                     <div className="grid lg:grid-cols-2 gap-12 items-center">
 
                         <div>
-
                             <span className="text-green-600 font-bold text-sm uppercase tracking-wider">
                                 Why SkillBridge AI
                             </span>
@@ -560,11 +544,9 @@ const About = () => {
                                 parts of a student's career journey instead of
                                 treating them as separate tasks.
                             </p>
-
                         </div>
 
                         <div className="grid sm:grid-cols-2 gap-4">
-
                             {reasons.map((reason, index) => (
                                 <div
                                     key={reason}
@@ -579,17 +561,13 @@ const About = () => {
                                     </p>
                                 </div>
                             ))}
-
                         </div>
 
                     </div>
-
                 </div>
             </section>
 
-            {/* =========================================================
-                AI SECTION
-            ========================================================== */}
+            {/* ================= AI SECTION ================= */}
             <section className="bg-[#07130f] text-white">
                 <div className="max-w-7xl mx-auto px-6 py-20">
 
@@ -625,7 +603,6 @@ const About = () => {
                         </div>
 
                         <div className="grid sm:grid-cols-2 gap-4">
-
                             {[
                                 "Resume Analysis",
                                 "Career Advisor",
@@ -649,22 +626,17 @@ const About = () => {
                                     </p>
                                 </div>
                             ))}
-
                         </div>
 
                     </div>
                 </div>
             </section>
 
-            {/* =========================================================
-                FINAL CTA
-            ========================================================== */}
+            {/* ================= FINAL CTA ================= */}
             <section className="px-6 py-20 bg-gray-50">
-
                 <div className="max-w-7xl mx-auto rounded-3xl bg-green-500 overflow-hidden shadow-xl">
 
                     <div className="px-8 py-14 sm:px-14 text-center">
-
                         <span className="inline-block px-4 py-2 rounded-full bg-black/10 text-black text-sm font-bold">
                             Your Career Starts Here
                         </span>
@@ -684,11 +656,9 @@ const About = () => {
                         >
                             Get Started Free →
                         </Link>
-
                     </div>
 
                 </div>
-
             </section>
 
             <Footer />

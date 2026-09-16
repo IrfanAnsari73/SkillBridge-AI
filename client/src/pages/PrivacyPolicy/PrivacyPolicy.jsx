@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import Navbar from "../../components/common/Navbar";
 import Footer from "../../components/common/Footer";
+import SEO from "../../components/common/SEO";
 
 const sections = [
     ["01", "Introduction"],
@@ -71,6 +72,14 @@ const InfoList = ({ items }) => (
 const PrivacyPolicy = () => {
     return (
         <div className="min-h-screen bg-[#f5f7f6] text-gray-800">
+
+            {/* ================= SEO ================= */}
+            <SEO
+                title="Privacy Policy — SkillBridge AI"
+                description="Read the SkillBridge AI Privacy Policy to understand how we collect, use, protect, and manage information when you use our AI-powered career platform."
+                canonical="https://skill-bridge-ai-sage.vercel.app/privacy-policy"
+            />
+
             <Navbar />
 
             {/* ================= HERO ================= */}
@@ -80,6 +89,7 @@ const PrivacyPolicy = () => {
 
                 <div className="relative max-w-7xl mx-auto px-6 py-20 lg:py-24">
                     <div className="max-w-4xl">
+
                         <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-green-500/10 border border-green-400/20 text-green-300 text-sm font-bold">
                             <span>🔐</span>
                             Privacy & Trust
@@ -109,6 +119,7 @@ const PrivacyPolicy = () => {
                                 📅 Updated Sep 14, 2026
                             </div>
                         </div>
+
                     </div>
                 </div>
             </section>
@@ -120,6 +131,7 @@ const PrivacyPolicy = () => {
                     {/* TOC */}
                     <aside className="lg:sticky lg:top-6 lg:self-start">
                         <div className="bg-white rounded-3xl border border-gray-100 shadow-xl overflow-hidden">
+
                             <div className="bg-[#07130f] p-6 text-white">
                                 <p className="text-[10px] uppercase tracking-[0.2em] font-black text-green-400">
                                     On This Page
@@ -159,7 +171,10 @@ const PrivacyPolicy = () => {
 
                         {/* 01 */}
                         <section id="section-01" className="legal-card">
-                            <SectionHeading number="01" title="Introduction" />
+                            <SectionHeading
+                                number="01"
+                                title="Introduction"
+                            />
 
                             <p className="legal-text">
                                 SkillBridge AI is an AI-powered career and
@@ -178,7 +193,10 @@ const PrivacyPolicy = () => {
 
                         {/* 02 */}
                         <section id="section-02" className="legal-card">
-                            <SectionHeading number="02" title="Information We Collect" />
+                            <SectionHeading
+                                number="02"
+                                title="Information We Collect"
+                            />
 
                             <p className="legal-text">
                                 Depending on how you use SkillBridge AI, we may
@@ -202,7 +220,10 @@ const PrivacyPolicy = () => {
 
                         {/* 03 */}
                         <section id="section-03" className="legal-card">
-                            <SectionHeading number="03" title="Account Information" />
+                            <SectionHeading
+                                number="03"
+                                title="Account Information"
+                            />
 
                             <p className="legal-text">
                                 When you create an account, we may collect
@@ -219,7 +240,10 @@ const PrivacyPolicy = () => {
 
                         {/* 04 */}
                         <section id="section-04" className="legal-card">
-                            <SectionHeading number="04" title="Resume and Career Data" />
+                            <SectionHeading
+                                number="04"
+                                title="Resume and Career Data"
+                            />
 
                             <p className="legal-text">
                                 If you upload a resume or provide career-related
@@ -269,7 +293,10 @@ const PrivacyPolicy = () => {
 
                         {/* 06 */}
                         <section id="section-06" className="legal-card">
-                            <SectionHeading number="06" title="How We Use Information" />
+                            <SectionHeading
+                                number="06"
+                                title="How We Use Information"
+                            />
 
                             <p className="legal-text">
                                 Information may be used to:
@@ -292,7 +319,10 @@ const PrivacyPolicy = () => {
 
                         {/* 07 */}
                         <section id="section-07" className="legal-card">
-                            <SectionHeading number="07" title="Third-Party Services" />
+                            <SectionHeading
+                                number="07"
+                                title="Third-Party Services"
+                            />
 
                             <p className="legal-text">
                                 SkillBridge AI may use third-party services to
@@ -309,7 +339,10 @@ const PrivacyPolicy = () => {
 
                         {/* 08 */}
                         <section id="section-08" className="legal-card">
-                            <SectionHeading number="08" title="Cookies and Similar Technologies" />
+                            <SectionHeading
+                                number="08"
+                                title="Cookies and Similar Technologies"
+                            />
 
                             <p className="legal-text">
                                 SkillBridge AI may use cookies, local storage,
@@ -373,7 +406,10 @@ const PrivacyPolicy = () => {
 
                         {/* 10 */}
                         <section id="section-10" className="legal-card">
-                            <SectionHeading number="10" title="Data Security" />
+                            <SectionHeading
+                                number="10"
+                                title="Data Security"
+                            />
 
                             <p className="legal-text">
                                 We take reasonable technical and organizational
@@ -390,7 +426,10 @@ const PrivacyPolicy = () => {
 
                         {/* 11 */}
                         <section id="section-11" className="legal-card">
-                            <SectionHeading number="11" title="Data Retention" />
+                            <SectionHeading
+                                number="11"
+                                title="Data Retention"
+                            />
 
                             <p className="legal-text">
                                 Information may be retained for as long as
@@ -403,7 +442,10 @@ const PrivacyPolicy = () => {
 
                         {/* 12 */}
                         <section id="section-12" className="legal-card">
-                            <SectionHeading number="12" title="Your Choices and Rights" />
+                            <SectionHeading
+                                number="12"
+                                title="Your Choices and Rights"
+                            />
 
                             <p className="legal-text">
                                 Depending on applicable law, you may have rights
@@ -421,7 +463,10 @@ const PrivacyPolicy = () => {
 
                         {/* 13 */}
                         <section id="section-13" className="legal-card">
-                            <SectionHeading number="13" title="Children's Privacy" />
+                            <SectionHeading
+                                number="13"
+                                title="Children's Privacy"
+                            />
 
                             <p className="legal-text">
                                 SkillBridge AI is intended for users who can
@@ -434,7 +479,10 @@ const PrivacyPolicy = () => {
 
                         {/* 14 */}
                         <section id="section-14" className="legal-card">
-                            <SectionHeading number="14" title="Changes to This Policy" />
+                            <SectionHeading
+                                number="14"
+                                title="Changes to This Policy"
+                            />
 
                             <p className="legal-text">
                                 We may update this Privacy Policy from time to
@@ -467,6 +515,7 @@ const PrivacyPolicy = () => {
                             </p>
 
                             <div className="grid sm:grid-cols-2 gap-4 mt-7">
+
                                 <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
                                     <p className="text-xs uppercase tracking-widest font-black text-green-400">
                                         Email
@@ -486,12 +535,14 @@ const PrivacyPolicy = () => {
                                         Lucknow, Uttar Pradesh, India
                                     </p>
                                 </div>
+
                             </div>
                         </section>
 
                         {/* CTA */}
                         <section className="rounded-3xl bg-green-500 p-7 md:p-9 shadow-xl">
                             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+
                                 <div>
                                     <p className="text-xs uppercase tracking-[0.2em] font-black text-green-950">
                                         SkillBridge AI
@@ -513,10 +564,12 @@ const PrivacyPolicy = () => {
                                 >
                                     Contact Us →
                                 </Link>
+
                             </div>
                         </section>
 
                         <div className="flex flex-wrap justify-between gap-4 px-2">
+
                             <Link
                                 to="/"
                                 className="font-bold text-gray-500 hover:text-green-600 transition"
@@ -530,7 +583,9 @@ const PrivacyPolicy = () => {
                             >
                                 Terms & Conditions →
                             </Link>
+
                         </div>
+
                     </div>
                 </div>
             </main>
