@@ -24,7 +24,7 @@ const Navbar = () => {
                     </Link>
 
                     {/* Desktop Menu */}
-                    <div className="hidden md:flex items-center gap-8">
+                    <div className="hidden md:flex items-center gap-7">
 
                         <Link
                             to="/"
@@ -38,6 +38,13 @@ const Navbar = () => {
                             className="font-medium text-slate-600 hover:text-green-600 transition"
                         >
                             About
+                        </Link>
+
+                        <Link
+                            to="/resources"
+                            className="font-medium text-slate-600 hover:text-green-600 transition"
+                        >
+                            Resources
                         </Link>
 
                         <Link
@@ -98,6 +105,14 @@ const Navbar = () => {
                             </Link>
 
                             <Link
+                                to="/resources"
+                                onClick={closeMenu}
+                                className="px-4 py-3 rounded-lg font-medium text-slate-700 hover:bg-green-50 hover:text-green-600"
+                            >
+                                Resources
+                            </Link>
+
+                            <Link
                                 to="/contact"
                                 onClick={closeMenu}
                                 className="px-4 py-3 rounded-lg font-medium text-slate-700 hover:bg-green-50 hover:text-green-600"
@@ -125,6 +140,7 @@ const Navbar = () => {
 
                     </div>
                 )}
+
             </div>
         </nav>
     );

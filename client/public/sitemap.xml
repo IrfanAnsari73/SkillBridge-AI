@@ -1,28 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
-  <url>
-    <loc>https://skill-bridge-ai-sage.vercel.app/</loc>
-  </url>
+    <url>
+        <loc>https://skill-bridge-ai-sage.vercel.app/</loc>
+    </url>
 
-  <url>
-    <loc>https://skill-bridge-ai-sage.vercel.app/about</loc>
-  </url>
+    <url>
+        <loc>https://skill-bridge-ai-sage.vercel.app/about</loc>
+    </url>
 
-  <url>
-    <loc>https://skill-bridge-ai-sage.vercel.app/contact</loc>
-  </url>
+    <url>
+        <loc>https://skill-bridge-ai-sage.vercel.app/resources</loc>
+    </url>
 
-  <url>
-    <loc>https://skill-bridge-ai-sage.vercel.app/privacy-policy</loc>
-  </url>
+    <url>
+        <loc>https://skill-bridge-ai-sage.vercel.app/contact</loc>
+    </url>
 
-  <url>
-    <loc>https://skill-bridge-ai-sage.vercel.app/terms</loc>
-  </url>
+    <url>
+        <loc>https://skill-bridge-ai-sage.vercel.app/privacy-policy</loc>
+    </url>
 
-  <url>
-    <loc>https://skill-bridge-ai-sage.vercel.app/cookie-policy</loc>
-  </url>
+    <url>
+        <loc>https://skill-bridge-ai-sage.vercel.app/terms</loc>
+    </url>
+
+    <url>
+        <loc>https://skill-bridge-ai-sage.vercel.app/cookie-policy</loc>
+    </url>
+
+    <url>
+        <loc>https://skill-bridge-ai-sage.vercel.app/resources/ats-friendly-resume-for-freshers</loc>
+    </url>
+
+    <url>
+        <loc>https://skill-bridge-ai-sage.vercel.app/resources/technical-interview-preparation-for-freshers</loc>
+    </url>
+
+    <url>
+        <loc>https://skill-bridge-ai-sage.vercel.app/resources/mern-stack-developer-roadmap</loc>
+    </url>
+
+    <url>
+        <loc>https://skill-bridge-ai-sage.vercel.app/resources/career-guides-for-students</loc>
+    </url>
 
 </urlset>

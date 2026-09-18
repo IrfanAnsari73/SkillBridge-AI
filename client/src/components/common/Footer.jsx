@@ -23,9 +23,11 @@ const Footer = () => {
                             <span className="text-white">
                                 Skill
                             </span>
+
                             <span className="text-green-500">
                                 Bridge
                             </span>
+
                             <span className="text-white">
                                 AI
                             </span>
@@ -68,6 +70,14 @@ const Footer = () => {
                                 className="block text-gray-400 hover:text-white transition"
                             >
                                 About
+                            </Link>
+
+                            {/* Resources */}
+                            <Link
+                                to="/resources"
+                                className="block text-gray-400 hover:text-green-400 transition"
+                            >
+                                Resources
                             </Link>
 
                             <Link

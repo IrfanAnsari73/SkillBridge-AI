@@ -7,6 +7,11 @@ import { Routes, Route } from "react-router-dom";
 import Home from "../pages/Home/Home";
 import About from "../pages/About/About";
 import Contact from "../pages/Contact/Contact";
+import Resources from "../pages/Resources/Resources";
+import ATSResumeGuide from "../pages/Resources/ATSResumeGuide/ATSResumeGuide";
+import TechnicalInterviewGuide from "../pages/Resources/TechnicalInterviewGuide/TechnicalInterviewGuide";
+import MernRoadmap from "../pages/Resources/MernRoadmap/MernRoadmap";
+import CareerGuide from "../pages/Resources/CareerGuide/CareerGuide";
 import PrivacyPolicy from "../pages/PrivacyPolicy/PrivacyPolicy";
 import Terms from "../pages/Terms/Terms";
 import CookiePolicy from "../pages/CookiePolicy/CookiePolicy";
@@ -102,7 +107,6 @@ import CareerAnalytics from "../pages/Analytics/CareerAnalytics";
 
 import ProtectedRoute from "../components/auth/ProtectedRoute";
 
-
 const AppRoutes = () => {
     return (
         <Routes>
@@ -129,6 +133,35 @@ const AppRoutes = () => {
                 element={<Contact />}
             />
 
+            {/* Resources */}
+            <Route
+                path="/resources"
+                element={<Resources />}
+            />
+
+            {/* ATS Resume Guide */}
+            <Route
+                path="/resources/ats-friendly-resume-for-freshers"
+                element={<ATSResumeGuide />}
+            />
+
+            {/* Technical Interview Guide */}
+            <Route
+                path="/resources/technical-interview-preparation-for-freshers"
+                element={<TechnicalInterviewGuide />}
+            />
+
+            {/* MERN Stack Developer Roadmap */}
+            <Route
+                path="/resources/mern-stack-developer-roadmap"
+                element={<MernRoadmap />}
+            />
+
+            <Route
+                path="/resources/career-guides-for-students"
+                element={<CareerGuide />}
+            />
+
             {/* Privacy Policy */}
             <Route
                 path="/privacy-policy"
@@ -141,7 +174,7 @@ const AppRoutes = () => {
                 element={<Terms />}
             />
 
-            {/* CookiePolicy */}
+            {/* Cookie Policy */}
             <Route
                 path="/cookie-policy"
                 element={<CookiePolicy />}
@@ -165,7 +198,6 @@ const AppRoutes = () => {
                 element={<PublicPortfolio />}
             />
 
-
             {/* =================================
                 PROTECTED ROUTES
             ================================= */}
@@ -185,7 +217,6 @@ const AppRoutes = () => {
                     }
                 />
 
-
                 {/* =========================
                     PROFILE
                 ========================= */}
@@ -198,7 +229,6 @@ const AppRoutes = () => {
                         </DashboardLayout>
                     }
                 />
-
 
                 {/* =========================
                     SKILLS
@@ -213,7 +243,6 @@ const AppRoutes = () => {
                     }
                 />
 
-
                 {/* =========================
                     PROJECTS
                 ========================= */}
@@ -226,7 +255,6 @@ const AppRoutes = () => {
                         </DashboardLayout>
                     }
                 />
-
 
                 {/* =========================
                     CERTIFICATES
@@ -241,7 +269,6 @@ const AppRoutes = () => {
                     }
                 />
 
-
                 {/* =========================
                     RESUME
                 ========================= */}
@@ -254,7 +281,6 @@ const AppRoutes = () => {
                         </DashboardLayout>
                     }
                 />
-
 
                 {/* =========================
                     PORTFOLIO
@@ -269,7 +295,6 @@ const AppRoutes = () => {
                     }
                 />
 
-
                 {/* =========================
                     CAREER ADVISOR
                 ========================= */}
@@ -282,7 +307,6 @@ const AppRoutes = () => {
                         </DashboardLayout>
                     }
                 />
-
 
                 {/* =========================
                     CAREER ROADMAP
@@ -297,7 +321,6 @@ const AppRoutes = () => {
                     }
                 />
 
-
                 {/* =========================
                     CAREER ACTION CENTER
                 ========================= */}
@@ -310,7 +333,6 @@ const AppRoutes = () => {
                         </DashboardLayout>
                     }
                 />
-
 
                 {/* =========================
                     CAREER GOALS
@@ -325,7 +347,6 @@ const AppRoutes = () => {
                     }
                 />
 
-
                 {/* =========================
                     JOB MATCHER
                 ========================= */}
@@ -338,7 +359,6 @@ const AppRoutes = () => {
                         </DashboardLayout>
                     }
                 />
-
 
                 {/* =========================
                     MOCK INTERVIEW
@@ -353,7 +373,6 @@ const AppRoutes = () => {
                     }
                 />
 
-
                 {/* =========================
                     CAREER ANALYTICS
                 ========================= */}
@@ -367,7 +386,6 @@ const AppRoutes = () => {
                     }
                 />
 
-
                 {/* =========================
                     JOB APPLICATIONS
                 ========================= */}
@@ -380,7 +398,6 @@ const AppRoutes = () => {
                         </DashboardLayout>
                     }
                 />
-
 
                 {/* =========================
                     AI APPLICATION INSIGHTS
@@ -397,7 +414,6 @@ const AppRoutes = () => {
 
             </Route>
 
-
             {/* =================================
                 FALLBACK
             ================================= */}
@@ -410,6 +426,5 @@ const AppRoutes = () => {
         </Routes>
     );
 };
-
 
 export default AppRoutes;
