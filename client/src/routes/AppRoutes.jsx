@@ -14,6 +14,7 @@ import MernRoadmap from "../pages/Resources/MernRoadmap/MernRoadmap";
 import CareerGuide from "../pages/Resources/CareerGuide/CareerGuide";
 import FAQ from "../pages/FAQ/FAQ";
 import Blog from "../pages/Blog/Blog";
+import InternshipGuide from "../pages/Blog/InternshipGuide/InternshipGuide";
 import PrivacyPolicy from "../pages/PrivacyPolicy/PrivacyPolicy";
 import Terms from "../pages/Terms/Terms";
 import CookiePolicy from "../pages/CookiePolicy/CookiePolicy";
@@ -150,6 +151,12 @@ const AppRoutes = () => {
             <Route
                 path="/blog"
                 element={<Blog />}
+            />
+
+            {/* how-to-find-first-internship-as-a-college-student */}
+            <Route
+                path="/blog/how-to-find-first-internship-as-a-college-student"
+                element={<InternshipGuide />}
             />
 
             {/* ATS Resume Guide */}
