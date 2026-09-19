@@ -13,6 +13,7 @@ import TechnicalInterviewGuide from "../pages/Resources/TechnicalInterviewGuide/
 import MernRoadmap from "../pages/Resources/MernRoadmap/MernRoadmap";
 import CareerGuide from "../pages/Resources/CareerGuide/CareerGuide";
 import FAQ from "../pages/FAQ/FAQ";
+import Blog from "../pages/Blog/Blog";
 import PrivacyPolicy from "../pages/PrivacyPolicy/PrivacyPolicy";
 import Terms from "../pages/Terms/Terms";
 import CookiePolicy from "../pages/CookiePolicy/CookiePolicy";
@@ -143,6 +144,12 @@ const AppRoutes = () => {
             <Route
                 path="/faq"
                 element={<FAQ />}
+            />
+
+            {/* Blog */}
+            <Route
+                path="/blog"
+                element={<Blog />}
             />
 
             {/* ATS Resume Guide */}

@@ -88,6 +88,14 @@ const Footer = () => {
                                 FAQ
                             </Link>
 
+                            {/* Blog */}
+                            <Link
+                                to="/blog"
+                                className="block text-gray-400 hover:text-white transition"
+                            >
+                                Blog
+                            </Link>
+
                             <Link
                                 to="/contact"
                                 className="block text-gray-400 hover:text-white transition"
