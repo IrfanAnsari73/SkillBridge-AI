@@ -75,9 +75,17 @@ const Footer = () => {
                             {/* Resources */}
                             <Link
                                 to="/resources"
-                                className="block text-gray-400 hover:text-green-400 transition"
+                                className="block text-gray-400 hover:text-white transition"
                             >
                                 Resources
+                            </Link>
+
+                            {/* FAQ */}
+                            <Link
+                                to="/faq"
+                                className="block text-gray-400 hover:text-white transition"
+                            >
+                                FAQ
                             </Link>
 
                             <Link
@@ -89,7 +97,7 @@ const Footer = () => {
 
                             <Link
                                 to="/signup"
-                                className="block text-gray-400 hover:text-green-400 transition"
+                                className="block text-gray-400 hover:text-white transition"
                             >
                                 Get Started
                             </Link>
