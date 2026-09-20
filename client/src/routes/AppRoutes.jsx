@@ -39,6 +39,7 @@ import Blog from "../pages/Blog/Blog";
 import InternshipGuide from "../pages/Blog/InternshipGuide/InternshipGuide";
 import CampusPlacementGuide from "../pages/Blog/CampusPlacementGuide/CampusPlacementGuide";
 import FresherJobSearchGuide from "../pages/Blog/FresherJobSearchGuide/FresherJobSearchGuide";
+import LinkedInProfileGuide from "../pages/Blog/LinkedInProfileGuide/LinkedInProfileGuide";
 
 // ==============================
 // Public Portfolio
@@ -158,6 +159,11 @@ function AppRoutes() {
             <Route
                 path="/blog/fresher-job-search-guide"
                 element={<FresherJobSearchGuide />}
+            />
+
+            <Route
+                path="/blog/linkedin-profile-guide-for-students"
+                element={<LinkedInProfileGuide />}
             />
 
             {/* Public Portfolio */}

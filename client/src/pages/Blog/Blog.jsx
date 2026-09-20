@@ -59,6 +59,14 @@ const blogPosts = [
             "Learn how freshers can find jobs using LinkedIn, job portals, networking, referrals, resume customization, and a structured job search strategy.",
         link: "/blog/fresher-job-search-guide",
     },
+
+    {
+        category: "LinkedIn",
+        title: "How to Build a Strong LinkedIn Profile as a Student or Fresher",
+        description:
+            "Learn how students and freshers can optimize LinkedIn, showcase projects and skills, build professional connections, and find internships and jobs.",
+        link: "/blog/linkedin-profile-guide-for-students",
+    },
 ];
 
 function Blog() {
