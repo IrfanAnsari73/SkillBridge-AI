@@ -69,6 +69,14 @@ const blogPosts = [
     },
 
     {
+        category: "Projects",
+        title: "How to Build Projects for Your Resume as a Fresher",
+        description:
+            "Learn how to choose useful projects, build practical features, showcase your work on GitHub, and present projects effectively on your resume and in interviews.",
+        link: "/blog/how-to-build-projects-for-resume-as-a-fresher",
+    },
+
+    {
         category: "LinkedIn",
         title: "How to Build a Strong LinkedIn Profile as a Student or Fresher",
         description:
