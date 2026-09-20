@@ -1,139 +1,109 @@
+import React from "react";
 import { Routes, Route } from "react-router-dom";
 
-// ===============================
-// PUBLIC PAGES
-// ===============================
+// ==============================
+// Common
+// ==============================
+import ProtectedRoute from "../components/auth/ProtectedRoute";
 
+// ==============================
+// Public Pages
+// ==============================
 import Home from "../pages/Home/Home";
 import About from "../pages/About/About";
 import Contact from "../pages/Contact/Contact";
+import Login from "../pages/Login/Login";
+import Signup from "../pages/Signup/Signup";
+
+// ==============================
+// Legal Pages
+// ==============================
+import PrivacyPolicy from "../pages/PrivacyPolicy/PrivacyPolicy";
+import Terms from "../pages/Terms/Terms";
+import CookiePolicy from "../pages/CookiePolicy/CookiePolicy";
+
+// ==============================
+// Public Resources
+// ==============================
 import Resources from "../pages/Resources/Resources";
 import ATSResumeGuide from "../pages/Resources/ATSResumeGuide/ATSResumeGuide";
 import TechnicalInterviewGuide from "../pages/Resources/TechnicalInterviewGuide/TechnicalInterviewGuide";
 import MernRoadmap from "../pages/Resources/MernRoadmap/MernRoadmap";
 import CareerGuide from "../pages/Resources/CareerGuide/CareerGuide";
+
+// ==============================
+// FAQ & Blog
+// ==============================
 import FAQ from "../pages/FAQ/FAQ";
 import Blog from "../pages/Blog/Blog";
 import InternshipGuide from "../pages/Blog/InternshipGuide/InternshipGuide";
-import PrivacyPolicy from "../pages/PrivacyPolicy/PrivacyPolicy";
-import Terms from "../pages/Terms/Terms";
-import CookiePolicy from "../pages/CookiePolicy/CookiePolicy";
+import CampusPlacementGuide from "../pages/Blog/CampusPlacementGuide/CampusPlacementGuide";
 
-// ===============================
-// AUTH
-// ===============================
-
-import Login from "../pages/Login/Login";
-import Signup from "../pages/Signup/Signup";
-
-// ===============================
-// LAYOUT
-// ===============================
-
-import DashboardLayout from "../components/layout/DashboardLayout";
-
-// ===============================
-// DASHBOARD
-// ===============================
-
-import Dashboard from "../pages/Dashboard/Dashboard";
-
-// ===============================
-// PROFILE
-// ===============================
-
-import Profile from "../pages/Profile/Profile";
-
-// ===============================
-// SKILLS
-// ===============================
-
-import Skills from "../pages/Skills/Skills";
-
-// ===============================
-// PROJECTS
-// ===============================
-
-import Projects from "../pages/Projects/Projects";
-
-// ===============================
-// CERTIFICATES
-// ===============================
-
-import Certificates from "../pages/Certificates/Certificates";
-
-// ===============================
-// RESUME
-// ===============================
-
-import Resume from "../pages/Resume/Resume";
-
-// ===============================
-// PORTFOLIO
-// ===============================
-
-import Portfolio from "../pages/Portfolio/Portfolio";
+// ==============================
+// Public Portfolio
+// ==============================
 import PublicPortfolio from "../pages/PublicPortfolio/PublicPortfolio";
 
-// ===============================
-// CAREER
-// ===============================
+// ==============================
+// Protected Pages
+// ==============================
+import Dashboard from "../pages/Dashboard/Dashboard";
+import Profile from "../pages/Profile/Profile";
+import Skills from "../pages/Skills/Skills";
+import Projects from "../pages/Projects/Projects";
+import Certificates from "../pages/Certificates/Certificates";
+import Resume from "../pages/Resume/Resume";
+import Portfolio from "../pages/Portfolio/Portfolio";
 
+// Career
 import CareerAdvisor from "../pages/Career/CareerAdvisor";
 import CareerRoadmap from "../pages/Career/CareerRoadmap";
 import CareerActionCenter from "../pages/Career/CareerActionCenter";
 import CareerGoals from "../pages/Career/CareerGoals";
 
-// ===============================
-// JOBS
-// ===============================
+// Analytics
+import CareerAnalytics from "../pages/Analytics/CareerAnalytics";
 
+// Jobs
 import JobMatcher from "../pages/Jobs/JobMatcher";
 import JobApplications from "../pages/Jobs/JobApplications";
 import ApplicationInsights from "../pages/Jobs/ApplicationInsights";
 
-// ===============================
-// INTERVIEW
-// ===============================
-
+// Interview
 import MockInterview from "../pages/Interview/MockInterview";
 
-// ===============================
-// ANALYTICS
-// ===============================
-
-import CareerAnalytics from "../pages/Analytics/CareerAnalytics";
-
-// ===============================
-// PROTECTED ROUTE
-// ===============================
-
-import ProtectedRoute from "../components/auth/ProtectedRoute";
-
-const AppRoutes = () => {
+function AppRoutes() {
     return (
         <Routes>
 
-            {/* =================================
+            {/* =========================================
                 PUBLIC ROUTES
-            ================================= */}
+            ========================================= */}
 
-            {/* Home */}
+            <Route path="/" element={<Home />} />
+
+            <Route path="/about" element={<About />} />
+
+            <Route path="/contact" element={<Contact />} />
+
+            <Route path="/login" element={<Login />} />
+
+            <Route path="/signup" element={<Signup />} />
+
+            {/* Legal */}
             <Route
-                path="/"
-                element={<Home />}
+                path="/privacy-policy"
+                element={<PrivacyPolicy />}
             />
 
-            {/* About */}
             <Route
-                path="/about"
-                element={<About />}
+                path="/terms"
+                element={<Terms />}
             />
 
-            {/* Contact */}
             <Route
-                path="/contact"
-                element={<Contact />}
+                path="/cookie-policy"
+                element={<CookiePolicy />}
             />
 
             {/* Resources */}
@@ -141,6 +111,27 @@ const AppRoutes = () => {
                 path="/resources"
                 element={<Resources />}
             />
+
+            <Route
+                path="/resources/ats-friendly-resume-for-freshers"
+                element={<ATSResumeGuide />}
+            />
+
+            <Route
+                path="/resources/technical-interview-preparation-for-freshers"
+                element={<TechnicalInterviewGuide />}
+            />
+
+            <Route
+                path="/resources/mern-stack-developer-roadmap"
+                element={<MernRoadmap />}
+            />
+
+            <Route
+                path="/resources/career-guides-for-students"
+                element={<CareerGuide />}
+            />
+
             {/* FAQ */}
             <Route
                 path="/faq"
@@ -153,63 +144,14 @@ const AppRoutes = () => {
                 element={<Blog />}
             />
 
-            {/* how-to-find-first-internship-as-a-college-student */}
             <Route
                 path="/blog/how-to-find-first-internship-as-a-college-student"
                 element={<InternshipGuide />}
             />
 
-            {/* ATS Resume Guide */}
             <Route
-                path="/resources/ats-friendly-resume-for-freshers"
-                element={<ATSResumeGuide />}
-            />
-
-            {/* Technical Interview Guide */}
-            <Route
-                path="/resources/technical-interview-preparation-for-freshers"
-                element={<TechnicalInterviewGuide />}
-            />
-
-            {/* MERN Stack Developer Roadmap */}
-            <Route
-                path="/resources/mern-stack-developer-roadmap"
-                element={<MernRoadmap />}
-            />
-
-            <Route
-                path="/resources/career-guides-for-students"
-                element={<CareerGuide />}
-            />
-
-            {/* Privacy Policy */}
-            <Route
-                path="/privacy-policy"
-                element={<PrivacyPolicy />}
-            />
-
-            {/* Terms & Conditions */}
-            <Route
-                path="/terms"
-                element={<Terms />}
-            />
-
-            {/* Cookie Policy */}
-            <Route
-                path="/cookie-policy"
-                element={<CookiePolicy />}
-            />
-
-            {/* Login */}
-            <Route
-                path="/login"
-                element={<Login />}
-            />
-
-            {/* Signup */}
-            <Route
-                path="/signup"
-                element={<Signup />}
+                path="/blog/how-to-prepare-for-campus-placements"
+                element={<CampusPlacementGuide />}
             />
 
             {/* Public Portfolio */}
@@ -218,233 +160,112 @@ const AppRoutes = () => {
                 element={<PublicPortfolio />}
             />
 
-            {/* =================================
+            {/* =========================================
                 PROTECTED ROUTES
-            ================================= */}
+            ========================================= */}
 
             <Route element={<ProtectedRoute />}>
 
-                {/* =========================
-                    DASHBOARD
-                ========================= */}
-
+                {/* Dashboard */}
                 <Route
                     path="/dashboard"
-                    element={
-                        <DashboardLayout>
-                            <Dashboard />
-                        </DashboardLayout>
-                    }
+                    element={<Dashboard />}
                 />
 
-                {/* =========================
-                    PROFILE
-                ========================= */}
-
+                {/* Profile */}
                 <Route
                     path="/profile"
-                    element={
-                        <DashboardLayout>
-                            <Profile />
-                        </DashboardLayout>
-                    }
+                    element={<Profile />}
                 />
 
-                {/* =========================
-                    SKILLS
-                ========================= */}
-
+                {/* Skills */}
                 <Route
                     path="/skills"
-                    element={
-                        <DashboardLayout>
-                            <Skills />
-                        </DashboardLayout>
-                    }
+                    element={<Skills />}
                 />
 
-                {/* =========================
-                    PROJECTS
-                ========================= */}
-
+                {/* Projects */}
                 <Route
                     path="/projects"
-                    element={
-                        <DashboardLayout>
-                            <Projects />
-                        </DashboardLayout>
-                    }
+                    element={<Projects />}
                 />
 
-                {/* =========================
-                    CERTIFICATES
-                ========================= */}
-
+                {/* Certificates */}
                 <Route
                     path="/certificates"
-                    element={
-                        <DashboardLayout>
-                            <Certificates />
-                        </DashboardLayout>
-                    }
+                    element={<Certificates />}
                 />
 
-                {/* =========================
-                    RESUME
-                ========================= */}
-
+                {/* Resume */}
                 <Route
                     path="/resume"
-                    element={
-                        <DashboardLayout>
-                            <Resume />
-                        </DashboardLayout>
-                    }
+                    element={<Resume />}
                 />
 
-                {/* =========================
-                    PORTFOLIO
-                ========================= */}
-
+                {/* Portfolio */}
                 <Route
                     path="/portfolio"
-                    element={
-                        <DashboardLayout>
-                            <Portfolio />
-                        </DashboardLayout>
-                    }
+                    element={<Portfolio />}
                 />
 
-                {/* =========================
-                    CAREER ADVISOR
-                ========================= */}
-
+                {/* Career Advisor */}
                 <Route
                     path="/career-advisor"
-                    element={
-                        <DashboardLayout>
-                            <CareerAdvisor />
-                        </DashboardLayout>
-                    }
+                    element={<CareerAdvisor />}
                 />
 
-                {/* =========================
-                    CAREER ROADMAP
-                ========================= */}
-
+                {/* Career Roadmap */}
                 <Route
                     path="/career-roadmap"
-                    element={
-                        <DashboardLayout>
-                            <CareerRoadmap />
-                        </DashboardLayout>
-                    }
+                    element={<CareerRoadmap />}
                 />
 
-                {/* =========================
-                    CAREER ACTION CENTER
-                ========================= */}
-
-                <Route
-                    path="/career-actions"
-                    element={
-                        <DashboardLayout>
-                            <CareerActionCenter />
-                        </DashboardLayout>
-                    }
-                />
-
-                {/* =========================
-                    CAREER GOALS
-                ========================= */}
-
-                <Route
-                    path="/career-goals"
-                    element={
-                        <DashboardLayout>
-                            <CareerGoals />
-                        </DashboardLayout>
-                    }
-                />
-
-                {/* =========================
-                    JOB MATCHER
-                ========================= */}
-
-                <Route
-                    path="/job-matcher"
-                    element={
-                        <DashboardLayout>
-                            <JobMatcher />
-                        </DashboardLayout>
-                    }
-                />
-
-                {/* =========================
-                    MOCK INTERVIEW
-                ========================= */}
-
-                <Route
-                    path="/mock-interview"
-                    element={
-                        <DashboardLayout>
-                            <MockInterview />
-                        </DashboardLayout>
-                    }
-                />
-
-                {/* =========================
-                    CAREER ANALYTICS
-                ========================= */}
-
+                {/* Career Analytics */}
                 <Route
                     path="/career-analytics"
-                    element={
-                        <DashboardLayout>
-                            <CareerAnalytics />
-                        </DashboardLayout>
-                    }
+                    element={<CareerAnalytics />}
                 />
 
-                {/* =========================
-                    JOB APPLICATIONS
-                ========================= */}
+                {/* Career Action Center */}
+                <Route
+                    path="/career-action-center"
+                    element={<CareerActionCenter />}
+                />
 
+                {/* Career Goals */}
+                <Route
+                    path="/career-goals"
+                    element={<CareerGoals />}
+                />
+
+                {/* Job Matcher */}
+                <Route
+                    path="/job-matcher"
+                    element={<JobMatcher />}
+                />
+
+                {/* Job Applications */}
                 <Route
                     path="/job-applications"
-                    element={
-                        <DashboardLayout>
-                            <JobApplications />
-                        </DashboardLayout>
-                    }
+                    element={<JobApplications />}
                 />
 
-                {/* =========================
-                    AI APPLICATION INSIGHTS
-                ========================= */}
-
+                {/* Application Insights */}
                 <Route
                     path="/application-insights"
-                    element={
-                        <DashboardLayout>
-                            <ApplicationInsights />
-                        </DashboardLayout>
-                    }
+                    element={<ApplicationInsights />}
+                />
+
+                {/* Mock Interview */}
+                <Route
+                    path="/mock-interview"
+                    element={<MockInterview />}
                 />
 
             </Route>
 
-            {/* =================================
-                FALLBACK
-            ================================= */}
-
-            <Route
-                path="*"
-                element={<Home />}
-            />
-
         </Routes>
     );
-};
+}
 
 export default AppRoutes;

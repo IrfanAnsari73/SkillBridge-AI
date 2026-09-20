@@ -43,6 +43,14 @@ const blogPosts = [
             "Learn how to find internships, build relevant skills, prepare your resume, use LinkedIn, apply strategically, and prepare for interviews.",
         link: "/blog/how-to-find-first-internship-as-a-college-student",
     },
+
+    {
+        category: "Placement",
+        title: "How to Prepare for Campus Placements as a College Student",
+        description:
+            "Learn how to prepare for campus placements with a strong resume, coding practice, aptitude preparation, technical interviews, HR interviews, and projects.",
+        link: "/blog/how-to-prepare-for-campus-placements",
+    },
 ];
 
 function Blog() {
@@ -51,7 +59,7 @@ function Blog() {
 
             <SEO
                 title="Career Blog for Students & Freshers — SkillBridge AI"
-                description="Explore practical career articles and guides on resumes, technical interviews, internships, job preparation, and software development for students and freshers."
+                description="Explore practical career articles and guides on resumes, technical interviews, internships, campus placements, job preparation, and software development for students and freshers."
                 canonical="https://skill-bridge-ai-sage.vercel.app/blog"
             />
 
@@ -83,7 +91,7 @@ function Blog() {
                     <p className="mx-auto mt-5 max-w-3xl text-base leading-7 text-slate-300 md:text-lg">
                         Practical career guidance for students and freshers
                         covering resumes, interviews, internships, development,
-                        and job preparation.
+                        placements, and job preparation.
                     </p>
 
                     <div className="mt-7 flex flex-wrap justify-center gap-3">
