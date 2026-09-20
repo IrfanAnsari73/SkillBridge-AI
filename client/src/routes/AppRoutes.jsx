@@ -41,6 +41,7 @@ import CampusPlacementGuide from "../pages/Blog/CampusPlacementGuide/CampusPlace
 import FresherJobSearchGuide from "../pages/Blog/FresherJobSearchGuide/FresherJobSearchGuide";
 import LinkedInProfileGuide from "../pages/Blog/LinkedInProfileGuide/LinkedInProfileGuide";
 import FirstJobInterviewGuide from "../pages/Blog/FirstJobInterviewGuide/FirstJobInterviewGuide";
+import ProjectResumeGuide from "../pages/Blog/ProjectResumeGuide/ProjectResumeGuide";
 
 // ==============================
 // Public Portfolio
@@ -163,14 +164,20 @@ function AppRoutes() {
             />
 
             <Route
+                path="/blog/first-job-interview-guide-for-freshers"
+                element={<FirstJobInterviewGuide />}
+            />
+
+            <Route
+                path="/blog/how-to-build-projects-for-resume-as-a-fresher"
+                element={<ProjectResumeGuide />}
+            />
+
+            <Route
                 path="/blog/linkedin-profile-guide-for-students"
                 element={<LinkedInProfileGuide />}
             />
 
-            <Route
-                path="/blog/first-job-interview-guide-for-freshers"
-                element={<FirstJobInterviewGuide />}
-            />
 
             {/* Public Portfolio */}
             <Route
