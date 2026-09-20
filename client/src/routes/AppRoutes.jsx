@@ -38,6 +38,7 @@ import FAQ from "../pages/FAQ/FAQ";
 import Blog from "../pages/Blog/Blog";
 import InternshipGuide from "../pages/Blog/InternshipGuide/InternshipGuide";
 import CampusPlacementGuide from "../pages/Blog/CampusPlacementGuide/CampusPlacementGuide";
+import FresherJobSearchGuide from "../pages/Blog/FresherJobSearchGuide/FresherJobSearchGuide";
 
 // ==============================
 // Public Portfolio
@@ -152,6 +153,11 @@ function AppRoutes() {
             <Route
                 path="/blog/how-to-prepare-for-campus-placements"
                 element={<CampusPlacementGuide />}
+            />
+
+            <Route
+                path="/blog/fresher-job-search-guide"
+                element={<FresherJobSearchGuide />}
             />
 
             {/* Public Portfolio */}

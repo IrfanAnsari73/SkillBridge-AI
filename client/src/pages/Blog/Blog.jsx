@@ -51,6 +51,14 @@ const blogPosts = [
             "Learn how to prepare for campus placements with a strong resume, coding practice, aptitude preparation, technical interviews, HR interviews, and projects.",
         link: "/blog/how-to-prepare-for-campus-placements",
     },
+
+    {
+        category: "Jobs",
+        title: "Fresher Job Search Guide: How to Find Your First Job After College",
+        description:
+            "Learn how freshers can find jobs using LinkedIn, job portals, networking, referrals, resume customization, and a structured job search strategy.",
+        link: "/blog/fresher-job-search-guide",
+    },
 ];
 
 function Blog() {
