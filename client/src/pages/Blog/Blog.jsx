@@ -61,6 +61,14 @@ const blogPosts = [
     },
 
     {
+        category: "Interview",
+        title: "First Job Interview Guide for Freshers",
+        description:
+            "Learn how freshers can prepare for their first job interview, answer common questions, present projects confidently, and improve their interview performance.",
+        link: "/blog/first-job-interview-guide-for-freshers",
+    },
+
+    {
         category: "LinkedIn",
         title: "How to Build a Strong LinkedIn Profile as a Student or Fresher",
         description:
