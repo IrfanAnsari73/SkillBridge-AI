@@ -42,6 +42,7 @@ import FresherJobSearchGuide from "../pages/Blog/FresherJobSearchGuide/FresherJo
 import LinkedInProfileGuide from "../pages/Blog/LinkedInProfileGuide/LinkedInProfileGuide";
 import FirstJobInterviewGuide from "../pages/Blog/FirstJobInterviewGuide/FirstJobInterviewGuide";
 import ProjectResumeGuide from "../pages/Blog/ProjectResumeGuide/ProjectResumeGuide";
+import GitHubProfileGuide from "../pages/Blog/GitHubProfileGuide/GitHubProfileGuide";
 
 // ==============================
 // Public Portfolio
@@ -171,6 +172,11 @@ function AppRoutes() {
             <Route
                 path="/blog/how-to-build-projects-for-resume-as-a-fresher"
                 element={<ProjectResumeGuide />}
+            />
+
+            <Route
+                path="/blog/github-profile-guide-for-students"
+                element={<GitHubProfileGuide />}
             />
 
             <Route

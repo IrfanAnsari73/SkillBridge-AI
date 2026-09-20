@@ -77,6 +77,14 @@ const blogPosts = [
     },
 
     {
+        category: "GitHub",
+        title: "How to Build a Strong GitHub Profile as a Fresher",
+        description:
+            "Learn how to create a professional GitHub profile, organize repositories, write better README files, showcase projects, and use GitHub for internships and jobs.",
+        link: "/blog/github-profile-guide-for-students",
+    },
+
+    {
         category: "LinkedIn",
         title: "How to Build a Strong LinkedIn Profile as a Student or Fresher",
         description:
