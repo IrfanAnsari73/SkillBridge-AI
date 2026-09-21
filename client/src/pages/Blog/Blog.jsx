@@ -85,6 +85,14 @@ const blogPosts = [
     },
 
     {
+        category: "Coding",
+        title: "How to Prepare for Coding Tests as a Fresher",
+        description:
+            "Learn how to prepare for coding tests and online assessments with programming fundamentals, DSA, problem-solving practice, time management, and a structured preparation strategy.",
+        link: "/blog/coding-test-preparation-for-freshers",
+    },
+
+    {
         category: "LinkedIn",
         title: "How to Build a Strong LinkedIn Profile as a Student or Fresher",
         description:

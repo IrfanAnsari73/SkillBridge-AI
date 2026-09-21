@@ -43,6 +43,7 @@ import LinkedInProfileGuide from "../pages/Blog/LinkedInProfileGuide/LinkedInPro
 import FirstJobInterviewGuide from "../pages/Blog/FirstJobInterviewGuide/FirstJobInterviewGuide";
 import ProjectResumeGuide from "../pages/Blog/ProjectResumeGuide/ProjectResumeGuide";
 import GitHubProfileGuide from "../pages/Blog/GitHubProfileGuide/GitHubProfileGuide";
+import CodingTestGuide from "../pages/Blog/CodingTestGuide/CodingTestGuide";
 
 // ==============================
 // Public Portfolio
@@ -177,6 +178,11 @@ function AppRoutes() {
             <Route
                 path="/blog/github-profile-guide-for-students"
                 element={<GitHubProfileGuide />}
+            />
+
+            <Route
+                path="/blog/coding-test-preparation-for-freshers"
+                element={<CodingTestGuide />}
             />
 
             <Route
