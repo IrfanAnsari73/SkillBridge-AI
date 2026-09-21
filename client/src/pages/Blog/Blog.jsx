@@ -101,6 +101,14 @@ const blogPosts = [
     },
 
     {
+        category: "Career Safety",
+        title: "How to Identify Fake Job & Internship Offers",
+        description:
+            "Learn how students and freshers can verify recruiters, recognize suspicious job offers, avoid payment scams, and protect their personal information.",
+        link: "/blog/how-to-identify-fake-job-internship-offers",
+    },
+
+    {
         category: "LinkedIn",
         title: "How to Build a Strong LinkedIn Profile as a Student or Fresher",
         description:

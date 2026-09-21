@@ -45,6 +45,7 @@ import ProjectResumeGuide from "../pages/Blog/ProjectResumeGuide/ProjectResumeGu
 import GitHubProfileGuide from "../pages/Blog/GitHubProfileGuide/GitHubProfileGuide";
 import CodingTestGuide from "../pages/Blog/CodingTestGuide/CodingTestGuide";
 import HRInterviewGuide from "../pages/Blog/HRInterviewGuide/HRInterviewGuide";
+import FakeJobScamGuide from "../pages/Blog/FakeJobScamGuide/FakeJobScamGuide";
 
 // ==============================
 // Public Portfolio
@@ -196,6 +197,10 @@ function AppRoutes() {
                 element={<LinkedInProfileGuide />}
             />
 
+            <Route
+                path="/blog/how-to-identify-fake-job-internship-offers"
+                element={<FakeJobScamGuide />}
+            />
 
             {/* Public Portfolio */}
             <Route
