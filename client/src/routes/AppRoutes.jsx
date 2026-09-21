@@ -44,6 +44,7 @@ import FirstJobInterviewGuide from "../pages/Blog/FirstJobInterviewGuide/FirstJo
 import ProjectResumeGuide from "../pages/Blog/ProjectResumeGuide/ProjectResumeGuide";
 import GitHubProfileGuide from "../pages/Blog/GitHubProfileGuide/GitHubProfileGuide";
 import CodingTestGuide from "../pages/Blog/CodingTestGuide/CodingTestGuide";
+import HRInterviewGuide from "../pages/Blog/HRInterviewGuide/HRInterviewGuide";
 
 // ==============================
 // Public Portfolio
@@ -183,6 +184,11 @@ function AppRoutes() {
             <Route
                 path="/blog/coding-test-preparation-for-freshers"
                 element={<CodingTestGuide />}
+            />
+
+            <Route
+                path="/blog/hr-interview-questions-for-freshers"
+                element={<HRInterviewGuide />}
             />
 
             <Route

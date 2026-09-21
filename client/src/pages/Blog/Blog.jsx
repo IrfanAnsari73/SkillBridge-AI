@@ -93,6 +93,14 @@ const blogPosts = [
     },
 
     {
+        category: "Interview",
+        title: "HR Interview Questions for Freshers",
+        description:
+            "Learn how freshers can prepare for HR interviews, answer common questions, explain their strengths, discuss projects, and confidently approach their first job interview.",
+        link: "/blog/hr-interview-questions-for-freshers",
+    },
+
+    {
         category: "LinkedIn",
         title: "How to Build a Strong LinkedIn Profile as a Student or Fresher",
         description:
