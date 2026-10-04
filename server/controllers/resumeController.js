@@ -3,6 +3,12 @@ const fs = require("fs");
 const path = require("path");
 const { PDFParse } = require("pdf-parse");
 
+// AI usage service
+const {
+    checkAIUsage,
+    consumeAIUsage,
+    refundAIUsage,
+} = require("../services/aiUsageService");
 
 // =====================================================
 // UPLOAD / REPLACE RESUME
@@ -76,7 +82,6 @@ const uploadResume = async (req, res) => {
             message: "Resume uploaded successfully",
             resume,
         });
-
     } catch (error) {
         console.error(
             "Upload Resume Error:",
@@ -88,7 +93,6 @@ const uploadResume = async (req, res) => {
         });
     }
 };
-
 
 // =====================================================
 // GET OWN RESUME
@@ -109,7 +113,6 @@ const getResume = async (req, res) => {
         return res.status(200).json({
             resume,
         });
-
     } catch (error) {
         console.error(
             "Get Resume Error:",
@@ -121,7 +124,6 @@ const getResume = async (req, res) => {
         });
     }
 };
-
 
 // =====================================================
 // GET PUBLIC RESUME
@@ -144,7 +146,6 @@ const getPublicResume = async (req, res) => {
         return res.status(200).json({
             resume,
         });
-
     } catch (error) {
         console.error(
             "Get Public Resume Error:",
@@ -156,7 +157,6 @@ const getPublicResume = async (req, res) => {
         });
     }
 };
-
 
 // =====================================================
 // DOWNLOAD PUBLIC RESUME
@@ -198,7 +198,6 @@ const downloadPublicResume = async (req, res) => {
                 }
             }
         );
-
     } catch (error) {
         console.error(
             "Download Public Resume Error:",
@@ -210,7 +209,6 @@ const downloadPublicResume = async (req, res) => {
         });
     }
 };
-
 
 // =====================================================
 // DOWNLOAD OWN RESUME
@@ -252,7 +250,6 @@ const downloadResume = async (req, res) => {
                 }
             }
         );
-
     } catch (error) {
         console.error(
             "Download Resume Error:",
@@ -264,7 +261,6 @@ const downloadResume = async (req, res) => {
         });
     }
 };
-
 
 // =====================================================
 // DELETE RESUME
@@ -297,7 +293,6 @@ const deleteResume = async (req, res) => {
         return res.status(200).json({
             message: "Resume deleted successfully",
         });
-
     } catch (error) {
         console.error(
             "Delete Resume Error:",
@@ -310,29 +305,55 @@ const deleteResume = async (req, res) => {
     }
 };
 
-
 // =====================================================
 // AI RESUME ANALYZER - GEMINI
 // =====================================================
 
 const analyzeResume = async (req, res) => {
-
     let parser = null;
 
-    try {
+    // Tracks whether an AI credit was actually consumed.
+    // If Gemini/API processing fails afterwards,
+    // the credit will be refunded.
+    let usageConsumed = false;
 
+    const AI_FEATURE = "resume-analyzer";
+
+    try {
         // ---------------------------------------------
         // CHECK GEMINI API KEY
         // ---------------------------------------------
 
         if (!process.env.GEMINI_API_KEY) {
-
             return res.status(500).json({
                 message:
                     "Gemini API key is not configured on the server.",
             });
         }
 
+        // ---------------------------------------------
+        // CHECK AI USAGE LIMIT
+        // ---------------------------------------------
+
+        const usageStatus = await checkAIUsage(
+            req.user,
+            AI_FEATURE
+        );
+
+        if (!usageStatus.allowed) {
+            return res.status(429).json({
+                message:
+                    "You have reached your monthly AI Resume Analyzer limit.",
+                code: "AI_LIMIT_REACHED",
+                feature: AI_FEATURE,
+                plan: usageStatus.plan,
+                usage: usageStatus.usageCount,
+                limit: usageStatus.limit,
+                remaining: 0,
+                upgradeRequired:
+                    usageStatus.plan === "free",
+            });
+        }
 
         // ---------------------------------------------
         // FIND USER RESUME
@@ -343,13 +364,11 @@ const analyzeResume = async (req, res) => {
         });
 
         if (!resume) {
-
             return res.status(404).json({
                 message:
                     "Please upload a resume first.",
             });
         }
-
 
         // ---------------------------------------------
         // PDF ONLY
@@ -359,13 +378,11 @@ const analyzeResume = async (req, res) => {
             resume.mimeType !==
             "application/pdf"
         ) {
-
             return res.status(400).json({
                 message:
                     "AI Resume Analyzer currently supports PDF resumes only.",
             });
         }
-
 
         // ---------------------------------------------
         // RESUME FILE PATH
@@ -377,15 +394,12 @@ const analyzeResume = async (req, res) => {
             resume.fileName
         );
 
-
         if (!fs.existsSync(filePath)) {
-
             return res.status(404).json({
                 message:
                     "Resume file not found.",
             });
         }
-
 
         // ---------------------------------------------
         // READ PDF
@@ -393,7 +407,6 @@ const analyzeResume = async (req, res) => {
 
         const pdfBuffer =
             fs.readFileSync(filePath);
-
 
         // ---------------------------------------------
         // EXTRACT TEXT FROM PDF
@@ -406,24 +419,46 @@ const analyzeResume = async (req, res) => {
         const pdfData =
             await parser.getText();
 
-
         const resumeText =
             pdfData.text.trim();
 
-
         if (!resumeText) {
-
             return res.status(400).json({
                 message:
                     "Could not extract text from this resume PDF.",
             });
         }
 
-
         console.log(
             "Resume text extracted successfully."
         );
 
+        // ---------------------------------------------
+        // CONSUME AI USAGE
+        // ---------------------------------------------
+
+        const consumedUsage =
+            await consumeAIUsage(
+                req.user,
+                AI_FEATURE
+            );
+
+        if (!consumedUsage.allowed) {
+            return res.status(429).json({
+                message:
+                    "You have reached your monthly AI Resume Analyzer limit.",
+                code: "AI_LIMIT_REACHED",
+                feature: AI_FEATURE,
+                plan: consumedUsage.plan,
+                usage: consumedUsage.usageCount,
+                limit: consumedUsage.limit,
+                remaining: 0,
+                upgradeRequired:
+                    consumedUsage.plan === "free",
+            });
+        }
+
+        usageConsumed = true;
 
         // ---------------------------------------------
         // LOAD GEMINI SDK
@@ -431,7 +466,6 @@ const analyzeResume = async (req, res) => {
 
         const { GoogleGenAI } =
             await import("@google/genai");
-
 
         // ---------------------------------------------
         // CREATE GEMINI CLIENT
@@ -441,7 +475,6 @@ const analyzeResume = async (req, res) => {
             apiKey:
                 process.env.GEMINI_API_KEY,
         });
-
 
         // ---------------------------------------------
         // AI PROMPT
@@ -517,29 +550,24 @@ Important rules:
 13. Keep the response concise but useful.
 `;
 
-
         // ---------------------------------------------
         // GEMINI STRUCTURED RESPONSE
         // ---------------------------------------------
 
         const response =
             await ai.models.generateContent({
-
                 model: "gemini-3.6-flash",
 
                 contents: prompt,
 
                 config: {
-
                     responseMimeType:
                         "application/json",
 
                     responseSchema: {
-
                         type: "object",
 
                         properties: {
-
                             score: {
                                 type: "integer",
                                 minimum: 0,
@@ -608,7 +636,6 @@ Important rules:
                 },
             });
 
-
         // ---------------------------------------------
         // GET GEMINI RESPONSE
         // ---------------------------------------------
@@ -616,21 +643,16 @@ Important rules:
         const aiText =
             response.text;
 
-
         console.log(
             "Gemini Response:",
             aiText
         );
 
-
         if (!aiText) {
-
-            return res.status(500).json({
-                message:
-                    "Gemini returned an empty response.",
-            });
+            throw new Error(
+                "Gemini returned an empty response."
+            );
         }
-
 
         // ---------------------------------------------
         // PARSE JSON
@@ -638,14 +660,10 @@ Important rules:
 
         let analysis;
 
-
         try {
-
             analysis =
                 JSON.parse(aiText);
-
         } catch (parseError) {
-
             console.error(
                 "Gemini JSON Parse Error:",
                 parseError
@@ -656,12 +674,10 @@ Important rules:
                 aiText
             );
 
-            return res.status(500).json({
-                message:
-                    "AI returned an invalid analysis format.",
-            });
+            throw new Error(
+                "AI returned an invalid analysis format."
+            );
         }
-
 
         // ---------------------------------------------
         // VALIDATE SCORE
@@ -669,7 +685,6 @@ Important rules:
 
         analysis.score =
             Number(analysis.score) || 0;
-
 
         analysis.score =
             Math.max(
@@ -680,7 +695,6 @@ Important rules:
                 )
             );
 
-
         // ---------------------------------------------
         // VALIDATE SUMMARY
         // ---------------------------------------------
@@ -689,7 +703,6 @@ Important rules:
             typeof analysis.summary === "string"
                 ? analysis.summary
                 : "";
-
 
         // ---------------------------------------------
         // VALIDATE SKILLS
@@ -702,7 +715,6 @@ Important rules:
                 ? analysis.skills
                 : [];
 
-
         // ---------------------------------------------
         // VALIDATE STRENGTHS
         // ---------------------------------------------
@@ -713,7 +725,6 @@ Important rules:
             )
                 ? analysis.strengths
                 : [];
-
 
         // ---------------------------------------------
         // VALIDATE WEAKNESSES
@@ -726,7 +737,6 @@ Important rules:
                 ? analysis.weaknesses
                 : [];
 
-
         // ---------------------------------------------
         // VALIDATE IMPROVEMENTS
         // ---------------------------------------------
@@ -737,7 +747,6 @@ Important rules:
             )
                 ? analysis.improvements
                 : [];
-
 
         // ---------------------------------------------
         // VALIDATE ATS KEYWORDS
@@ -750,49 +759,70 @@ Important rules:
                 ? analysis.atsKeywords
                 : [];
 
-
         // ---------------------------------------------
         // SUCCESS RESPONSE
         // ---------------------------------------------
 
         return res.status(200).json({
-
             message:
                 "AI resume analysis completed successfully.",
 
             analysis,
+
+            usage: {
+                feature: AI_FEATURE,
+                plan: req.user.plan,
+                used: consumedUsage.usageCount,
+                limit: consumedUsage.limit,
+                remaining:
+                    consumedUsage.remaining,
+            },
         });
 
-
     } catch (error) {
-
         console.error(
             "Analyze Resume Error:",
             error
         );
 
+        // ---------------------------------------------
+        // REFUND AI CREDIT ON FAILURE
+        // ---------------------------------------------
+
+        if (usageConsumed) {
+            try {
+                const refundedUsage =
+                    await refundAIUsage(
+                        req.user,
+                        AI_FEATURE
+                    );
+
+                console.log(
+                    "AI usage refunded:",
+                    refundedUsage
+                );
+            } catch (refundError) {
+                console.error(
+                    "AI Usage Refund Error:",
+                    refundError
+                );
+            }
+        }
 
         return res.status(500).json({
-
             message:
                 "Failed to analyze resume with AI.",
         });
 
-
     } finally {
-
         // ---------------------------------------------
         // CLEAN PDF PARSER
         // ---------------------------------------------
 
         if (parser) {
-
             try {
-
                 await parser.destroy();
-
             } catch (destroyError) {
-
                 console.error(
                     "PDF Parser Cleanup Error:",
                     destroyError
@@ -802,24 +832,16 @@ Important rules:
     }
 };
 
-
 // =====================================================
 // EXPORTS
 // =====================================================
 
 module.exports = {
-
     uploadResume,
-
     getResume,
-
     getPublicResume,
-
     downloadPublicResume,
-
     downloadResume,
-
     deleteResume,
-
     analyzeResume,
 };

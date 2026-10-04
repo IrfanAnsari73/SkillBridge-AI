@@ -8,6 +8,11 @@ const path = require("path");
 
 const { PDFParse } = require("pdf-parse");
 
+const {
+    checkAIUsage,
+    consumeAIUsage,
+    refundAIUsage,
+} = require("../services/aiUsageService");
 
 // =====================================================
 // AI CAREER ADVISOR
@@ -15,9 +20,9 @@ const { PDFParse } = require("pdf-parse");
 
 const getCareerRecommendations = async (req, res) => {
     let parser = null;
+    let usageConsumed = false;
 
     try {
-
         // =================================================
         // CHECK GEMINI API KEY
         // =================================================
@@ -29,13 +34,47 @@ const getCareerRecommendations = async (req, res) => {
             });
         }
 
-
         // =================================================
         // GET USER ID
         // =================================================
 
         const userId = req.user._id;
 
+        // =================================================
+        // CHECK AI USAGE LIMIT
+        // =================================================
+
+        const usageStatus = await checkAIUsage(
+            req.user,
+            "career-advisor"
+        );
+
+        if (!usageStatus.allowed) {
+            return res.status(429).json({
+                message:
+                    "Career Advisor monthly AI limit reached. Please try again next month or upgrade your plan.",
+                usage: usageStatus,
+            });
+        }
+
+        // =================================================
+        // CONSUME AI USAGE
+        // =================================================
+
+        const consumedUsage = await consumeAIUsage(
+            req.user,
+            "career-advisor"
+        );
+
+        if (!consumedUsage.allowed) {
+            return res.status(429).json({
+                message:
+                    "Career Advisor monthly AI limit reached. Please try again later.",
+                usage: consumedUsage,
+            });
+        }
+
+        usageConsumed = true;
 
         // =================================================
         // FETCH USER DATA
@@ -47,13 +86,11 @@ const getCareerRecommendations = async (req, res) => {
             "name category level percentage"
         );
 
-
         const projects = await Project.find({
             user: userId,
         }).select(
             "title description technologies githubUrl liveUrl"
         );
-
 
         const certificates = await Certificate.find({
             user: userId,
@@ -61,11 +98,9 @@ const getCareerRecommendations = async (req, res) => {
             "title issuer issueDate description credentialUrl"
         );
 
-
         const resume = await Resume.findOne({
             user: userId,
         });
-
 
         // =================================================
         // EXTRACT RESUME TEXT
@@ -73,35 +108,27 @@ const getCareerRecommendations = async (req, res) => {
 
         let resumeText = "";
 
-
         if (resume) {
-
             if (
                 resume.mimeType ===
                 "application/pdf"
             ) {
-
                 const filePath = path.join(
                     __dirname,
                     "../uploads",
                     resume.fileName
                 );
 
-
                 if (fs.existsSync(filePath)) {
-
                     const pdfBuffer =
                         fs.readFileSync(filePath);
-
 
                     parser = new PDFParse({
                         data: pdfBuffer,
                     });
 
-
                     const pdfData =
                         await parser.getText();
-
 
                     resumeText =
                         pdfData.text.trim();
@@ -109,13 +136,11 @@ const getCareerRecommendations = async (req, res) => {
             }
         }
 
-
         // =================================================
         // PREPARE USER PROFILE
         // =================================================
 
         const careerProfile = {
-
             skills: skills.map((skill) => ({
                 name: skill.name,
                 category: skill.category,
@@ -145,7 +170,6 @@ const getCareerRecommendations = async (req, res) => {
             resume: resumeText,
         };
 
-
         // =================================================
         // GEMINI SDK
         // =================================================
@@ -153,18 +177,17 @@ const getCareerRecommendations = async (req, res) => {
         const { GoogleGenAI } =
             await import("@google/genai");
 
-
         const ai = new GoogleGenAI({
             apiKey:
                 process.env.GEMINI_API_KEY,
         });
-
 
         // =================================================
         // AI PROMPT
         // =================================================
 
         const prompt = `
+
 You are an expert AI Career Advisor for students and early-career software developers.
 
 Analyze the candidate's complete career profile.
@@ -210,14 +233,23 @@ Your task is to provide personalized career recommendations.
 Analyze:
 
 1. Current technical skill level.
+
 2. Existing projects.
+
 3. Certificates and learning background.
+
 4. Resume content.
+
 5. Strengths of the candidate.
+
 6. Missing or weak skills.
+
 7. Suitable software development career paths.
+
 8. Suitable entry-level job roles.
+
 9. Skills the candidate should learn next.
+
 10. A practical learning roadmap.
 
 Important rules:
@@ -234,127 +266,170 @@ Important rules:
 - Learning roadmap should be ordered from highest priority to lower priority.
 - Skill gaps should identify useful missing skills based on the candidate's current profile.
 - Career advice should be specific to this candidate.
-`;
 
+`;
 
         // =================================================
         // GEMINI STRUCTURED OUTPUT
         // =================================================
 
-        const response =
-            await ai.models.generateContent({
+        let response = null;
+        let lastGeminiError = null;
+        const maxAttempts = 3;
 
-                model:
-                    "gemini-3.6-flash",
+        for (
+            let attempt = 1;
+            attempt <= maxAttempts;
+            attempt++
+        ) {
+            try {
+                response =
+                    await ai.models.generateContent({
+                        model:
+                            "gemini-3.6-flash",
 
-                contents:
-                    prompt,
+                        contents:
+                            prompt,
 
-                config: {
+                        config: {
+                            responseMimeType:
+                                "application/json",
 
-                    responseMimeType:
-                        "application/json",
+                            responseSchema: {
+                                type: "object",
 
-                    responseSchema: {
+                                properties: {
+                                    recommendedCareer: {
+                                        type: "string",
+                                    },
 
-                        type: "object",
+                                    careerReason: {
+                                        type: "string",
+                                    },
 
-                        properties: {
+                                    recommendedRoles: {
+                                        type: "array",
 
-                            recommendedCareer: {
-                                type: "string",
-                            },
+                                        items: {
+                                            type: "string",
+                                        },
+                                    },
 
-                            careerReason: {
-                                type: "string",
-                            },
+                                    skillGaps: {
+                                        type: "array",
 
-                            recommendedRoles: {
-                                type: "array",
+                                        items: {
+                                            type: "string",
+                                        },
+                                    },
 
-                                items: {
-                                    type: "string",
+                                    skillsToLearn: {
+                                        type: "array",
+
+                                        items: {
+                                            type: "string",
+                                        },
+                                    },
+
+                                    learningRoadmap: {
+                                        type: "array",
+
+                                        items: {
+                                            type: "string",
+                                        },
+                                    },
+
+                                    strengths: {
+                                        type: "array",
+
+                                        items: {
+                                            type: "string",
+                                        },
+                                    },
+
+                                    careerAdvice: {
+                                        type: "array",
+
+                                        items: {
+                                            type: "string",
+                                        },
+                                    },
+
+                                    nextSteps: {
+                                        type: "array",
+
+                                        items: {
+                                            type: "string",
+                                        },
+                                    },
                                 },
+
+                                required: [
+                                    "recommendedCareer",
+                                    "careerReason",
+                                    "recommendedRoles",
+                                    "skillGaps",
+                                    "skillsToLearn",
+                                    "learningRoadmap",
+                                    "strengths",
+                                    "careerAdvice",
+                                    "nextSteps",
+                                ],
                             },
 
-                            skillGaps: {
-                                type: "array",
+                            temperature: 0.3,
 
-                                items: {
-                                    type: "string",
-                                },
-                            },
-
-                            skillsToLearn: {
-                                type: "array",
-
-                                items: {
-                                    type: "string",
-                                },
-                            },
-
-                            learningRoadmap: {
-                                type: "array",
-
-                                items: {
-                                    type: "string",
-                                },
-                            },
-
-                            strengths: {
-                                type: "array",
-
-                                items: {
-                                    type: "string",
-                                },
-                            },
-
-                            careerAdvice: {
-                                type: "array",
-
-                                items: {
-                                    type: "string",
-                                },
-                            },
-
-                            nextSteps: {
-                                type: "array",
-
-                                items: {
-                                    type: "string",
-                                },
-                            },
+                            maxOutputTokens: 3500,
                         },
+                    });
 
-                        required: [
+                lastGeminiError = null;
+                break;
+            } catch (geminiError) {
+                lastGeminiError = geminiError;
 
-                            "recommendedCareer",
+                const status =
+                    geminiError?.status ||
+                    geminiError?.statusCode ||
+                    geminiError?.response?.status;
 
-                            "careerReason",
+                const retryable =
+                    status === 429 ||
+                    status === 503;
 
-                            "recommendedRoles",
+                console.error(
+                    `Career Advisor Gemini attempt ${attempt}/${maxAttempts} failed:`,
+                    geminiError
+                );
 
-                            "skillGaps",
+                if (
+                    !retryable ||
+                    attempt === maxAttempts
+                ) {
+                    throw geminiError;
+                }
 
-                            "skillsToLearn",
+                const delayMs =
+                    attempt === 1
+                        ? 2000
+                        : 5000;
 
-                            "learningRoadmap",
+                await new Promise(
+                    (resolve) =>
+                        setTimeout(
+                            resolve,
+                            delayMs
+                        )
+                );
+            }
+        }
 
-                            "strengths",
-
-                            "careerAdvice",
-
-                            "nextSteps",
-
-                        ],
-                    },
-
-                    temperature: 0.3,
-
-                    maxOutputTokens: 3500,
-                },
-            });
-
+        if (
+            !response &&
+            lastGeminiError
+        ) {
+            throw lastGeminiError;
+        }
 
         // =================================================
         // GEMINI RESPONSE
@@ -363,21 +438,17 @@ Important rules:
         const aiText =
             response.text;
 
-
         console.log(
             "Career Advisor Gemini Response:",
             aiText
         );
 
-
         if (!aiText) {
-
             return res.status(500).json({
                 message:
                     "Gemini returned an empty career recommendation.",
             });
         }
-
 
         // =================================================
         // PARSE JSON
@@ -385,14 +456,10 @@ Important rules:
 
         let recommendations;
 
-
         try {
-
             recommendations =
                 JSON.parse(aiText);
-
         } catch (parseError) {
-
             console.error(
                 "Career Advisor JSON Parse Error:",
                 parseError
@@ -409,7 +476,6 @@ Important rules:
             });
         }
 
-
         // =================================================
         // VALIDATE RESPONSE
         // =================================================
@@ -420,13 +486,11 @@ Important rules:
                 ? recommendations.recommendedCareer
                 : "";
 
-
         recommendations.careerReason =
             typeof recommendations.careerReason ===
                 "string"
                 ? recommendations.careerReason
                 : "";
-
 
         recommendations.recommendedRoles =
             Array.isArray(
@@ -435,14 +499,12 @@ Important rules:
                 ? recommendations.recommendedRoles
                 : [];
 
-
         recommendations.skillGaps =
             Array.isArray(
                 recommendations.skillGaps
             )
                 ? recommendations.skillGaps
                 : [];
-
 
         recommendations.skillsToLearn =
             Array.isArray(
@@ -451,14 +513,12 @@ Important rules:
                 ? recommendations.skillsToLearn
                 : [];
 
-
         recommendations.learningRoadmap =
             Array.isArray(
                 recommendations.learningRoadmap
             )
                 ? recommendations.learningRoadmap
                 : [];
-
 
         recommendations.strengths =
             Array.isArray(
@@ -467,14 +527,12 @@ Important rules:
                 ? recommendations.strengths
                 : [];
 
-
         recommendations.careerAdvice =
             Array.isArray(
                 recommendations.careerAdvice
             )
                 ? recommendations.careerAdvice
                 : [];
-
 
         recommendations.nextSteps =
             Array.isArray(
@@ -483,48 +541,82 @@ Important rules:
                 ? recommendations.nextSteps
                 : [];
 
-
         // =================================================
         // SUCCESS
         // =================================================
 
-        return res.status(200).json({
+        usageConsumed = false;
 
+        return res.status(200).json({
             message:
                 "AI career recommendations generated successfully.",
 
             recommendations,
         });
 
-
     } catch (error) {
-
         console.error(
             "Career Advisor Error:",
             error
         );
 
+        // =================================================
+        // REFUND AI USAGE ON FAILURE
+        // =================================================
+
+        if (usageConsumed) {
+            try {
+                await refundAIUsage(
+                    req.user,
+                    "career-advisor"
+                );
+
+                usageConsumed = false;
+            } catch (refundError) {
+                console.error(
+                    "Career Advisor AI usage refund failed:",
+                    refundError
+                );
+            }
+        }
+
+        // =================================================
+        // TEMPORARY GEMINI ERROR
+        // =================================================
+
+        const errorStatus =
+            error?.status ||
+            error?.statusCode ||
+            error?.response?.status;
+
+        if (
+            errorStatus === 429 ||
+            errorStatus === 503
+        ) {
+            return res.status(503).json({
+                message:
+                    "Career Advisor AI service is temporarily unavailable. Your AI usage was not charged. Please try again shortly.",
+            });
+        }
+
+        // =================================================
+        // GENERAL ERROR
+        // =================================================
 
         return res.status(500).json({
             message:
                 "Failed to generate AI career recommendations.",
         });
 
-
     } finally {
-
         // =================================================
         // CLEAN PDF PARSER
         // =================================================
 
         if (parser) {
-
             try {
-
                 await parser.destroy();
-
             } catch (destroyError) {
-
                 console.error(
                     "Career PDF Parser Cleanup Error:",
                     destroyError
@@ -533,7 +625,6 @@ Important rules:
         }
     }
 };
-
 
 // =====================================================
 // EXPORT

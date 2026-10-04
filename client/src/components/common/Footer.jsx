@@ -72,7 +72,6 @@ const Footer = () => {
                                 About
                             </Link>
 
-                            {/* Resources */}
                             <Link
                                 to="/resources"
                                 className="block text-gray-400 hover:text-white transition"
@@ -80,7 +79,6 @@ const Footer = () => {
                                 Resources
                             </Link>
 
-                            {/* FAQ */}
                             <Link
                                 to="/faq"
                                 className="block text-gray-400 hover:text-white transition"
@@ -88,7 +86,6 @@ const Footer = () => {
                                 FAQ
                             </Link>
 
-                            {/* Blog */}
                             <Link
                                 to="/blog"
                                 className="block text-gray-400 hover:text-white transition"

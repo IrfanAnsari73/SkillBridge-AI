@@ -2,6 +2,9 @@ const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema(
     {
+        // =========================
+        // BASIC USER INFORMATION
+        // =========================
         name: {
             type: String,
             required: true,
@@ -52,6 +55,9 @@ const userSchema = new mongoose.Schema(
             default: "",
         },
 
+        // =========================
+        // SOCIAL / PORTFOLIO
+        // =========================
         github: {
             type: String,
             default: "",
@@ -70,6 +76,45 @@ const userSchema = new mongoose.Schema(
         profileImage: {
             type: String,
             default: "",
+        },
+
+        // =========================
+        // ACCOUNT & BUSINESS
+        // =========================
+
+        // User's current subscription plan
+        plan: {
+            type: String,
+            enum: ["free", "pro"],
+            default: "free",
+        },
+
+        // User role for future admin panel
+        role: {
+            type: String,
+            enum: ["user", "admin"],
+            default: "user",
+        },
+
+        // Account status
+        accountStatus: {
+            type: String,
+            enum: ["active", "suspended"],
+            default: "active",
+        },
+
+        // Subscription status
+        subscriptionStatus: {
+            type: String,
+            enum: ["none", "active", "cancelled", "expired"],
+            default: "none",
+        },
+
+        // For Pro subscription expiry
+        // Will be used when Razorpay/subscription system is added
+        proExpiresAt: {
+            type: Date,
+            default: null,
         },
     },
     {

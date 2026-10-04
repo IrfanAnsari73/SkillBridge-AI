@@ -11,20 +11,34 @@ const Navbar = () => {
     return (
         <nav className="bg-white text-slate-900 border-b border-gray-200 sticky top-0 z-50">
             <div className="max-w-7xl mx-auto px-5 md:px-8">
+
                 <div className="h-20 flex items-center justify-between">
 
-                    {/* Logo */}
+                    {/* =====================================
+                        LOGO
+                    ===================================== */}
+
                     <Link
                         to="/"
                         onClick={closeMenu}
                         className="text-2xl md:text-3xl font-extrabold tracking-tight whitespace-nowrap"
                     >
-                        <span className="text-slate-900">Skill</span>
-                        <span className="text-green-600">Bridge AI</span>
+                        <span className="text-slate-900">
+                            Skill
+                        </span>
+
+                        <span className="text-green-600">
+                            Bridge AI
+                        </span>
                     </Link>
 
-                    {/* Desktop Menu */}
+                    {/* =====================================
+                        DESKTOP MENU
+                    ===================================== */}
+
                     <div className="hidden md:flex items-center gap-7">
+
+                        {/* Home */}
 
                         <Link
                             to="/"
@@ -33,12 +47,16 @@ const Navbar = () => {
                             Home
                         </Link>
 
+                        {/* About */}
+
                         <Link
                             to="/about"
                             className="font-medium text-slate-600 hover:text-green-600 transition"
                         >
                             About
                         </Link>
+
+                        {/* Resources */}
 
                         <Link
                             to="/resources"
@@ -47,12 +65,7 @@ const Navbar = () => {
                             Resources
                         </Link>
 
-                        <Link
-                            to="/faq"
-                            className="font-medium text-slate-600 hover:text-green-600 transition"
-                        >
-                            FAQ
-                        </Link>
+                        {/* Blog */}
 
                         <Link
                             to="/blog"
@@ -61,6 +74,8 @@ const Navbar = () => {
                             Blog
                         </Link>
 
+                        {/* Contact */}
+
                         <Link
                             to="/contact"
                             className="font-medium text-slate-600 hover:text-green-600 transition"
@@ -68,12 +83,16 @@ const Navbar = () => {
                             Contact
                         </Link>
 
+                        {/* Login */}
+
                         <Link
                             to="/login"
                             className="font-medium text-slate-600 hover:text-green-600 transition"
                         >
                             Login
                         </Link>
+
+                        {/* Get Started */}
 
                         <Link
                             to="/signup"
@@ -84,23 +103,34 @@ const Navbar = () => {
 
                     </div>
 
-                    {/* Mobile Menu Button */}
+                    {/* =====================================
+                        MOBILE MENU BUTTON
+                    ===================================== */}
+
                     <button
                         type="button"
-                        onClick={() => setMenuOpen(!menuOpen)}
+                        onClick={() =>
+                            setMenuOpen(!menuOpen)
+                        }
                         className="md:hidden w-11 h-11 flex items-center justify-center rounded-xl bg-green-600 text-white text-xl"
                         aria-label="Toggle menu"
+                        aria-expanded={menuOpen}
                     >
                         {menuOpen ? "✕" : "☰"}
                     </button>
 
                 </div>
 
-                {/* Mobile Menu */}
+                {/* =====================================
+                    MOBILE MENU
+                ===================================== */}
+
                 {menuOpen && (
                     <div className="md:hidden border-t border-gray-100 py-4">
 
                         <div className="flex flex-col gap-2">
+
+                            {/* Home */}
 
                             <Link
                                 to="/"
@@ -110,6 +140,8 @@ const Navbar = () => {
                                 Home
                             </Link>
 
+                            {/* About */}
+
                             <Link
                                 to="/about"
                                 onClick={closeMenu}
@@ -117,6 +149,8 @@ const Navbar = () => {
                             >
                                 About
                             </Link>
+
+                            {/* Resources */}
 
                             <Link
                                 to="/resources"
@@ -126,6 +160,18 @@ const Navbar = () => {
                                 Resources
                             </Link>
 
+                            {/* Blog */}
+
+                            <Link
+                                to="/blog"
+                                onClick={closeMenu}
+                                className="px-4 py-3 rounded-lg font-medium text-slate-700 hover:bg-green-50 hover:text-green-600"
+                            >
+                                Blog
+                            </Link>
+
+                            {/* Contact */}
+
                             <Link
                                 to="/contact"
                                 onClick={closeMenu}
@@ -134,6 +180,8 @@ const Navbar = () => {
                                 Contact
                             </Link>
 
+                            {/* Login */}
+
                             <Link
                                 to="/login"
                                 onClick={closeMenu}
@@ -141,6 +189,8 @@ const Navbar = () => {
                             >
                                 Login
                             </Link>
+
+                            {/* Get Started */}
 
                             <Link
                                 to="/signup"

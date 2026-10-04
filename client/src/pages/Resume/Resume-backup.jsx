@@ -14,10 +14,6 @@ const Resume = () => {
         useState(false);
     const [analysis, setAnalysis] = useState(null);
 
-    // AI USAGE / FREE-PRO
-    const [aiUsage, setAiUsage] = useState(null);
-    const [limitReached, setLimitReached] = useState(false);
-
     // =========================================
     // FETCH RESUME
     // =========================================
@@ -33,7 +29,7 @@ const Resume = () => {
             }
 
             const response = await fetch(
-                `${import.meta.env.VITE_API_URL}/api/resume`,
+                "https://skillbridge-ai-backend-v6uk.onrender.com/api/resume",
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -138,7 +134,7 @@ const Resume = () => {
             );
 
             const response = await fetch(
-                `${import.meta.env.VITE_API_URL}/api/resume`,
+                "https://skillbridge-ai-backend-v6uk.onrender.com/api/resume",
                 {
                     method: "POST",
                     headers: {
@@ -166,7 +162,6 @@ const Resume = () => {
 
             setAnalysisStarted(false);
             setAnalysis(null);
-            setLimitReached(false);
 
             const fileInput =
                 document.getElementById(
@@ -203,7 +198,7 @@ const Resume = () => {
                 localStorage.getItem("token");
 
             const response = await fetch(
-                `${import.meta.env.VITE_API_URL}/api/resume/download`,
+                "https://skillbridge-ai-backend-v6uk.onrender.com/api/resume/download",
                 {
                     method: "GET",
                     headers: {
@@ -292,7 +287,7 @@ const Resume = () => {
                 localStorage.getItem("token");
 
             const response = await fetch(
-                `${import.meta.env.VITE_API_URL}/api/resume`,
+                "https://skillbridge-ai-backend-v6uk.onrender.com/api/resume",
                 {
                     method: "DELETE",
                     headers: {
@@ -316,8 +311,6 @@ const Resume = () => {
             setResume(null);
             setAnalysisStarted(false);
             setAnalysis(null);
-            setAiUsage(null);
-            setLimitReached(false);
 
             setMessage(data.message);
         } catch (error) {
@@ -350,13 +343,12 @@ const Resume = () => {
             setAnalyzing(true);
             setAnalysisStarted(false);
             setAnalysis(null);
-            setLimitReached(false);
 
             const token =
                 localStorage.getItem("token");
 
             const response = await fetch(
-                `${import.meta.env.VITE_API_URL}/api/resume/analyze`,
+                "https://skillbridge-ai-backend-v6uk.onrender.com/api/resume/analyze",
                 {
                     method: "POST",
                     headers: {
@@ -368,31 +360,6 @@ const Resume = () => {
 
             const data =
                 await response.json();
-
-            if (data.usage) {
-                setAiUsage(data.usage);
-            }
-
-            if (
-                response.status === 429 &&
-                data.code === "AI_LIMIT_REACHED"
-            ) {
-                setLimitReached(true);
-
-                setAiUsage({
-                    feature:
-                        data.feature || "resume-analyzer",
-                    plan:
-                        data.plan || "free",
-                    used:
-                        data.usage ?? 0,
-                    limit:
-                        data.limit ?? 2,
-                    remaining: 0,
-                });
-
-                return;
-            }
 
             if (!response.ok) {
                 setError(
@@ -501,14 +468,12 @@ const Resume = () => {
                                 onClick={
                                     handleAnalyzeResume
                                 }
-                                disabled={analyzing || limitReached}
+                                disabled={analyzing}
                                 className="inline-flex items-center justify-center gap-2 bg-green-600 text-white px-6 py-3.5 rounded-xl font-bold hover:bg-green-500 hover:-translate-y-0.5 transition-all shadow-lg shadow-green-600/20 disabled:opacity-50"
                             >
-                                {limitReached
-                                    ? "🔒 Limit Reached"
-                                    : analyzing
-                                        ? "🤖 Analyzing..."
-                                        : "🤖 Analyze with AI"}
+                                {analyzing
+                                    ? "🤖 Analyzing..."
+                                    : "🤖 Analyze with AI"}
                             </button>
                         )}
 
@@ -855,7 +820,7 @@ const Resume = () => {
                                     <div className="flex flex-wrap gap-3 mt-7 pt-6 border-t border-white/10">
 
                                         <a
-                                            href={`${import.meta.env.VITE_API_URL}/uploads/${resume.fileName}`}
+                                            href={`https://skillbridge-ai-backend-v6uk.onrender.com/uploads/${resume.fileName}`}
                                             target="_blank"
                                             rel="noopener noreferrer"
                                             className="inline-flex items-center gap-2 bg-green-600 text-white px-5 py-3 rounded-xl font-bold hover:bg-green-500 transition"
@@ -931,104 +896,15 @@ const Resume = () => {
                                             handleAnalyzeResume
                                         }
                                         disabled={
-                                            analyzing || limitReached
+                                            analyzing
                                         }
                                         className="bg-purple-600 text-white px-6 py-3.5 rounded-xl font-bold hover:bg-purple-500 transition shadow-lg shadow-purple-600/20 disabled:opacity-50"
                                     >
-                                        {limitReached
-                                            ? "🔒 Limit Reached"
-                                            : analyzing
-                                                ? "🤖 Analyzing..."
-                                                : "Analyze Resume 🤖"}
+                                        {analyzing
+                                            ? "🤖 Analyzing..."
+                                            : "Analyze Resume 🤖"}
                                     </button>
 
-                                </div>
-
-                                {/* =================================
-                                    AI USAGE / PLAN
-                                ================================= */}
-
-                                <div className="mt-7 rounded-2xl border border-purple-100 bg-purple-50/60 p-4 md:p-5">
-                                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-                                        <div className="flex items-center gap-3">
-                                            <div className="w-11 h-11 rounded-xl bg-white border border-purple-100 flex items-center justify-center text-xl">
-                                                🤖
-                                            </div>
-
-                                            <div>
-                                                <p className="text-xs font-black uppercase tracking-[0.14em] text-purple-600">
-                                                    AI Resume Analyzer
-                                                </p>
-
-                                                <p className="text-sm text-slate-600 mt-1">
-                                                    {aiUsage
-                                                        ? `${aiUsage.used} of ${aiUsage.limit} analyses used this month`
-                                                        : "Free plan includes 2 AI analyses every month"}
-                                                </p>
-                                            </div>
-                                        </div>
-
-                                        <div className="flex items-center gap-3">
-                                            {aiUsage && (
-                                                <span className="px-3 py-2 rounded-xl bg-white border border-purple-100 text-sm font-bold text-slate-700">
-                                                    {aiUsage.plan === "pro"
-                                                        ? "⭐ Pro"
-                                                        : "Free"}
-                                                </span>
-                                            )}
-
-
-                                        </div>
-                                    </div>
-
-                                    {aiUsage && (
-                                        <div className="mt-4">
-                                            <div className="flex items-center justify-between text-xs font-bold text-slate-500 mb-2">
-                                                <span>Monthly usage</span>
-                                                <span>
-                                                    {aiUsage.remaining} remaining
-                                                </span>
-                                            </div>
-
-                                            <div className="h-2.5 bg-white rounded-full overflow-hidden border border-purple-100">
-                                                <div
-                                                    className={`h-full rounded-full transition-all ${limitReached
-                                                        ? "bg-red-500"
-                                                        : "bg-purple-600"
-                                                        }`}
-                                                    style={{
-                                                        width: `${Math.min(
-                                                            100,
-                                                            Math.max(
-                                                                0,
-                                                                ((aiUsage.used || 0) /
-                                                                    Math.max(
-                                                                        aiUsage.limit || 1,
-                                                                        1
-                                                                    )) *
-                                                                100
-                                                            )
-                                                        )}%`,
-                                                    }}
-                                                />
-                                            </div>
-                                        </div>
-                                    )}
-
-                                    {limitReached && (
-                                        <div className="mt-4 rounded-xl bg-white border border-purple-100 p-4">
-                                            <p className="font-black text-slate-950">
-                                                🔒 Monthly AI limit reached
-                                            </p>
-
-                                            <p className="text-sm text-slate-600 mt-1">
-                                                You have used all your free
-                                                Resume Analyzer analyses for
-                                                this month. Your AI usage limit
-                                                will reset next month.
-                                            </p>
-                                        </div>
-                                    )}
                                 </div>
 
                                 {/* =================================

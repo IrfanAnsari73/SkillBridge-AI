@@ -1,13 +1,22 @@
 const Skill = require("../models/Skill");
+
 const Project = require("../models/Project");
+
 const Certificate = require("../models/Certificate");
+
 const Resume = require("../models/Resume");
 
 const fs = require("fs");
+
 const path = require("path");
 
 const { PDFParse } = require("pdf-parse");
 
+const {
+    checkAIUsage,
+    consumeAIUsage,
+    refundAIUsage,
+} = require("../services/aiUsageService");
 
 // =========================
 // GEMINI RETRY HELPER
@@ -18,7 +27,6 @@ const generateGeminiWithRetry = async (
     request,
     maxRetries = 3
 ) => {
-
     let lastError = null;
 
     for (
@@ -26,9 +34,7 @@ const generateGeminiWithRetry = async (
         attempt <= maxRetries;
         attempt++
     ) {
-
         try {
-
             console.log(
                 `Gemini Job Matcher Attempt ${attempt}/${maxRetries}`
             );
@@ -39,9 +45,7 @@ const generateGeminiWithRetry = async (
                 );
 
             return response;
-
         } catch (error) {
-
             lastError = error;
 
             const status =
@@ -53,14 +57,10 @@ const generateGeminiWithRetry = async (
                 status || error.message
             );
 
-
-            // Retry temporary errors only
-
             const shouldRetry =
                 status === 503 ||
                 status === 429 ||
                 status === 500;
-
 
             if (
                 !shouldRetry ||
@@ -69,18 +69,12 @@ const generateGeminiWithRetry = async (
                 throw error;
             }
 
-
-            // Wait before retry
-
             const delay =
                 attempt * 2000;
 
-
             console.log(
-                `Retrying Gemini in ${delay / 1000
-                } seconds...`
+                `Retrying Gemini in ${delay / 1000} seconds...`
             );
-
 
             await new Promise(
                 (resolve) =>
@@ -92,34 +86,28 @@ const generateGeminiWithRetry = async (
         }
     }
 
-
     throw lastError;
 };
-
 
 // =========================
 // AI JOB MATCHER
 // =========================
 
 const getJobMatch = async (req, res) => {
-
     let parser = null;
+    let usageConsumed = false;
 
     try {
-
         // =========================
         // CHECK GEMINI API KEY
         // =========================
 
         if (!process.env.GEMINI_API_KEY) {
-
             return res.status(500).json({
                 message:
                     "Gemini API key is not configured on the server.",
             });
-
         }
-
 
         // =========================
         // LOGGED-IN USER
@@ -127,6 +115,42 @@ const getJobMatch = async (req, res) => {
 
         const userId = req.user._id;
 
+        // =================================================
+        // CHECK AI USAGE LIMIT
+        // =================================================
+
+        const usageStatus = await checkAIUsage(
+            req.user,
+            "job-matcher"
+        );
+
+        if (!usageStatus.allowed) {
+            return res.status(429).json({
+                message:
+                    "Job Matcher monthly AI limit reached. Please try again next month or upgrade your plan.",
+                usage: usageStatus,
+            });
+        }
+
+        // =================================================
+        // CONSUME AI USAGE
+        // =================================================
+
+        const consumedUsage =
+            await consumeAIUsage(
+                req.user,
+                "job-matcher"
+            );
+
+        if (!consumedUsage.allowed) {
+            return res.status(429).json({
+                message:
+                    "Job Matcher monthly AI limit reached. Please try again later.",
+                usage: consumedUsage,
+            });
+        }
+
+        usageConsumed = true;
 
         // =========================
         // GET USER DATA
@@ -138,13 +162,11 @@ const getJobMatch = async (req, res) => {
             "name category level percentage"
         );
 
-
         const projects = await Project.find({
             user: userId,
         }).select(
             "title description technologies githubUrl liveUrl"
         );
-
 
         const certificates =
             await Certificate.find({
@@ -153,12 +175,10 @@ const getJobMatch = async (req, res) => {
                 "title issuer issueDate description credentialUrl"
             );
 
-
         const resume =
             await Resume.findOne({
                 user: userId,
             });
-
 
         // =========================
         // EXTRACT RESUME TEXT
@@ -166,13 +186,11 @@ const getJobMatch = async (req, res) => {
 
         let resumeText = "";
 
-
         if (
             resume &&
             resume.mimeType ===
             "application/pdf"
         ) {
-
             const filePath =
                 path.join(
                     __dirname,
@@ -180,40 +198,31 @@ const getJobMatch = async (req, res) => {
                     resume.fileName
                 );
 
-
             if (
-                fs.existsSync(
-                    filePath
-                )
+                fs.existsSync(filePath)
             ) {
-
                 const pdfBuffer =
                     fs.readFileSync(
                         filePath
                     );
 
-
                 parser = new PDFParse({
                     data: pdfBuffer,
                 });
 
-
                 const pdfData =
                     await parser.getText();
-
 
                 resumeText =
                     pdfData.text.trim();
             }
         }
 
-
         // =========================
         // USER CAREER PROFILE
         // =========================
 
         const careerProfile = {
-
             skills: skills.map(
                 (skill) => ({
                     name: skill.name,
@@ -258,7 +267,6 @@ const getJobMatch = async (req, res) => {
             resume: resumeText,
         };
 
-
         // =========================
         // GEMINI AI
         // =========================
@@ -268,18 +276,17 @@ const getJobMatch = async (req, res) => {
                 "@google/genai"
             );
 
-
         const ai = new GoogleGenAI({
             apiKey:
                 process.env.GEMINI_API_KEY,
         });
-
 
         // =========================
         // AI PROMPT
         // =========================
 
         const prompt = `
+
 You are an expert AI Job Matching Assistant.
 
 Analyze the student's career profile below.
@@ -308,8 +315,8 @@ IMPORTANT RULES:
 9. Keep recommendations practical for a student.
 
 Return ONLY valid JSON.
-`;
 
+`;
 
         // =========================
         // GEMINI REQUEST WITH RETRY
@@ -319,7 +326,6 @@ Return ONLY valid JSON.
             await generateGeminiWithRetry(
                 ai,
                 {
-
                     model:
                         "gemini-3.6-flash",
 
@@ -327,38 +333,30 @@ Return ONLY valid JSON.
                         prompt,
 
                     config: {
-
                         responseMimeType:
                             "application/json",
 
                         responseSchema: {
-
                             type: "object",
 
                             properties: {
-
                                 overallMatchScore: {
                                     type: "integer",
                                     minimum: 0,
                                     maximum: 100,
                                 },
 
-
                                 overallRecommendation: {
                                     type: "string",
                                 },
 
-
                                 recommendedRoles: {
-
                                     type: "array",
 
                                     items: {
-
                                         type: "object",
 
                                         properties: {
-
                                             role: {
                                                 type: "string",
                                             },
@@ -374,25 +372,20 @@ Return ONLY valid JSON.
                                             },
 
                                             requiredSkills: {
-
                                                 type: "array",
 
                                                 items: {
                                                     type: "string",
                                                 },
-
                                             },
 
                                             missingSkills: {
-
                                                 type: "array",
 
                                                 items: {
                                                     type: "string",
                                                 },
-
                                             },
-
                                         },
 
                                         required: [
@@ -402,18 +395,13 @@ Return ONLY valid JSON.
                                             "requiredSkills",
                                             "missingSkills",
                                         ],
-
                                     },
-
                                 },
 
-
                                 resumeMatch: {
-
                                     type: "object",
 
                                     properties: {
-
                                         score: {
                                             type: "integer",
                                             minimum: 0,
@@ -423,82 +411,56 @@ Return ONLY valid JSON.
                                         feedback: {
                                             type: "string",
                                         },
-
                                     },
 
                                     required: [
                                         "score",
                                         "feedback",
                                     ],
-
                                 },
-
 
                                 profileStrengths: {
-
                                     type: "array",
 
                                     items: {
                                         type: "string",
                                     },
-
                                 },
-
 
                                 skillsToImprove: {
-
                                     type: "array",
 
                                     items: {
                                         type: "string",
                                     },
-
                                 },
-
 
                                 recommendedActions: {
-
                                     type: "array",
 
                                     items: {
                                         type: "string",
                                     },
-
                                 },
-
                             },
 
-
                             required: [
-
                                 "overallMatchScore",
-
                                 "overallRecommendation",
-
                                 "recommendedRoles",
-
                                 "resumeMatch",
-
                                 "profileStrengths",
-
                                 "skillsToImprove",
-
                                 "recommendedActions",
-
                             ],
-
                         },
-
 
                         temperature: 0.3,
 
                         maxOutputTokens: 4000,
-
                     },
-
                 }
             );
-
 
         // =========================
         // GEMINI RESPONSE
@@ -507,24 +469,16 @@ Return ONLY valid JSON.
         const aiText =
             response.text;
 
-
         console.log(
             "Job Matcher Gemini Response:",
             aiText
         );
 
-
         if (!aiText) {
-
-            return res.status(500).json({
-
-                message:
-                    "Gemini returned an empty job matching result.",
-
-            });
-
+            throw new Error(
+                "Gemini returned an empty job matching result."
+            );
         }
-
 
         // =========================
         // PARSE JSON
@@ -532,14 +486,10 @@ Return ONLY valid JSON.
 
         let jobMatch;
 
-
         try {
-
             jobMatch =
                 JSON.parse(aiText);
-
         } catch (parseError) {
-
             console.error(
                 "Job Matcher JSON Parse Error:",
                 parseError
@@ -550,16 +500,10 @@ Return ONLY valid JSON.
                 aiText
             );
 
-
-            return res.status(500).json({
-
-                message:
-                    "AI returned an invalid job matching format.",
-
-            });
-
+            throw new Error(
+                "AI returned an invalid job matching format."
+            );
         }
-
 
         // =========================
         // SAFE DEFAULTS
@@ -571,13 +515,11 @@ Return ONLY valid JSON.
                 ? jobMatch.overallMatchScore
                 : 0;
 
-
         jobMatch.overallRecommendation =
             typeof jobMatch.overallRecommendation ===
                 "string"
                 ? jobMatch.overallRecommendation
                 : "";
-
 
         jobMatch.recommendedRoles =
             Array.isArray(
@@ -585,7 +527,6 @@ Return ONLY valid JSON.
             )
                 ? jobMatch.recommendedRoles
                 : [];
-
 
         jobMatch.resumeMatch =
             jobMatch.resumeMatch &&
@@ -597,14 +538,12 @@ Return ONLY valid JSON.
                     feedback: "",
                 };
 
-
         jobMatch.profileStrengths =
             Array.isArray(
                 jobMatch.profileStrengths
             )
                 ? jobMatch.profileStrengths
                 : [];
-
 
         jobMatch.skillsToImprove =
             Array.isArray(
@@ -613,7 +552,6 @@ Return ONLY valid JSON.
                 ? jobMatch.skillsToImprove
                 : [];
 
-
         jobMatch.recommendedActions =
             Array.isArray(
                 jobMatch.recommendedActions
@@ -621,28 +559,43 @@ Return ONLY valid JSON.
                 ? jobMatch.recommendedActions
                 : [];
 
-
         // =========================
         // SUCCESS RESPONSE
         // =========================
 
-        return res.status(200).json({
+        usageConsumed = false;
 
+        return res.status(200).json({
             message:
                 "AI job matching generated successfully.",
 
             jobMatch,
-
         });
-
-
     } catch (error) {
-
         console.error(
             "Job Matcher Error:",
             error
         );
 
+        // =================================================
+        // REFUND AI USAGE ON FAILURE
+        // =================================================
+
+        if (usageConsumed) {
+            try {
+                await refundAIUsage(
+                    req.user,
+                    "job-matcher"
+                );
+
+                usageConsumed = false;
+            } catch (refundError) {
+                console.error(
+                    "Job Matcher AI usage refund failed:",
+                    refundError
+                );
+            }
+        }
 
         // =========================
         // USER-FRIENDLY ERROR
@@ -650,46 +603,33 @@ Return ONLY valid JSON.
 
         if (
             error?.status === 503 ||
-            error?.status === 429
+            error?.status === 429 ||
+            error?.error?.code === 503 ||
+            error?.error?.code === 429
         ) {
-
             return res.status(503).json({
-
                 message:
-                    "AI service is temporarily busy. Please try again in a few seconds.",
-
+                    "AI service is temporarily busy. Your AI usage was not charged. Please try again in a few seconds.",
             });
-
         }
 
-
         return res.status(500).json({
-
             message:
                 "Failed to generate AI job matching.",
-
         });
-
     } finally {
-
         if (parser) {
-
             try {
-
                 await parser.destroy();
-
             } catch (destroyError) {
-
                 console.error(
                     "Job Matcher PDF Parser Cleanup Error:",
                     destroyError
                 );
-
             }
         }
     }
 };
-
 
 // =========================
 // EXPORT
