@@ -15,6 +15,7 @@ import About from "../pages/About/About";
 import Contact from "../pages/Contact/Contact";
 import Login from "../pages/Login/Login";
 import Signup from "../pages/Signup/Signup";
+import Pricing from "../pages/Pricing/Pricing";
 
 // ==============================
 // Legal Pages
@@ -120,6 +121,11 @@ function AppRoutes() {
             <Route
                 path="/signup"
                 element={<Signup />}
+            />
+
+            <Route
+                path="/pricing"
+                element={<Pricing />}
             />
 
             {/* =========================================

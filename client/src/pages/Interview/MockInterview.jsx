@@ -33,7 +33,7 @@ const MockInterview = () => {
             const token = localStorage.getItem("token");
 
             const response = await fetch(
-                "https://skillbridge-ai-backend-v6uk.onrender.com/api/interview/start",
+                `${import.meta.env.VITE_API_URL}/api/interview/start`,
                 {
                     method: "POST",
                     headers: {
@@ -91,7 +91,7 @@ const MockInterview = () => {
             const token = localStorage.getItem("token");
 
             const response = await fetch(
-                "https://skillbridge-ai-backend-v6uk.onrender.com/api/interview/evaluate",
+                `${import.meta.env.VITE_API_URL}/api/interview/evaluate`,
                 {
                     method: "POST",
                     headers: {

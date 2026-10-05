@@ -3,11 +3,18 @@ const Project = require("../models/Project");
 const Certificate = require("../models/Certificate");
 const Resume = require("../models/Resume");
 
+const {
+    checkAIUsage,
+    consumeAIUsage,
+    refundAIUsage,
+} = require("../services/aiUsageService");
+
 const fs = require("fs");
 const path = require("path");
 
 const { PDFParse } = require("pdf-parse");
 
+const AI_FEATURE = "mock-interview";
 
 // =========================
 // GEMINI RETRY HELPER
@@ -69,8 +76,7 @@ const generateGeminiWithRetry = async (
                 attempt * 2000;
 
             console.log(
-                `Retrying Gemini in ${delay / 1000
-                } seconds...`
+                `Retrying Gemini in ${delay / 1000} seconds...`
             );
 
             await new Promise(
@@ -99,13 +105,11 @@ const getUserCareerProfile = async (userId) => {
         "name category level percentage"
     );
 
-
     const projects = await Project.find({
         user: userId,
     }).select(
         "title description technologies githubUrl liveUrl"
     );
-
 
     const certificates =
         await Certificate.find({
@@ -114,15 +118,12 @@ const getUserCareerProfile = async (userId) => {
             "title issuer issueDate description"
         );
 
-
     const resume =
         await Resume.findOne({
             user: userId,
         });
 
-
     let resumeText = "";
-
 
     // =========================
     // EXTRACT PDF RESUME
@@ -140,7 +141,6 @@ const getUserCareerProfile = async (userId) => {
                 resume.fileName
             );
 
-
         if (
             fs.existsSync(filePath)
         ) {
@@ -154,15 +154,12 @@ const getUserCareerProfile = async (userId) => {
                         filePath
                     );
 
-
                 parser = new PDFParse({
                     data: pdfBuffer,
                 });
 
-
                 const pdfData =
                     await parser.getText();
-
 
                 resumeText =
                     pdfData.text.trim();
@@ -188,7 +185,6 @@ const getUserCareerProfile = async (userId) => {
         }
     }
 
-
     return {
 
         skills: skills.map(
@@ -202,7 +198,6 @@ const getUserCareerProfile = async (userId) => {
                     skill.percentage,
             })
         ),
-
 
         projects: projects.map(
             (project) => ({
@@ -219,7 +214,6 @@ const getUserCareerProfile = async (userId) => {
             })
         ),
 
-
         certificates:
             certificates.map(
                 (certificate) => ({
@@ -234,7 +228,6 @@ const getUserCareerProfile = async (userId) => {
                 })
             ),
 
-
         resume: resumeText,
 
     };
@@ -246,6 +239,8 @@ const getUserCareerProfile = async (userId) => {
 // =========================
 
 const startInterview = async (req, res) => {
+
+    let usageConsumed = false;
 
     try {
 
@@ -263,16 +258,48 @@ const startInterview = async (req, res) => {
             });
         }
 
-
         const userId =
             req.user._id;
 
+        // =========================
+        // CHECK AI USAGE
+        // =========================
+
+        const usage =
+            await checkAIUsage(
+                req.user,
+                AI_FEATURE
+            );
+
+        if (!usage.allowed) {
+
+            return res.status(429).json({
+
+                message:
+                    "Mock Interview monthly limit reached.",
+
+                feature:
+                    AI_FEATURE,
+
+                plan:
+                    usage.plan,
+
+                usage:
+                    usage.usage,
+
+                limit:
+                    usage.limit,
+
+                remaining:
+                    usage.remaining,
+
+            });
+        }
 
         const {
             jobRole,
             interviewType = "Technical",
         } = req.body;
-
 
         if (!jobRole) {
 
@@ -284,7 +311,6 @@ const startInterview = async (req, res) => {
             });
         }
 
-
         // =========================
         // GET PROFILE
         // =========================
@@ -293,7 +319,6 @@ const startInterview = async (req, res) => {
             await getUserCareerProfile(
                 userId
             );
-
 
         // =========================
         // GEMINI
@@ -304,7 +329,6 @@ const startInterview = async (req, res) => {
                 "@google/genai"
             );
 
-
         const ai =
             new GoogleGenAI({
 
@@ -312,7 +336,6 @@ const startInterview = async (req, res) => {
                     process.env.GEMINI_API_KEY,
 
             });
-
 
         // =========================
         // PROMPT
@@ -353,7 +376,6 @@ IMPORTANT RULES:
 
 Return ONLY valid JSON.
 `;
-
 
         const response =
             await generateGeminiWithRetry(
@@ -408,10 +430,8 @@ Return ONLY valid JSON.
                 }
             );
 
-
         const aiText =
             response.text;
-
 
         if (!aiText) {
 
@@ -423,9 +443,7 @@ Return ONLY valid JSON.
             });
         }
 
-
         let questionData;
-
 
         try {
 
@@ -439,7 +457,6 @@ Return ONLY valid JSON.
                 error
             );
 
-
             return res.status(500).json({
 
                 message:
@@ -448,16 +465,26 @@ Return ONLY valid JSON.
             });
         }
 
+        // =========================
+        // CONSUME AI USAGE
+        // =========================
+
+        await consumeAIUsage(
+            req.user,
+            AI_FEATURE
+        );
+
+        usageConsumed = true;
 
         return res.status(200).json({
 
             message:
                 "Mock interview started successfully.",
 
-            question: questionData,
+            question:
+                questionData,
 
         });
-
 
     } catch (error) {
 
@@ -466,6 +493,29 @@ Return ONLY valid JSON.
             error
         );
 
+        // =========================
+        // REFUND AI USAGE
+        // =========================
+
+        if (usageConsumed) {
+
+            try {
+
+                await refundAIUsage(
+                    req.user,
+                    AI_FEATURE
+                );
+
+            } catch (refundError) {
+
+                console.error(
+                    "Mock Interview Usage Refund Error:",
+                    refundError
+                );
+
+            }
+
+        }
 
         if (
             error?.status === 503 ||
@@ -479,7 +529,6 @@ Return ONLY valid JSON.
 
             });
         }
-
 
         return res.status(500).json({
 
@@ -513,7 +562,6 @@ const evaluateAnswer = async (req, res) => {
             });
         }
 
-
         const {
             jobRole,
             question,
@@ -521,7 +569,6 @@ const evaluateAnswer = async (req, res) => {
             questionNumber = 1,
             totalQuestions = 5,
         } = req.body;
-
 
         if (!jobRole) {
 
@@ -533,7 +580,6 @@ const evaluateAnswer = async (req, res) => {
             });
         }
 
-
         if (!question) {
 
             return res.status(400).json({
@@ -543,7 +589,6 @@ const evaluateAnswer = async (req, res) => {
 
             });
         }
-
 
         if (!answer) {
 
@@ -555,7 +600,6 @@ const evaluateAnswer = async (req, res) => {
             });
         }
 
-
         // =========================
         // USER PROFILE
         // =========================
@@ -563,12 +607,10 @@ const evaluateAnswer = async (req, res) => {
         const userId =
             req.user._id;
 
-
         const careerProfile =
             await getUserCareerProfile(
                 userId
             );
-
 
         // =========================
         // GEMINI
@@ -579,7 +621,6 @@ const evaluateAnswer = async (req, res) => {
                 "@google/genai"
             );
 
-
         const ai =
             new GoogleGenAI({
 
@@ -587,7 +628,6 @@ const evaluateAnswer = async (req, res) => {
                     process.env.GEMINI_API_KEY,
 
             });
-
 
         // =========================
         // PROMPT
@@ -635,7 +675,6 @@ IMPORTANT RULES:
 Return ONLY valid JSON.
 `;
 
-
         const response =
             await generateGeminiWithRetry(
                 ai,
@@ -668,11 +707,9 @@ Return ONLY valid JSON.
 
                                 },
 
-
                                 evaluation: {
                                     type: "string",
                                 },
-
 
                                 strengths: {
 
@@ -684,7 +721,6 @@ Return ONLY valid JSON.
 
                                 },
 
-
                                 improvements: {
 
                                     type: "array",
@@ -695,23 +731,19 @@ Return ONLY valid JSON.
 
                                 },
 
-
                                 betterAnswerTip: {
                                     type: "string",
                                 },
 
-
                                 nextQuestion: {
                                     type: "string",
                                 },
-
 
                                 nextQuestionCategory: {
                                     type: "string",
                                 },
 
                             },
-
 
                             required: [
 
@@ -733,7 +765,6 @@ Return ONLY valid JSON.
 
                         },
 
-
                         temperature: 0.4,
 
                         maxOutputTokens: 1800,
@@ -743,10 +774,8 @@ Return ONLY valid JSON.
                 }
             );
 
-
         const aiText =
             response.text;
-
 
         if (!aiText) {
 
@@ -758,9 +787,7 @@ Return ONLY valid JSON.
             });
         }
 
-
         let evaluation;
-
 
         try {
 
@@ -774,7 +801,6 @@ Return ONLY valid JSON.
                 error
             );
 
-
             return res.status(500).json({
 
                 message:
@@ -782,7 +808,6 @@ Return ONLY valid JSON.
 
             });
         }
-
 
         // =========================
         // SAFE DEFAULTS
@@ -794,13 +819,11 @@ Return ONLY valid JSON.
                 ? evaluation.score
                 : 0;
 
-
         evaluation.evaluation =
             typeof evaluation.evaluation ===
                 "string"
                 ? evaluation.evaluation
                 : "";
-
 
         evaluation.strengths =
             Array.isArray(
@@ -809,7 +832,6 @@ Return ONLY valid JSON.
                 ? evaluation.strengths
                 : [];
 
-
         evaluation.improvements =
             Array.isArray(
                 evaluation.improvements
@@ -817,13 +839,11 @@ Return ONLY valid JSON.
                 ? evaluation.improvements
                 : [];
 
-
         evaluation.betterAnswerTip =
             typeof evaluation.betterAnswerTip ===
                 "string"
                 ? evaluation.betterAnswerTip
                 : "";
-
 
         evaluation.nextQuestion =
             typeof evaluation.nextQuestion ===
@@ -831,13 +851,11 @@ Return ONLY valid JSON.
                 ? evaluation.nextQuestion
                 : "";
 
-
         evaluation.nextQuestionCategory =
             typeof evaluation.nextQuestionCategory ===
                 "string"
                 ? evaluation.nextQuestionCategory
                 : "";
-
 
         return res.status(200).json({
 
@@ -848,14 +866,12 @@ Return ONLY valid JSON.
 
         });
 
-
     } catch (error) {
 
         console.error(
             "Evaluate Interview Answer Error:",
             error
         );
-
 
         if (
             error?.status === 503 ||
@@ -869,7 +885,6 @@ Return ONLY valid JSON.
 
             });
         }
-
 
         return res.status(500).json({
 
