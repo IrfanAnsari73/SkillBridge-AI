@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
+const API_URL = "https://skillbridge-ai-backend-v6uk.onrender.com";
+
 const Dashboard = () => {
     const [projectCount, setProjectCount] = useState(0);
     const [skillCount, setSkillCount] = useState(0);
@@ -11,6 +13,12 @@ const Dashboard = () => {
 
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
+
+    // =========================
+    // SUBSCRIPTION
+    // =========================
+
+    const [subscription, setSubscription] = useState(null);
 
     // =========================
     // GET USER
@@ -41,11 +49,43 @@ const Dashboard = () => {
             }
 
             // =========================
+            // SUBSCRIPTION
+            // =========================
+
+            try {
+                const subscriptionResponse = await fetch(
+                    `${API_URL}/api/subscription/status`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    }
+                );
+
+                const subscriptionData =
+                    await subscriptionResponse.json();
+
+                if (
+                    subscriptionResponse.ok &&
+                    subscriptionData.success
+                ) {
+                    setSubscription(
+                        subscriptionData.subscription
+                    );
+                }
+            } catch (error) {
+                console.error(
+                    "Subscription Fetch Error:",
+                    error
+                );
+            }
+
+            // =========================
             // PROJECTS
             // =========================
 
             const projectResponse = await fetch(
-                "https://skillbridge-ai-backend-v6uk.onrender.com/api/projects",
+                `${API_URL}/api/projects`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -53,12 +93,14 @@ const Dashboard = () => {
                 }
             );
 
-            const projectData = await projectResponse.json();
+            const projectData =
+                await projectResponse.json();
 
             let projects = [];
 
             if (projectResponse.ok) {
                 projects = projectData.projects || [];
+
                 setProjectCount(projects.length);
             }
 
@@ -67,7 +109,7 @@ const Dashboard = () => {
             // =========================
 
             const skillResponse = await fetch(
-                "https://skillbridge-ai-backend-v6uk.onrender.com/api/skills",
+                `${API_URL}/api/skills`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -75,12 +117,14 @@ const Dashboard = () => {
                 }
             );
 
-            const skillData = await skillResponse.json();
+            const skillData =
+                await skillResponse.json();
 
             let skills = [];
 
             if (skillResponse.ok) {
                 skills = skillData.skills || [];
+
                 setSkillCount(skills.length);
             }
 
@@ -89,7 +133,7 @@ const Dashboard = () => {
             // =========================
 
             const certificateResponse = await fetch(
-                "https://skillbridge-ai-backend-v6uk.onrender.com/api/certificates",
+                `${API_URL}/api/certificates`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -106,7 +150,9 @@ const Dashboard = () => {
                 certificates =
                     certificateData.certificates || [];
 
-                setCertificateCount(certificates.length);
+                setCertificateCount(
+                    certificates.length
+                );
             }
 
             // =========================
@@ -114,7 +160,7 @@ const Dashboard = () => {
             // =========================
 
             const resumeResponse = await fetch(
-                "https://skillbridge-ai-backend-v6uk.onrender.com/api/resume",
+                `${API_URL}/api/resume`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -127,7 +173,9 @@ const Dashboard = () => {
             if (resumeResponse.ok) {
                 resumeExists = true;
                 setResumeUploaded(true);
-            } else if (resumeResponse.status === 404) {
+            } else if (
+                resumeResponse.status === 404
+            ) {
                 resumeExists = false;
                 setResumeUploaded(false);
             }
@@ -142,7 +190,8 @@ const Dashboard = () => {
                 activities.push({
                     icon: "📄",
                     title: "Resume uploaded",
-                    text: "Your resume is ready for career analysis.",
+                    text:
+                        "Your resume is ready for career analysis.",
                 });
             }
 
@@ -153,7 +202,9 @@ const Dashboard = () => {
                 activities.push({
                     icon: "🚀",
                     title: "Project added",
-                    text: latestProject.title || "New Project",
+                    text:
+                        latestProject.title ||
+                        "New Project",
                 });
             }
 
@@ -164,13 +215,17 @@ const Dashboard = () => {
                 activities.push({
                     icon: "💻",
                     title: "Skill added",
-                    text: latestSkill.name || "New Skill",
+                    text:
+                        latestSkill.name ||
+                        "New Skill",
                 });
             }
 
             if (certificates.length > 0) {
                 const latestCertificate =
-                    certificates[certificates.length - 1];
+                    certificates[
+                    certificates.length - 1
+                    ];
 
                 activities.push({
                     icon: "🏆",
@@ -185,7 +240,8 @@ const Dashboard = () => {
                 activities.push({
                     icon: "✨",
                     title: "Start your journey",
-                    text: "Add your first skill, project or certificate.",
+                    text:
+                        "Add your first skill, project or certificate.",
                 });
             }
 
@@ -228,7 +284,9 @@ const Dashboard = () => {
         100
     );
 
-    const resumeProgress = resumeUploaded ? 100 : 0;
+    const resumeProgress = resumeUploaded
+        ? 100
+        : 0;
 
     const overallProgress = Math.round(
         (
@@ -359,6 +417,7 @@ const Dashboard = () => {
 
                 <div className="mt-5 flex items-center text-sm font-semibold text-green-600">
                     View details
+
                     <span className="ml-2 group-hover:translate-x-1 transition">
                         →
                     </span>
@@ -392,15 +451,16 @@ const Dashboard = () => {
                         <h1 className="text-3xl md:text-5xl font-extrabold mt-5 leading-tight">
                             Welcome back,{" "}
                             <span className="text-green-400">
-                                {user?.name?.split(" ")[0] || "User"}
+                                {user?.name?.split(" ")[0] ||
+                                    "User"}
                             </span>
                             ! 👋
                         </h1>
 
                         <p className="text-gray-300 mt-4 text-base md:text-lg leading-7">
-                            Build your skills, strengthen your resume,
-                            prepare for opportunities and move closer
-                            to your career goals.
+                            Build your skills, strengthen your
+                            resume, prepare for opportunities and
+                            move closer to your career goals.
                         </p>
 
                         <div className="flex flex-wrap gap-3 mt-6">
@@ -427,6 +487,7 @@ const Dashboard = () => {
                     <div className="w-full lg:w-72 bg-white/10 backdrop-blur-md border border-white/10 rounded-2xl p-5">
 
                         <div className="flex items-center justify-between">
+
                             <div>
                                 <p className="text-sm text-gray-300">
                                     Career Profile
@@ -458,12 +519,10 @@ const Dashboard = () => {
                         </div>
 
                         <p className="text-xs text-gray-400 mt-3">
-                            Keep building your profile to improve your
-                            career readiness.
+                            Keep building your profile to improve
+                            your career readiness.
                         </p>
-
                     </div>
-
                 </div>
             </section>
 
@@ -516,6 +575,71 @@ const Dashboard = () => {
             </section>
 
             {/* =====================================
+                CURRENT PLAN
+            ===================================== */}
+
+            <section className="bg-white border border-gray-100 rounded-3xl shadow-sm p-6 md:p-7">
+
+                <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-5">
+
+                    <div className="flex items-start gap-4">
+
+                        <div className="w-14 h-14 rounded-2xl bg-green-50 flex items-center justify-center text-2xl">
+                            💎
+                        </div>
+
+                        <div>
+
+                            <p className="text-sm font-medium text-gray-500">
+                                Current Plan
+                            </p>
+
+                            <h2 className="text-2xl font-extrabold text-gray-900 mt-1">
+                                {subscription?.planName ||
+                                    "Loading..."}
+                            </h2>
+
+                            <p className="text-sm text-gray-500 mt-1">
+                                {subscription?.isPro
+                                    ? "You have access to Pro career features."
+                                    : "You're currently using the Free plan."}
+                            </p>
+
+                        </div>
+                    </div>
+
+                    <div className="flex flex-wrap items-center gap-3">
+
+                        {subscription ? (
+                            subscription.isPro ? (
+                                <span className="px-4 py-2 rounded-xl bg-green-50 text-green-700 font-bold text-sm">
+                                    ✓ Pro Active
+                                </span>
+                            ) : (
+                                <>
+                                    <span className="px-4 py-2 rounded-xl bg-gray-100 text-gray-700 font-semibold text-sm">
+                                        Free Plan
+                                    </span>
+
+                                    <Link
+                                        to="/pricing"
+                                        className="px-5 py-3 rounded-xl bg-green-500 hover:bg-green-400 text-white font-bold transition"
+                                    >
+                                        Upgrade to Pro →
+                                    </Link>
+                                </>
+                            )
+                        ) : (
+                            <span className="px-4 py-2 rounded-xl bg-gray-100 text-gray-500 font-semibold text-sm">
+                                Loading plan...
+                            </span>
+                        )}
+
+                    </div>
+                </div>
+            </section>
+
+            {/* =====================================
                 MAIN GRID
             ===================================== */}
 
@@ -530,17 +654,21 @@ const Dashboard = () => {
                     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-7">
 
                         <div>
+
                             <div className="flex items-center gap-2">
+
                                 <h2 className="text-2xl font-extrabold text-gray-900">
                                     Career Progress
                                 </h2>
 
                                 <span>📊</span>
+
                             </div>
 
                             <p className="text-gray-500 mt-1">
                                 Track your career profile completion.
                             </p>
+
                         </div>
 
                         <div className="text-left sm:text-right">
@@ -577,7 +705,9 @@ const Dashboard = () => {
                             <ProgressBar
                                 title="Certificates"
                                 icon="🏆"
-                                percentage={certificatesProgress}
+                                percentage={
+                                    certificatesProgress
+                                }
                             />
 
                             <ProgressBar
@@ -600,6 +730,7 @@ const Dashboard = () => {
                     <div className="flex items-center justify-between mb-6">
 
                         <div>
+
                             <h2 className="text-2xl font-extrabold text-gray-900">
                                 Recent Activity
                             </h2>
@@ -607,6 +738,7 @@ const Dashboard = () => {
                             <p className="text-gray-500 text-sm mt-1">
                                 Your latest updates
                             </p>
+
                         </div>
 
                         <div className="w-11 h-11 rounded-xl bg-green-50 flex items-center justify-center text-xl">
@@ -636,7 +768,8 @@ const Dashboard = () => {
                                             </div>
 
                                             {index !==
-                                                recentActivities.length - 1 && (
+                                                recentActivities.length -
+                                                1 && (
                                                     <div className="w-px h-full bg-gray-200 mt-2"></div>
                                                 )}
 
@@ -678,11 +811,13 @@ const Dashboard = () => {
                     <div>
 
                         <div className="flex items-center gap-3">
+
                             <div className="w-12 h-12 rounded-2xl bg-white/15 flex items-center justify-center text-2xl">
                                 🌐
                             </div>
 
                             <div>
+
                                 <h2 className="text-2xl font-extrabold">
                                     Your Public Portfolio
                                 </h2>
@@ -690,12 +825,15 @@ const Dashboard = () => {
                                 <p className="text-green-100 text-sm">
                                     Your professional profile, ready to share.
                                 </p>
+
                             </div>
+
                         </div>
 
                         <p className="text-green-50 mt-4 max-w-2xl">
-                            Share your projects, skills, certificates and
-                            career profile with recruiters and employers.
+                            Share your projects, skills,
+                            certificates and career profile with
+                            recruiters and employers.
                         </p>
 
                     </div>
@@ -724,6 +862,7 @@ const Dashboard = () => {
                     </div>
 
                 </div>
+
             </section>
 
             {/* =====================================
@@ -873,7 +1012,9 @@ const Dashboard = () => {
                         to="/career-advisor"
                         className="bg-white/5 border border-white/10 rounded-2xl p-5 hover:bg-white/10 transition"
                     >
-                        <div className="text-2xl">🤖</div>
+                        <div className="text-2xl">
+                            🤖
+                        </div>
 
                         <h3 className="font-bold mt-3">
                             AI Career Advisor
@@ -888,7 +1029,9 @@ const Dashboard = () => {
                         to="/job-matcher"
                         className="bg-white/5 border border-white/10 rounded-2xl p-5 hover:bg-white/10 transition"
                     >
-                        <div className="text-2xl">🎯</div>
+                        <div className="text-2xl">
+                            🎯
+                        </div>
 
                         <h3 className="font-bold mt-3">
                             AI Job Matcher
@@ -903,7 +1046,9 @@ const Dashboard = () => {
                         to="/mock-interview"
                         className="bg-white/5 border border-white/10 rounded-2xl p-5 hover:bg-white/10 transition"
                     >
-                        <div className="text-2xl">🎤</div>
+                        <div className="text-2xl">
+                            🎤
+                        </div>
 
                         <h3 className="font-bold mt-3">
                             Mock Interview
