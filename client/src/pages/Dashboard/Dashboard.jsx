@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-const API_URL = "https://skillbridge-ai-backend-v6uk.onrender.com";
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 const Dashboard = () => {
     const [projectCount, setProjectCount] = useState(0);
@@ -19,6 +19,13 @@ const Dashboard = () => {
     // =========================
 
     const [subscription, setSubscription] = useState(null);
+
+    // =========================
+    // AI USAGE
+    // =========================
+
+    const [aiUsage, setAiUsage] = useState([]);
+    const [aiUsageLoading, setAiUsageLoading] = useState(true);
 
     // =========================
     // GET USER
@@ -78,6 +85,31 @@ const Dashboard = () => {
                     "Subscription Fetch Error:",
                     error
                 );
+            }
+
+            // =========================
+            // AI USAGE
+            // =========================
+
+            try {
+                const aiUsageResponse = await fetch(
+                    `${API_URL}/api/ai-usage`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    }
+                );
+
+                const aiUsageData = await aiUsageResponse.json();
+
+                if (aiUsageResponse.ok && aiUsageData.success) {
+                    setAiUsage(aiUsageData.usage || []);
+                }
+            } catch (error) {
+                console.error("AI Usage Fetch Error:", error);
+            } finally {
+                setAiUsageLoading(false);
             }
 
             // =========================
@@ -574,6 +606,7 @@ const Dashboard = () => {
 
             </section>
 
+
             {/* =====================================
                 CURRENT PLAN
             ===================================== */}
@@ -638,6 +671,116 @@ const Dashboard = () => {
                     </div>
                 </div>
             </section>
+
+
+            {/* =====================================
+    AI USAGE & MONTHLY CREDITS
+===================================== */}
+
+            <section className="bg-white border border-gray-100 rounded-3xl shadow-sm p-6 md:p-7">
+
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-7">
+                    <div>
+                        <div className="flex items-center gap-2">
+                            <h2 className="text-2xl font-extrabold text-gray-900">
+                                AI Usage & Monthly Credits
+                            </h2>
+                            <span>⚡</span>
+                        </div>
+
+                        <p className="text-gray-500 mt-1">
+                            Track your monthly AI feature usage.
+                        </p>
+                    </div>
+
+                    <span className="px-4 py-2 rounded-xl bg-green-50 text-green-700 font-bold text-sm">
+                        {subscription?.planName || "Free Plan"}
+                    </span>
+                </div>
+
+                {aiUsageLoading ? (
+                    <p className="text-gray-500">Loading AI usage...</p>
+                ) : aiUsage.length === 0 ? (
+                    <p className="text-gray-500">
+                        AI usage information is currently unavailable.
+                    </p>
+                ) : (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+
+                        {aiUsage.map((item) => {
+                            const featureNames = {
+                                "resume-analyzer": "Resume Analyzer",
+                                "career-advisor": "Career Advisor",
+                                "career-roadmap": "Career Roadmap",
+                                "job-matcher": "Job Matcher",
+                                "mock-interview": "Mock Interview",
+                            };
+
+                            const featureIcons = {
+                                "resume-analyzer": "📄",
+                                "career-advisor": "🤖",
+                                "career-roadmap": "🗺️",
+                                "job-matcher": "🎯",
+                                "mock-interview": "🎤",
+                            };
+
+                            return (
+                                <div
+                                    key={item.feature}
+                                    className="border border-gray-100 rounded-2xl p-5 hover:shadow-md transition"
+                                >
+                                    <div className="flex items-center justify-between gap-3">
+
+                                        <div className="flex items-center gap-3">
+                                            <div className="w-11 h-11 rounded-xl bg-green-50 flex items-center justify-center text-xl">
+                                                {featureIcons[item.feature] || "✨"}
+                                            </div>
+
+                                            <h3 className="font-bold text-gray-800">
+                                                {featureNames[item.feature] || item.feature}
+                                            </h3>
+                                        </div>
+
+                                        <span className="text-sm font-bold text-green-600">
+                                            {item.remaining} left
+                                        </span>
+                                    </div>
+
+                                    <div className="flex justify-between items-center mt-5 mb-2">
+                                        <span className="text-sm text-gray-500">
+                                            Monthly Usage
+                                        </span>
+
+                                        <span className="text-sm font-bold text-gray-800">
+                                            {item.usageCount} / {item.limit}
+                                        </span>
+                                    </div>
+
+                                    <div className="w-full h-2.5 bg-gray-100 rounded-full overflow-hidden">
+                                        <div
+                                            className={`h-full rounded-full transition-all duration-700 ${item.percentage >= 100
+                                                ? "bg-red-500"
+                                                : item.percentage >= 80
+                                                    ? "bg-yellow-500"
+                                                    : "bg-green-500"
+                                                }`}
+                                            style={{
+                                                width: `${item.percentage}%`,
+                                            }}
+                                        />
+                                    </div>
+
+                                    <p className="text-xs text-gray-400 mt-2">
+                                        {item.percentage}% used this month
+                                    </p>
+                                </div>
+                            );
+                        })}
+
+                    </div>
+                )}
+            </section>
+
 
             {/* =====================================
                 MAIN GRID

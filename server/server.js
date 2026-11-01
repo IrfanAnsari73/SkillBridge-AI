@@ -23,6 +23,7 @@ const careerActionRoutes = require("./routes/careerActionRoutes");
 const careerGoalRoutes = require("./routes/careerGoalRoutes");
 const contactRoutes = require("./routes/contactRoutes");
 const subscriptionRoutes = require("./routes/subscriptionRoutes");
+const aiUsageRoutes = require("./routes/aiUsageRoutes");
 
 const app = express();
 
@@ -64,6 +65,7 @@ app.use("/api/job-applications", jobApplicationRoutes);
 app.use("/api/career-goals", careerGoalRoutes);
 app.use("/api/contact", contactRoutes);
 app.use("/api/subscription", subscriptionRoutes);
+app.use("/api/ai-usage", aiUsageRoutes);
 
 // AI Application Insights
 app.use(
