@@ -1,10 +1,12 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 const CareerAdvisor = () => {
     const [loading, setLoading] = useState(false);
     const [recommendations, setRecommendations] = useState(null);
     const [error, setError] = useState("");
     const [message, setMessage] = useState("");
+    const [limitReached, setLimitReached] = useState(false);
 
     // =========================
     // GET AI CAREER RECOMMENDATIONS
@@ -16,6 +18,7 @@ const CareerAdvisor = () => {
             setError("");
             setMessage("");
             setRecommendations(null);
+            setLimitReached(false);
 
             const token = localStorage.getItem("token");
 
@@ -35,6 +38,18 @@ const CareerAdvisor = () => {
             );
 
             const data = await response.json();
+
+            // AI CREDIT LIMIT REACHED
+            if (response.status === 429) {
+                setLimitReached(true);
+
+                setError(
+                    data.message ||
+                    "Your monthly AI credit limit has been reached."
+                );
+
+                return;
+            }
 
             if (!response.ok) {
                 setError(
@@ -226,7 +241,7 @@ const CareerAdvisor = () => {
                         ERROR MESSAGE
                     ================================= */}
 
-                    {error && (
+                    {error && !limitReached && (
                         <div className="flex items-center gap-3 bg-red-50 border border-red-200 text-red-700 px-5 py-4 rounded-2xl font-semibold shadow-sm">
 
                             <span className="w-8 h-8 rounded-full bg-red-100 flex items-center justify-center shrink-0">
@@ -237,6 +252,59 @@ const CareerAdvisor = () => {
 
                         </div>
                     )}
+
+
+                    {/* =================================
+    AI CREDIT LIMIT UPGRADE CARD
+================================= */}
+
+                    {limitReached && (
+                        <section className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#07111f] to-[#064e3b] p-7 md:p-9 text-white shadow-xl">
+
+                            <div className="absolute -right-16 -top-16 w-64 h-64 bg-green-400/10 rounded-full blur-3xl" />
+
+                            <div className="relative z-10">
+
+                                <div className="w-14 h-14 rounded-2xl bg-yellow-400/10 flex items-center justify-center text-3xl">
+                                    ⚡
+                                </div>
+
+                                <h2 className="text-2xl md:text-3xl font-black mt-5">
+                                    Monthly AI Credits Used Up!
+                                </h2>
+
+                                <p className="text-gray-300 mt-3 max-w-2xl leading-7">
+                                    You've reached your monthly Career Advisor limit.
+                                    Upgrade to Pro to get more AI credits and continue
+                                    exploring personalized career recommendations.
+                                </p>
+
+                                <div className="flex flex-wrap gap-3 mt-7">
+
+                                    <Link
+                                        to="/pricing"
+                                        className="inline-flex items-center justify-center px-6 py-3 rounded-xl bg-green-500 hover:bg-green-400 text-white font-bold transition"
+                                    >
+                                        Upgrade to Pro →
+                                    </Link>
+
+                                    <Link
+                                        to="/dashboard"
+                                        className="inline-flex items-center justify-center px-6 py-3 rounded-xl border border-white/20 hover:bg-white/10 font-semibold transition"
+                                    >
+                                        View AI Credits
+                                    </Link>
+
+                                </div>
+
+                                <p className="text-xs text-gray-400 mt-5">
+                                    Your monthly Free plan credits reset automatically.
+                                </p>
+
+                            </div>
+                        </section>
+                    )}
+
 
                     {/* =================================
                         FEATURE CARDS
