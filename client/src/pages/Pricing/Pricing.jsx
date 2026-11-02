@@ -23,6 +23,9 @@ const Pricing = () => {
         "3 Career Roadmap uses / month",
         "5 Job Matcher uses / month",
         "2 Mock Interview uses / month",
+        "3 Career Analytics uses / month",
+        "3 AI Application Insights / month",
+        "5 Career Action Center uses / month",
     ];
 
     // =====================================================
